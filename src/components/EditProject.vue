@@ -10,6 +10,13 @@
 </template>
 
 <script>
+
+var data = 
+[{
+  module:'基础',
+  content:`var app = require('koa')()` 
+}]
+
 export default {
   name: 'hello',
   data () {
