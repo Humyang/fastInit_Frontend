@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../css/btn.css">
+    <title>选择模块</title>
+</head>
+<style>
+.module_wrap {float: left;}
+
+.module_wrap ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+}
+
+.module_wrap ul a {
+    display: block;
+    /*background-color: #00BCD4;*/
+    /*border: 1px solid #03A9F4;*/
+    line-height: 25px;
+    padding-left: 5px;
+    text-decoration: none;
+    color: white;
+    border-radius: 3px;
+}
+
+.module_wrap ul li {
+    margin-bottom: 5px;
+}
+.code_wrap {
+    width: 800px;
+    float: left;
+    overflow: hidden;
+    margin-right: 50px;
+}
+
+.code_wrap code {
+    display: block;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+.color1{
+    background-color: #607D8B;
+    color: white;
+}
+.color2{
+    background-color: #9E9E9E;
+    color: white;
+    }
+.color3{
+    background-color: #795548;
+    color: white;
+    }
+.color4{
+    background-color: #FF5722;
+    color: white;
+    }
+.color5{
+    background-color: #FF9800;
+    color: white;
+    }
+.color6{
+    background-color: #FFC107;
+    color: white;
+    }
+.color7{ background-color: #607D8B;
+    color: white;}
+.color8{ background-color: #607D8B;
+    color: white;}
+</style>
+<body>
+<div class="list_wrap">
+    <a href="">项目1</a>
+    <a href="">项目2</a>
+    <a href="">项目3</a>
+    <a href="">项目4</a>
+    <a href="">保存项目</a>
+</div>
+<div class="code_wrap">
+<code class="color1">var app = require('koa')()</code>
+<code class="color2">var body = require('koa-better-body')</code>
+<code class="color3">var router = require('koa-router')()</code>
+<code class="color4">var cors = require('koa-cors')</code>
+<code class="color5">var mongo = require('koa-mongo')</code>
+<code class="color6">var serve = require('koa-static');</code>
+
+
+<code class="color5">app.use(mongo())</code>
+<code class="color4">app.use(cors())</code>
+
+<code class="color2">app.use(body({textLimit:'10000kb',formLimit:'10000kb',jsonLimit:'10000kb'}))</code>
+
+<code class="color6">
+var root_path = process.cwd()
+app.use(serve(root_path+"/upload",{maxage:3153600000}))
+
+</code>
+
+<code class="color3">
+    router.get('/',async function(){
+    this.body = "hello word"
+})
+app.use(router.routes()).use(router.allowedMethods());
+
+</code>
+
+
+<code class="color1">
+    console.log('server listen on port 8080')
+app.listen(8080)
+</code>
+
+</div>
+<div class="module_wrap">
+	<ul>
+		<li class="color1"><a href="">基础<i>√</i></a></li>
+		<li class="color2"><a href="">koa-body<i>√</i></a></li>
+		<li class="color3"><a href="">koa-router<i>√</i></a></li>
+		<li class="color4"><a href="">koa-cors<i>√</i></a></li>
+		<li class="color5"><a href="">koa-mongo<i>√</i></a></li>
+        <li class="color6"><a href="">koa-static<i>√</i></a></li>
+	</ul>
+</div>
+<script>
+    $(function(){
+        $(".module_wrap li").click(function(event){
+            $(this).find("i").remove()
+            return false
+        })
+    })
+</script>
+</body>
+</html>
