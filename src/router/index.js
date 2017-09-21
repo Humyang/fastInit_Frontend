@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import EditProject from '../components/EditProject.vue'
+import EditModule from '../components/EditModule.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -15,6 +16,11 @@ export default new Router({
       path: '/EditProject',
       name: 'EditProject',
       component: EditProject
+    },
+    {
+      path: '/EditModule',
+      name: 'EditModule',
+      component: EditModule
     }
   ]
 })
