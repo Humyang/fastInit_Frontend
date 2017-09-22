@@ -49,11 +49,13 @@
         <!-- 代码编辑 -->
     <div class="editArea">
       <p class="btn_wrap">
-        <a class="btn black" href="">写入</a>
-        <a class="btn black" href="">分割</a>
+        <a @click.prevent="block_write" class="btn black" href="#" >写入</a>
+        <a @click.prevent="block_split" class="btn black" href="#">分割</a>
       </p>
       <div class="textarea_wrap">
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+          <textarea v-for="(item,index) in blockInput" 
+          @click="block_textarea_select(index)"
+          name="" id="" cols="30" rows="10">item</textarea>
       </div>
       <div id="codeBlock_wrap">
         <div id="codeblock1" class="codeblock" draggable="true" >
@@ -123,23 +125,45 @@ import '../css/editModule.css'
 export default {
   data () {
     return {
-      theList:[{
-        name:111,
-        id:222
-      },{
-        name:111,
-        id:222
-      },{
-        name:111,
-        id:222
-      }]
+      theList:
+          [{
+            name:111,
+            id:222
+          },{
+            name:111,
+            id:222
+          },{
+            name:111,
+            id:222
+          }]
       ,
+      blockInput:["aaaa","bbbb"],
+      cacheBlock:[],
+      blockList:[],
+
+
       ui:{
         add_module:1
       }
     }
   },
-  method:{
+  methods:{
+    block_textarea_select:function(index){
+      console.log(index)
+    },
+    block_write:function(){
+      console.log(123)
+    },
+    block_split:function(){
+
+      // 获取当前选中的textarea
+
+      // 获取selectionStart
+
+      // 分割文字
+
+      // textarea根据文字进行渲染
+    },
     newModule:function(){
 
     },
