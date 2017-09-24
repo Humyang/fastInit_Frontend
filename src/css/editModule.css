@@ -6,8 +6,8 @@ a { text-decoration: none; color: #333 }
 .p_add { font-size: 16px; cursor: pointer; padding: 15px 0; padding-left: 20px; margin-bottom: 1px }
 .p_add i.i_add { font-style: initial; font-size: 25px; vertical-align: -2px }
 
-.add_wrap { overflow: hidden; height: 80px }
-.add_wrap input { border: 0; width: 260px; margin-left: 10px; line-height: 28px; border-radius: 3px; margin-bottom: 8px; font-size: 16px; padding-left: 10px }
+.add_wrap {overflow: hidden;height: 80px;background-color: #333;padding: 10px 0;}
+.add_wrap input {border: 0;width: 80%;margin-left: 10px;line-height: 28px;border-radius: 3px;margin-bottom: 8px;font-size: 16px;padding-left: 10px;display: block;}
 
 .floder a.btn.back_home { width: 243px; line-height: 35px; height: 35px; margin-top: 20px }
 .floder .item li { font-size: 16px; padding-left: 14px; line-height: 45px; cursor: pointer; overflow: hidden }
@@ -44,14 +44,21 @@ p.btn_wrap {
 .textarea_wrap {
     height: 500px;
     border-bottom: 1px solid #ddd;
+    overflow: auto;
+    background-color: #333333;
+    border-radius: 10px;
+    margin: 5px;
 }
 .textarea_wrap textarea {
-    width: 99%;
     margin: 0;
     padding: 0;
     text-indent: 10px;
     padding-top: 10px;
     border: 1px solid #ddd;
+    display: block;
+    width: 100%;
+    border: 0;
+    margin: 5px 0;
 }
 .cell {
     color: #795548;
@@ -83,4 +90,9 @@ p.btn_wrap {
     word-wrap: unset;
     word-break: break-word;
     display: block;
+}
+.cell.dropover {
+    border-color: #bff8ff;
+    border-style: dashed;
+    border-width: 5px;
 }
