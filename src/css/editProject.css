@@ -1,0 +1,49 @@
+.project_wrap #projectTree,.module_wrap #moduleTree {
+    width: 20%;
+    height: 100%;
+    float: left;
+    background-color: #ffffff;
+    /* padding: 20px; */
+    min-height: 250px;
+    border: 1px solid #ddd;
+}
+.module_wrap {
+    float: left;
+    height: 30%;
+    width: 80%;
+    float: left;
+    background-color: #f7f7f7;
+    /* overflow: hidden; */
+}
+
+.project_wrap {
+    height: 70%;
+    width: 80%;
+    float: left;
+    background-color: #d6f2ff;
+    /* overflow: hidden; */
+}
+
+.preConfig_wrap {
+    width: 20%;
+    float: right;
+    height: 100%;
+    background-color: #607D8B;
+    overflow: auto;
+}
+.preConfig_wrap {}
+
+.preConfig_wrap li {
+    color: white;
+    text-align: center;
+    line-height: 35px;
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+.preConfig_wrap li:hover {
+    background-color: #7995a2;
+}

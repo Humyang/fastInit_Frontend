@@ -1,0 +1,23 @@
+.tree_wrap {
+    float: left;
+    width: 20%;
+    height: 100%;
+    background-color: #ddd;
+}
+
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+.code_wrap {
+    float: left;
+    width: 60%;
+    height: 100%;
+    background-color: #c7c7c7;
+}

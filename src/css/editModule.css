@@ -26,61 +26,10 @@ a { text-decoration: none; color: #333 }
 .list_mode_group select { border: 1px solid #ddd; margin-left: 15px; font-size: 12px; background-color: #333; color: #ddd; line-height: 16px; padding: 5px 5px }
 .list_mode_group input.search { border: 0; width: 260px; margin-left: 10px; line-height: 28px; border-radius: 3px; margin-bottom: 8px; font-size: 16px; padding-left: 10px }
 
-.editArea {
-    float: left;
-    width: 35%;
-    background-color: #fff;
-    /* color: white; */
-    height: 100%;
-    text-align: left;
-    overflow: auto;
-    position: relative;
-    border-right: 1px solid #ddd;
-}
-p.btn_wrap {
-    padding: 20px;
-}
-
-.textarea_wrap {
-    height: 500px;
-    border-bottom: 1px solid #ddd;
-}
-.textarea_wrap textarea {
-    width: 99%;
-    margin: 0;
-    padding: 0;
-    text-indent: 10px;
-    padding-top: 10px;
-    border: 1px solid #ddd;
-}
-.cell {
-    color: #795548;
-    padding: 20px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.classify {
-    float: left;
-    width: 49%;
-    background-color: #fff;
-    color: white;
-    height: 100%;
-    text-align: left;
-    overflow: auto;
-    position: relative;
-    /* border-right: 1px solid #ddd; */
-    /* overflow: hidden; */
-}
-.codeblock {
-    padding: 20px;
-    border: 1px solid #ddd;
-    margin: 5px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    /* overflow: hidden; */
-    word-wrap: unset;
-    word-break: break-word;
-    display: block;
-}
+.editArea { float: left; width: 35%; background-color: #fff; height: 100%; text-align: left; overflow: auto; position: relative; border-right: 1px solid #ddd }
+p.btn_wrap { padding: 20px }
+.textarea_wrap { height: 500px; border-bottom: 1px solid #ddd }
+.textarea_wrap textarea { width: 99%; margin: 0; padding: 0; text-indent: 10px; padding-top: 10px; border: 1px solid #ddd }
+.classify { float: left; width: 49%; background-color: #fff; color: white; height: 100%; text-align: left; overflow: auto; position: relative }
+.cell { color: #795548; padding: 20px; margin: 5px; border: 1px solid #ddd; border-radius: 5px }
+.cell .codeblock { padding: 20px; border: 1px solid #ddd; margin: 5px; border-radius: 4px; margin-bottom: 20px; word-wrap: unset; word-break: break-word; display: block }
