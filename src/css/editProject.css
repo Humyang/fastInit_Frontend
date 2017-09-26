@@ -1,3 +1,6 @@
+.EditProject {
+    height: 100%;
+}
 .project_wrap #projectTree,.module_wrap #moduleTree {
     width: 20%;
     height: 100%;
@@ -6,6 +9,10 @@
     /* padding: 20px; */
     min-height: 250px;
     border: 1px solid #ddd;
+    float: left;
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
 .module_wrap {
     float: left;
@@ -46,4 +53,46 @@
 
 .preConfig_wrap li:hover {
     background-color: #7995a2;
+}
+
+.blockList_wrap {
+    float: left;
+    /* margin-left: 22%; */
+    width: 80%;
+    overflow: auto;
+    height: 100%;
+    background-color: #fffdec;
+}
+
+.cell {
+    float: left;
+    width: 45%;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+}
+.cell .codeblock {
+    border: 1px solid #ddd;
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+.textarea_wrap {
+    float: left;
+    width: 80%;
+    height: 100%;
+    background-color: aliceblue;
+}
+.preConfig_wrap ul {
+    margin-bottom: 40px;
+}
+
+.preConfig_wrap ul {
+    background-color: #286d8a;
+}
+.preConfig_wrap ul.temp_config {
+    background-color: #6f5a61;
+    margin-top: 40px;
 }

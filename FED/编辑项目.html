@@ -6,15 +6,23 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <link rel="stylesheet" href="../src/vendor/jstree/dist/themes/default/style.min.css">
     <link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
-<link rel="stylesheet" href="../node_modules/codemirror/theme/3024-day.css">
+	<link rel="stylesheet" href="../node_modules/codemirror/theme/3024-day.css">
 
 	<link rel="stylesheet" href="../src/css/common.css">
+	<link rel="stylesheet" href="../src/css/btn.css">
     <link rel="stylesheet" href="../src/css/editProject.css">
     
     <title>编辑项目</title>
 </head>
 <body>
 <div class="preConfig_wrap">
+	<div class="add_wrap">
+		<a class="btn btn_ok" href="">保存项目</a>
+    	
+	</div>
+	<ul class="temp_config">
+		<li>临时配置</li>
+	</ul>
 	<ul>
 		<li>配置1</li>
 		<li>配置2</li>
@@ -59,6 +67,99 @@
 			    return 0
 			</code>
     	</div>
+    	<div id="cell2" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
+    		<p class="head">package.json</p>
+    		<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+			<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+    	</div>
+    	<div id="cell3" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
+    		<p class="head">package.json</p>
+    		<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+			<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+    	</div>
+    	<div id="cell4" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
+    		<p class="head">package.json</p>
+    		<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+			<code class="codeblock">
+    			def get_pid_close(port):
+			    status,output = commands.getstatusoutput('lsof -i:'+str(port))
+			    if status == 0:
+			        res = output.split("\n")[1]
+			        pid = re.findall(r'(\b[0-9]+)',res)
+			        print pid[0]
+			        close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
+			        print 'close_api_serve_result',close_api_serve_result
+			        if close_api_serve_result == 0:
+			            print "close process is :",pid[0]
+			            return 1
+			    return 0
+			</code>
+    	</div>
 	</div>
 </div>
 <div class="project_wrap">
@@ -66,6 +167,9 @@
 		
 	</div>
 	<div class="textarea_wrap">
+		<div class="add_wrap">
+			<a class="btn btn_ok black" href="">保存</a>
+		</div>
 		<textarea name="" id="ta1" cols="30" rows="10"></textarea>
 	</div>
 </div>
