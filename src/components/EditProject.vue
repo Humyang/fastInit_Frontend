@@ -2,18 +2,15 @@
   <div class="EditProject">
     <div class="preConfig_wrap">
       <div class="add_wrap">
-        <a class="btn btn_ok" href="">保存项目</a>
-          
+        <a 
+        @click="saveConfig"
+        class="btn btn_ok" href="">保存项目</a>
       </div>
       <ul class="temp_config">
         <li>临时配置</li>
       </ul>
       <ul>
-        <li>配置1</li>
-        <li>配置2</li>
-        <li>配置3</li>
-        <li>配置4</li>
-        <li>配置5</li>
+        <li v-for="item in configList.list">{{item.name}}</li>
       </ul>
     </div>
     <div class="module_wrap">
@@ -21,128 +18,14 @@
         
       </div>
       <div class="blockList_wrap">
-        <div id="cell1" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
-            <p class="head">package.json</p>
-            <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          </div>
-          <div id="cell2" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
-            <p class="head">package.json</p>
-            <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          </div>
-          <div id="cell3" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
-            <p class="head">package.json</p>
-            <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          </div>
-          <div id="cell4" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
-            <p class="head">package.json</p>
-            <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
-          </code>
-          <code class="codeblock">
-              def get_pid_close(port):
-              status,output = commands.getstatusoutput('lsof -i:'+str(port))
-              if status == 0:
-                  res = output.split("\n")[1]
-                  pid = re.findall(r'(\b[0-9]+)',res)
-                  print pid[0]
-                  close_api_serve_result,info = commands.getstatusoutput("kill -9 "+str(pid[0]))
-                  print 'close_api_serve_result',close_api_serve_result
-                  if close_api_serve_result == 0:
-                      print "close process is :",pid[0]
-                      return 1
-              return 0
+          <div 
+          v-for="(item,index) in moduleList.list"
+          :id="'cell'+index" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
+            <p class="head">{{item.name}}</p>
+            <code 
+            v-for="block in item.blockList"
+            class="codeblock">
+              {{block.value}}
           </code>
           </div>
       </div>
@@ -182,22 +65,102 @@ import 'codemirror/theme/zenburn.css'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm.js'
 
+// jstree
+
+// 树节点数据
+// 增删改查
+
+// 模块数据列表
+// 正删改查
+
+// 配置列表
+// 正删改查
+
 export default {
   name: 'hello',
   data () {
     return {
+      moduleList:{
+        list:[{
+          name:'package.json',
+          blockList:[
+          {
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          }]
+        },{
+          name:'index.js',
+          blockList:[
+          {
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          }]
+        },{
+          name:'index.js',
+          blockList:[
+          {
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          }]
+        },
+        {
+          name:'index.js',
+          blockList:[
+          {
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          },{
+            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
+          }]
+        }]
+      },
+      configList:{
+        list:[{name:"配置1"},{name:"配置2"}],
+      },
       ui:{
         a:1
       }
     }
   },
   mounted(){
-      $('#moduleTree').jstree({
+
+    $('#moduleTree').jstree({
       'core' : {
         'data' : [
           { "text" : "模块列表", 
+            "state": {
+              opened    : true,  // is the node open
+              disabled  : false,  // is the node disabled
+              selected  : false  // is the node selected
+            },
             "children" : [
-              { "text" : "koa-static" },
+              { "text" : "koa-static",li_attr:{a:111},a_attr:{b:222} },
               { "text" : "koa" }
           ]}
         ],
@@ -205,15 +168,22 @@ export default {
                 'responsive' : false,
                 'variant' : 'small',
                 'stripes' : true
-              }
+              },
+        expand_selected_onload:true
       }
     }).on('changed.jstree', function (e, data) {
       console.log(123)
     });
+
     $('#projectTree').jstree({
       'core' : {
         'data' : [
           { "text" : "项目列表", 
+          "state": {
+              opened    : true,  // is the node open
+              disabled  : false,  // is the node disabled
+              selected  : false  // is the node selected
+            },
           "children" : [
               { "text" : "package.json" },
               { "text" : "index.js" }
@@ -226,10 +196,9 @@ export default {
               }
       }
     }).on('changed.jstree', function (e, data) {
-      
     });
-    // 加载数据
 
+    // 加载数据
     var e = document.getElementById('ta1')
       var editor = CodeMirror.fromTextArea(e, {
           mode: 'gfm',
@@ -247,23 +216,4 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>

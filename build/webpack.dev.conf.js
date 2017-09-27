@@ -11,13 +11,15 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 })
-
+console.log(path.resolve(__dirname, '../static'))
 module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
   // cheap-module-eval-source-map is faster for development
-  devtool: '#cheap-module-eval-source-map',
+  devServer: {
+     contentBase: './dist'
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
@@ -33,10 +35,10 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new FriendlyErrorsPlugin(),
     new CopyWebpackPlugin([
-            { from: path.resolve(__dirname, '../static')
-            , to: '/' }
-          ],, {
-    debug: true
-})
+          { 
+            from: path.resolve(__dirname, '../static'),
+            to: config.build.assetsSubDirectory
+          }
+          ])
   ]
 })

@@ -1,6 +1,6 @@
 html, body, div#app, .write_article_wrap,.EditModule { height: 100%; margin: 0 }
 ul, p { padding: 0; margin: 0 }
-li { list-style: none }
+li { list-style: none;text-align: left; }
 a { text-decoration: none; color: #333 }
 
 .add_wrap {overflow: hidden;/* height: 80px; *//* background-color: #607D8B; */padding: 10px 0;}
