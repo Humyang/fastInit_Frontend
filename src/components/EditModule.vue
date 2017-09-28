@@ -108,7 +108,7 @@
 //   module:'基础',
 //   content:`var app = require('koa')()` 
 // }]
-
+import '../css/common.css'
 import  '../css/btn.css'
 import '../css/editModule.css'
 

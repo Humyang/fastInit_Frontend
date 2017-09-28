@@ -3,5 +3,5 @@ ul, p { padding: 0; margin: 0 }
 li { list-style: none;text-align: left; }
 a { text-decoration: none; color: #333 }
 
-.add_wrap {overflow: hidden;/* height: 80px; *//* background-color: #607D8B; */padding: 10px 0;}
+.add_wrap {overflow: hidden;/* height: 80px; */background-color: #607D8B; padding: 10px 0;}
 .add_wrap input {border: 0;width: 80%;margin-left: 10px;line-height: 28px;border-radius: 3px;margin-bottom: 8px;font-size: 16px;padding-left: 10px;display: block;}

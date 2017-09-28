@@ -36,7 +36,7 @@
       </div>
       <div class="textarea_wrap">
         <div class="add_wrap">
-          <a class="btn btn_ok black" href="">保存</a>
+          <a class="btn btn_ok" href="">保存</a>
         </div>
         <textarea name="" id="ta1" cols="30" rows="10"></textarea>
       </div>
@@ -150,6 +150,13 @@ export default {
   },
   mounted(){
 
+    // 读取节点所有节点
+    // 添加节点
+    // 移动节点
+    // 重命名节点
+
+    // 选中节点-加载模块
+
     $('#moduleTree').jstree({
       'core' : {
         'data' : [
@@ -175,6 +182,12 @@ export default {
       console.log(123)
     });
 
+    // 读取节点所有节点
+    // 添加节点
+    // 移动节点
+    // 重命名节点
+    // 选中节点-加载代码
+    // 保存节点代码（advnce历史记录）
     $('#projectTree').jstree({
       'core' : {
         'data' : [
@@ -200,18 +213,21 @@ export default {
 
     // 加载数据
     var e = document.getElementById('ta1')
-      var editor = CodeMirror.fromTextArea(e, {
-          mode: 'gfm',
-          lineNumbers: true,
-          theme: "3024-day",
-          extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
-      });
-      // console.log(editor)
-      var code_mirror = document.getElementsByClassName('CodeMirror')[0]
-      code_mirror.style.height = window.innerHeight - 106 + "px"
-      window.onresize = function() {
-          code_mirror.style.height = window.innerHeight - 106 + "px"
-      }
+    var editor = CodeMirror.fromTextArea(e, {
+        mode: 'gfm',
+        lineNumbers: true,
+        theme: "3024-day",
+        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+    });
+    var code_mirror = document.getElementsByClassName('CodeMirror')[0]
+    code_mirror.style.height = window.innerHeight - 106 + "px"
+    window.onresize = function() {
+        code_mirror.style.height = window.innerHeight - 106 + "px"
+    }
+    // 接收drop事件
+    // 获取selectionStart
+    // 写入拖动内容
+
   }
 }
 </script>
