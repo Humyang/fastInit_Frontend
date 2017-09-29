@@ -20,13 +20,15 @@
       <div class="blockList_wrap">
           <div 
           v-for="(item,index) in moduleList.list"
-          :id="'cell'+index" class="cell" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
+          :id="'cell'+index" class="cell" >
             <p class="head">{{item.name}}</p>
             <code 
-            v-for="block in item.blockList"
+            v-for="(block,index) in item.blockList"
+            @dragstart="codeBlockDragStart(index,$event)"
+            draggable="true"
             class="codeblock">
               {{block.value}}
-          </code>
+            </code>
           </div>
       </div>
     </div>
@@ -38,7 +40,9 @@
         <div class="add_wrap">
           <a class="btn btn_ok" href="">保存</a>
         </div>
-        <textarea name="" id="ta1" cols="30" rows="10"></textarea>
+        <div class="textarea">
+          <textarea name="" id="ta1" cols="30" rows="10"></textarea>
+        </div>
       </div>
     </div>
 
@@ -78,6 +82,22 @@ import 'codemirror/mode/gfm/gfm.js'
 
 export default {
   name: 'hello',
+//
+//
+//        ___
+//        `MM
+//         MM             /
+//     ____MM    ___     /M        ___
+//    6MMMMMM  6MMMMb   /MMMMM   6MMMMb
+//   6M'  `MM 8M'  `Mb   MM     8M'  `Mb
+//   MM    MM     ,oMM   MM         ,oMM
+//   MM    MM ,6MM9'MM   MM     ,6MM9'MM
+//   MM    MM MM'   MM   MM     MM'   MM
+//   YM.  ,MM MM.  ,MM   YM.  , MM.  ,MM
+//    YMMMMMM_`YMMM9'Yb.  YMMM9 `YMMM9'Yb.
+//
+//
+//
   data () {
     return {
       moduleList:{
@@ -95,6 +115,7 @@ export default {
           },{
             value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
           }]
+        ,select:-1
         },{
           name:'index.js',
           blockList:[
@@ -143,12 +164,73 @@ export default {
       configList:{
         list:[{name:"配置1"},{name:"配置2"}],
       },
+      project:{
+        selectedIndex:-1
+      },
       ui:{
         a:1
       }
     }
   },
+//
+//
+//                                    ___                      ___
+//                                    `MM                      `MM
+//                              /      MM                       MM
+//   ___  __    __     ____    /M      MM  __     _____     ____MM   ____
+//   `MM 6MMb  6MMb   6MMMMb  /MMMMM   MM 6MMb   6MMMMMb   6MMMMMM  6MMMMb\
+//    MM69 `MM69 `Mb 6M'  `Mb  MM      MMM9 `Mb 6M'   `Mb 6M'  `MM MM'    `
+//    MM'   MM'   MM MM    MM  MM      MM'   MM MM     MM MM    MM YM.
+//    MM    MM    MM MMMMMMMM  MM      MM    MM MM     MM MM    MM  YMMMMb
+//    MM    MM    MM MM        MM      MM    MM MM     MM MM    MM      `Mb
+//    MM    MM    MM YM    d9  YM.  ,  MM    MM YM.   ,M9 YM.  ,MM L    ,MM
+//   _MM_  _MM_  _MM_ YMMMM9    YMMM9 _MM_  _MM_ YMMMMM9   YMMMMMM_MYMMMM9
+//
+//
+//
+  methods:{
+    codeBlockDragStart:function(index,event){
+      this.project.selectedIndex = index
+      // event.currentTarget.style.border = "dashed";
+      event.effectAllowed = "copyMove";
+    },
+    saveConfig:function(){
+
+    }
+  },
+//
+//
+//                                                                       ___
+//                                                                       `MM
+//                                                   /                    MM
+//   ___  __    __     _____   ___   ___ ___  __    /M       ____     ____MM
+//   `MM 6MMb  6MMb   6MMMMMb  `MM    MM `MM 6MMb  /MMMMM   6MMMMb   6MMMMMM
+//    MM69 `MM69 `Mb 6M'   `Mb  MM    MM  MMM9 `Mb  MM     6M'  `Mb 6M'  `MM
+//    MM'   MM'   MM MM     MM  MM    MM  MM'   MM  MM     MM    MM MM    MM
+//    MM    MM    MM MM     MM  MM    MM  MM    MM  MM     MMMMMMMM MM    MM
+//    MM    MM    MM MM     MM  MM    MM  MM    MM  MM     MM       MM    MM
+//    MM    MM    MM YM.   ,M9  YM.   MM  MM    MM  YM.  , YM    d9 YM.  ,MM
+//   _MM_  _MM_  _MM_ YMMMMM9    YMMM9MM__MM_  _MM_  YMMM9  YMMMM9   YMMMMMM_
+//
+//
+//
   mounted(){
+
+
+/*
+     ##                                  ##                                                                ##            ###
+     ##                                  ##                                                                ##             ##
+     ##                                                                                                    ##             ##
+   ######   ## ###    #####    #####   ####     ### ##    #####   ##   ##           ### ##    #####    ######  ##   ##    ##      #####
+     ##     ###      ##   ##  ##   ##    ##      ## #    ##   ##  ## # ##           ## # ##  ##   ##  ##   ##  ##   ##    ##     ##   ##
+     ##     ##       #######  #######    ##      ## #    #######  ## # ##           ## # ##  ##   ##  ##   ##  ##   ##    ##     #######
+     ##     ##       ##       ##         ##       ##     ##       ## # ##           ## # ##  ##   ##  ##   ##  ##  ###    ##     ##
+      ###   ##        #####    #####   ######     ##      #####    ## ##            ##   ##   #####    ######   ### ##   ####     #####
+
+
+*/
+
+    var self = this
 
     // 读取节点所有节点
     // 添加节点
@@ -182,6 +264,20 @@ export default {
       console.log(123)
     });
 
+/*
+     ##                                           ##                                                               ##                       ##
+     ##                                           ##                                                               ##                       ##
+     ##                                                                                                                                     ##
+   ######   ## ###    #####    #####   ### ##   ####      #####   ##   ##           ######   ## ###    #####     ####    #####    #####   ######
+     ##     ###      ##   ##  ##   ##   ## #      ##     ##   ##  ## # ##           ##   ##  ###      ##   ##      ##   ##   ##  ##         ##
+     ##     ##       #######  #######   ## #      ##     #######  ## # ##           ##   ##  ##       ##   ##      ##   #######  ##         ##
+     ##     ##       ##       ##         ##       ##     ##       ## # ##           ##   ##  ##       ##   ##      ##   ##       ##         ##
+      ###   ##        #####    #####     ##     ######    #####    ## ##            ######   ##        #####       ##    #####    #####      ###
+                                                                                    ##                             ##
+                                                                                    ##                          ####
+*/
+
+
     // 读取节点所有节点
     // 添加节点
     // 移动节点
@@ -211,6 +307,19 @@ export default {
     }).on('changed.jstree', function (e, data) {
     });
 
+/*
+                          ##                      ##
+     ####                 ##           ##   ##    ##
+    ##  ##                ##           ##   ##
+   ##        #####    ######   #####   ### ###  ####     ## ###   ## ###    #####   ## ###
+   ##       ##   ##  ##   ##  ##   ##  ## # ##    ##     ###      ###      ##   ##  ###
+   ##       ##   ##  ##   ##  #######  ## # ##    ##     ##       ##       ##   ##  ##
+    ##  ##  ##   ##  ##   ##  ##       ##   ##    ##     ##       ##       ##   ##  ##
+     ####    #####    ######   #####   ##   ##  ######   ##       ##        #####   ##
+
+
+*/
+
     // 加载数据
     var e = document.getElementById('ta1')
     var editor = CodeMirror.fromTextArea(e, {
@@ -227,7 +336,11 @@ export default {
     // 接收drop事件
     // 获取selectionStart
     // 写入拖动内容
+    var element = document.getElementsByClassName("textarea")[0]
 
+    element.addEventListener("drop", function( event ) {
+      console.log(self.project.selectedIndex)
+    }, false);
   }
 }
 </script>
