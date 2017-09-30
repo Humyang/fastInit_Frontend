@@ -19,12 +19,12 @@
       </div>
       <div class="blockList_wrap">
           <div 
-          v-for="(item,index) in moduleList.list"
-          :id="'cell'+index" class="cell" >
+          v-for="(item,parent_index) in moduleList.list"
+          :id="'cell'+parent_index" class="cell" >
             <p class="head">{{item.name}}</p>
             <code 
-            v-for="(block,index) in item.blockList"
-            @dragstart="codeBlockDragStart(index,$event)"
+            v-for="(block,current_index) in item.blockList"
+            @dragstart="codeBlockDragStart(parent_index,current_index,$event)"
             draggable="true"
             class="codeblock">
               {{block.value}}
@@ -169,7 +169,9 @@ export default {
       },
       ui:{
         a:1
-      }
+      },
+      editor:"",
+      Delay:""
     }
   },
 //
@@ -189,13 +191,30 @@ export default {
 //
 //
   methods:{
-    codeBlockDragStart:function(index,event){
-      this.project.selectedIndex = index
+    codeBlockDragStart:function(parent_index,current_index,event){
+      this.project.parent_index = parent_index
+      this.project.current_index = current_index
       // event.currentTarget.style.border = "dashed";
       event.effectAllowed = "copyMove";
     },
     saveConfig:function(){
 
+    },
+    onEditorChange:function(){
+      console.log('change')
+        // 为了使 editor off 执行生效，只能将push操作封装起来
+        // 因为 on 和 off 是根据 function 来的
+        // 如果使用匿名函数 function(){self.Delay.push()}
+        // 会无法 off 回失效
+        
+        // self.article_content_style.changed = true
+
+        // 为 article_markdown_preview_text 属性提供变量
+        // self.article_content = self.editor.getValue()
+        // self.article_content = self.editor.getValue()
+        // self.EVA.value = self.editor.getValue()
+        // console.log(self.EVA.diff_result)
+        // self.Delay.push()
     }
   },
 //
@@ -226,8 +245,6 @@ export default {
      ##     ##       #######  #######    ##      ## #    #######  ## # ##           ## # ##  ##   ##  ##   ##  ##   ##    ##     #######
      ##     ##       ##       ##         ##       ##     ##       ## # ##           ## # ##  ##   ##  ##   ##  ##  ###    ##     ##
       ###   ##        #####    #####   ######     ##      #####    ## ##            ##   ##   #####    ######   ### ##   ####     #####
-
-
 */
 
     var self = this
@@ -322,7 +339,7 @@ export default {
 
     // 加载数据
     var e = document.getElementById('ta1')
-    var editor = CodeMirror.fromTextArea(e, {
+    this.editor = CodeMirror.fromTextArea(e, {
         mode: 'gfm',
         lineNumbers: true,
         theme: "3024-day",
@@ -338,9 +355,34 @@ export default {
     // 写入拖动内容
     var element = document.getElementsByClassName("textarea")[0]
 
-    element.addEventListener("drop", function( event ) {
-      console.log(self.project.selectedIndex)
+    element.addEventListener("dragover", function( event ) {
+      // prevent default to allow drop
+      event.preventDefault();
+      console.log(333)
     }, false);
+    // this.editor.on("dragover", function( event ) {
+    //   let current_ch = self.editor.getCursor().ch
+    //   console.log(current_ch)
+    // }, false);
+    this.editor.on("drop", function( event ) {
+      console.log(event)
+      // setTimeout(function() {
+        let value = self.moduleList.list[self.project.parent_index].blockList[self.project.current_index].value
+        let current_line = self.editor.getCursor().line
+        self.editor.replaceRange(value,{line:current_line})
+      // }, 100);
+    }, false);
+
+    this.editor.on("change",this.onEditorChange)
+
+    // this.Delay = new Delay(5000,function(){
+    //     // self.old_text =""
+    //     // let new_text = self.editor.getValue()
+    //     self.EVA.value = self.editor.getValue()
+    //     // console.log(self.EVA.diff_result)
+
+    //     self.article_content_save(self.EVA.patch_list,self.article_title,self.article_active,self.floder_active)
+    // })
   }
 }
 </script>
