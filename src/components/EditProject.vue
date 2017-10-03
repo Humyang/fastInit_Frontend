@@ -51,11 +51,25 @@
 
 <script>
 
-// var data = 
-// [{
-//   module:'基础',
-//   content:`var app = require('koa')()` 
-// }]
+/*
+
+
+
+  68b
+  Y89                                               /
+  ___ ___  __    __   __ ____     _____   ___  __  /M
+  `MM `MM 6MMb  6MMb  `M6MMMMb   6MMMMMb  `MM 6MM /MMMMM
+   MM  MM69 `MM69 `Mb  MM'  `Mb 6M'   `Mb  MM69 "  MM
+   MM  MM'   MM'   MM  MM    MM MM     MM  MM'     MM
+   MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+   MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+   MM  MM    MM    MM  MM.  ,M9 YM.   ,M9  MM      YM.  ,
+  _MM__MM_  _MM_  _MM_ MMYMMM9   YMMMMM9  _MM_      YMMM9
+                       MM
+                       MM
+                      _MM_
+*/
+
 
 import '../css/common.css'
 import  '../css/btn.css'
@@ -69,6 +83,7 @@ import 'codemirror/theme/zenburn.css'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm.js'
 
+import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
 // jstree
 
 // 树节点数据
@@ -165,7 +180,8 @@ export default {
         list:[{name:"配置1"},{name:"配置2"}],
       },
       project:{
-        selectedIndex:-1
+        selectedIndex:-1,
+        EVA:""
       },
       ui:{
         a:1
@@ -313,17 +329,95 @@ export default {
           "children" : [
               { "text" : "package.json" },
               { "text" : "index.js" }
-          ]}
-        ],
-        'themes' : {
-                'responsive' : false,
-                'variant' : 'small',
-                'stripes' : true
-              }
-      }
-    }).on('changed.jstree', function (e, data) {
-    });
+          ]}],
+        "check_callback" : true,
+        
+        },
+        "plugins" : [ "contextmenu","dnd" ],
+        contextmenu: {
+          "items": {
+            "create": {
+                "label": "增加节点",
+                "action": function (obj) {
+                    // DOCUMENT_NODE_PCS.createNode(obj)
+                }
+            },
+            "rename": {
+                "label": "修改名称",
+                "action": function (obj) {
+                    DOCUMENT_NODE_PCS.renameNode(obj)
+                }
+            },
+            "remove": {
+                "label": "删除节点",
+                "action": function (obj) {
+                    DOCUMENT_NODE_PCS.deleteNode(obj)
+                }
+            },
+            "ccp": {
+                "label": "操作",
+                "submenu": {
+                    "reload": {
+                        "separator_before": false,
+                        "separator_after": false,
+                        "label": "刷新节点",
+                        "action": function (obj) {
+                            DOCUMENT_NODE_PCS.reload(obj);
+                        }
+                    },
+                    "cut": {
+                        "separator_before": false,
+                        "separator_after": false,
+                        "label": "剪切",
+                        "action": function (obj) {
+                            DOCUMENT_NODE_PCS.cut(obj);
+                        }
+                    },
+                    "copy": {
+                        "separator_before": false,
+                        "icon": false,
+                        "separator_after": false,
+                        "label": "复制",
+                        "action": function (obj) {
+                            DOCUMENT_NODE_PCS.copy(obj);
+                        }
+                    },
+                    "paste": {
+                        "separator_before": false,
+                        "icon": false,
+                        "separator_after": false,
+                        "label": "粘贴",
+                        "action": function (obj) {
+                            DOCUMENT_NODE_PCS.paste(obj);
+                        }
+                    }
+                }
+            }
+        },
+        dnd:{
+          dnd_stop:function(){
+            console.log(123)
+          }
+        }
+    },
 
+    }).on('changed.jstree', function (e, data) {
+      console.log(1)
+    }).on('move_node.jstree',function(data,element,helper,event){
+      // 获取项目JSON
+      // 对比旧JSON数据，获取差异
+      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+      
+      // 保存新JSON
+      // TODO:ajax 移动节点，保存节点JSON
+    }).on('ready.jstree',function(){
+
+      self.project.EVA = new EVA()
+      // 初始化值
+      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+    });
+    
+    
 /*
                           ##                      ##
      ####                 ##           ##   ##    ##

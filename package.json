@@ -16,6 +16,9 @@
   "dependencies": {
     "codemirror": "^5.30.0",
     "jstree": "^3.3.4",
+    "koa": "^2.3.0",
+    "object-assign": "^4.1.1",
+    "uid2": "0.0.3",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0"
   },

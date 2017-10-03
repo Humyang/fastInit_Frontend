@@ -1,5 +1,5 @@
 module.exports = {
-    dbName:'DAILYS',
-    dbPort:8201,
-    servePort:8202
+    dbName:'fastInit',
+    dbPort:8301,
+    servePort:8302
 }
