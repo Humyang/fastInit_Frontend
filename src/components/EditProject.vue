@@ -83,7 +83,12 @@ import 'codemirror/theme/zenburn.css'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm.js'
 
+// var  EVA = require('../../service/fontend/Obj/EditorValueAdvance.js')
 import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+
+import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
+import * as BASE from '../../service/fontend/base.js'
+
 // jstree
 
 // 树节点数据
@@ -311,25 +316,51 @@ export default {
 */
 
 
-    // 读取节点所有节点
-    // 添加节点
-    // 移动节点
-    // 重命名节点
+    // TODO: 读取节点所有节点
+    /*
+[
+  { "text" : "项目列表", 
+  "state": {
+      opened    : true,  // is the node open
+      disabled  : false,  // is the node disabled
+      selected  : false  // is the node selected
+    },
+  "children" : [
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+       { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+]}]
+    */
+
     // 选中节点-加载代码
     // 保存节点代码（advnce历史记录）
     $('#projectTree').jstree({
       'core' : {
-        'data' : [
-          { "text" : "项目列表", 
-          "state": {
-              opened    : true,  // is the node open
-              disabled  : false,  // is the node disabled
-              selected  : false  // is the node selected
-            },
-          "children" : [
-              { "text" : "package.json" },
-              { "text" : "index.js" }
-          ]}],
+        'data' : {
+          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/project/tree',
+          'data' : function (node) {
+            return { 'token' : BASE.getToken() };
+          }
+        },
         "check_callback" : true,
         
         },
@@ -339,58 +370,21 @@ export default {
             "create": {
                 "label": "增加节点",
                 "action": function (obj) {
-                    // DOCUMENT_NODE_PCS.createNode(obj)
+                      // TODO: 添加节点
+                      
+                      
                 }
             },
             "rename": {
-                "label": "修改名称",
+                "label": "重命名",
                 "action": function (obj) {
-                    DOCUMENT_NODE_PCS.renameNode(obj)
+                    // TODO: 重命名节点
                 }
             },
             "remove": {
-                "label": "删除节点",
+                "label": "删除",
                 "action": function (obj) {
-                    DOCUMENT_NODE_PCS.deleteNode(obj)
-                }
-            },
-            "ccp": {
-                "label": "操作",
-                "submenu": {
-                    "reload": {
-                        "separator_before": false,
-                        "separator_after": false,
-                        "label": "刷新节点",
-                        "action": function (obj) {
-                            DOCUMENT_NODE_PCS.reload(obj);
-                        }
-                    },
-                    "cut": {
-                        "separator_before": false,
-                        "separator_after": false,
-                        "label": "剪切",
-                        "action": function (obj) {
-                            DOCUMENT_NODE_PCS.cut(obj);
-                        }
-                    },
-                    "copy": {
-                        "separator_before": false,
-                        "icon": false,
-                        "separator_after": false,
-                        "label": "复制",
-                        "action": function (obj) {
-                            DOCUMENT_NODE_PCS.copy(obj);
-                        }
-                    },
-                    "paste": {
-                        "separator_before": false,
-                        "icon": false,
-                        "separator_after": false,
-                        "label": "粘贴",
-                        "action": function (obj) {
-                            DOCUMENT_NODE_PCS.paste(obj);
-                        }
-                    }
+                    // TODO: 删除
                 }
             }
         },
@@ -408,13 +402,15 @@ export default {
       // 对比旧JSON数据，获取差异
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
       
+      // TODO: 移动节点
       // 保存新JSON
-      // TODO:ajax 移动节点，保存节点JSON
+
     }).on('ready.jstree',function(){
 
       self.project.EVA = new EVA()
       // 初始化值
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+
     });
     
     

@@ -23,20 +23,28 @@ const preProcessRsp = function(store,reslove,reject) {
     return true;
 };
 
-const mFetch = function(path,data,token) {
+const mFetch = function(options) {
+    let opt = Object.assign({
+        data:{},
+        path:'',
+        token:'',
+        IP:IP,
+        PORT:CONFIG.servePort
+    },options)
     return new Promise(function(reslove,reject){
+
+        // path,data,token
         let comb_data = {}
-        if(data===undefined){
-            data = {}
+        if(opt.data===undefined){
+            opt.data = {}
         }else{
-            comb_data = data
-            if(data.token === undefined){
-                // console.log(123123)
-                comb_data = Object.assign(data,{token:BASE.getToken()})
+            comb_data = opt.data
+            if(opt.data.token === undefined){
+                comb_data = Object.assign(opt.data,{token:BASE.getToken()})
             }
         }
         let root = this
-        fetch(IP+':'+CONFIG.servePort+path,
+        fetch(opt.IP+':'+opt.PORT+opt.path,
         {
           method: 'POST',
           headers: {

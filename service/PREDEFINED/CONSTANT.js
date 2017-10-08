@@ -6,6 +6,13 @@ if (process.env.NODE_ENV === 'production') {
  setip = 'http://localhost'
 }
 export const IP = setip
+export const PORT = 8302
+export const OAUTH_PORT = 3000
+
+
+
+
+
 export const FLAG="APP_"
 export const USERNAME = FLAG+'USERNAME' //用户名
 export const SESSION_TOKEN = FLAG+'SESSION_TOKEN' //token

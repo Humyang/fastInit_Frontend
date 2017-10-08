@@ -1,6 +1,6 @@
 var GDMP = require('../../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
-
-
+console.log(GDMP)
+// import GDMP from '../../../src/vendors/google-diff-match-patch-js/diff_match_patch.js'
 // 编辑器增量更新
 // 使用方式
 /*

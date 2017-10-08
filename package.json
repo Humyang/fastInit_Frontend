@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
+    "serve": "node service/backend/index.js",
+    "debug":"node --inspect-brk service/backend/index.js",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
@@ -14,9 +16,16 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "co": "^4.6.0",
     "codemirror": "^5.30.0",
+    "flogin": "^0.1.2",
     "jstree": "^3.3.4",
     "koa": "^2.3.0",
+    "koa-better-body": "^3.0.4",
+    "koa-cors": "0.0.16",
+    "koa-mongo": "^1.2.1",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
     "object-assign": "^4.1.1",
     "uid2": "0.0.3",
     "vue": "^2.4.2",

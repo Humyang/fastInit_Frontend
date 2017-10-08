@@ -1,0 +1,41 @@
+.ProjectList {
+    height: 100%;
+}
+
+.nav_bar {
+    /* height: 40px; */
+    background-color: #4e4e4e;
+    padding: 20px;
+}
+.cell {
+    padding: 10px 5px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+        cursor: pointer;
+}
+.cell:hover {
+    border: 1px solid #FF9800;
+    color: #FF9800;
+}
+
+.projectProperty {
+    display: block;
+    padding: 20px 0;
+}
+
+.projectProperty input {
+    margin-left: 10px;
+    width: 95%;
+}
+
+.btn_wrap {
+    padding: 20px 0;
+}
+
+input[type="text"] {
+    border: 1px solid #ddd;
+    padding: 5px 0;
+    padding-left: 5px;
+    /* width: 470px; */
+}

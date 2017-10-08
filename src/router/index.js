@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import EditProject from '../components/EditProject.vue'
 import EditModule from '../components/EditModule.vue'
+import Login from '../components/Login.vue'
+import ProjectList from '../components/ProjectList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -11,6 +13,16 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/ProjectList',
+      name: 'ProjectList',
+      component: ProjectList
     },
     {
       path: '/EditProject',

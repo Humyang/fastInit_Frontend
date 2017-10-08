@@ -1,7 +1,20 @@
-var app = require('koa')()
+var koa = require('koa')
+var koaRouter = require('koa-router')
 var body = require('koa-better-body')
-var router = require('koa-router')()
+// var koaBody = require('koa-body')
+var mongo = require('koa-mongo')
+var uid = require('uid2')
 var cors = require('koa-cors')
+// var serve = require('koa-static');
+
+
+var OAUTCH_CLIENT = require('../../../oauth_client/lib/index.js')
+
+var LOGIN = require('flogin')
+
+const app = new koa();
+const router = new koaRouter();
+
 var mongo = require('koa-mongo')
 
 
@@ -19,11 +32,14 @@ var CONFIG = require('../PREDEFINED/APP_CONFIG.js')
 // var SEARCH = require('./module/search.js')
 
 var serve = require('koa-static');
+
 var root_path = process.cwd()
 app.use(serve(root_path+"/upload",{maxage:3153600000}))
 
 
 app.use(cors())
+
+router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 
 // // 搜索
 // router.post('/search',LOGIN.login_check(),SEARCH.search)
@@ -65,22 +81,31 @@ app.use(cors())
 // })
 // router.post('/upload', LOGIN.login_check(), UPLOAD.upload)
 
-app.use(LOGIN.set({dbname:CONFIG.dbName,port:CONFIG.dbPort}))
+// 项目
+var Project = require('./module/project.js')
+router.get('/project/tree',async function(ctx,next){
+    ctx.request.fields = {token:ctx.URL.searchParams.get('token')}
+    await next()
+},
+OAUTCH_CLIENT.oauth_login_check()
+,Project.loadTree)
+router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)
+
 app.use(mongo())
 app.use(body({textLimit:'10000kb',formLimit:'10000kb',jsonLimit:'10000kb'}))
-app.use(function *(next){
+app.use(async function (ctx,next){
     try{
-        // console.log('this.LOGIN_CONFIG',this.LOGIN_CONFIG)
-        yield next
+        await next()
     }catch (err) {
         try{
             // 业务逻辑错误
-            this.body = objectAssign({status:false},JSON.parse(err.message));
+            ctx.body = objectAssign({status:false},JSON.parse(err.message));
         }catch(err2){
-            this.body = {
+            // console.log(this)
+            ctx.body = {
                 status:false,
                 msg:err.message,
-                path:this.request.url
+                path:ctx.request.url
             }
         }
         console.log(err)
