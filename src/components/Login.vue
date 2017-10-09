@@ -36,19 +36,23 @@ export default {
                 self.$router.push('EditProject')
             }).catch(function(err){
                 console.log('login fail',err)
+                alert(err.msg)
             })
         },
         regiest:function(){
             var self = this
             co(function*(){
                 let regiest_res = yield API.LOGIN.regiest(self.username,self.password)
-                // expect(regiest_res.status).toBe(true,'注册账号')
+                if(confirm('注册成功，立即登录')){
+                    var login = yield API.LOGIN.login(self.username,self.password)
+                    self.$router.push('EditProject')
+                }
 
-                var login = yield API.LOGIN.login(self.username,self.password)
+                
 
-                self.$router.push('EditProject')
-            }).catch(function(){
-
+            }).catch(function(err){
+                console.log('regiest fail',err)
+                alert(err.msg)
             })
             
         }

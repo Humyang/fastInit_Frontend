@@ -13,8 +13,8 @@
         <div >
             <h3>项目列表</h3>
             <div class="cell" v-for="(item,index) in list"
-                @click="jumpProject(item.id)">
-                {{item.name}}
+                @click="jumpProject(item.project_id)">
+                {{item.project_name}}
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@ export default {
         createShow:false,
         project_name:'',
       list:[{
-        name:"fastInit",
-        id:1
+        project_name:"fastInit",
+        project_id:1
       },{
         name:"fastInit2",
         id:2
@@ -45,7 +45,7 @@ export default {
     methods:{
         jumpProject:function(id){
             // this.$router.push('EditProject',)
-            this.$router.push('/EditProject?id='+id)
+            this.$router.push('/EditProject/'+id)
         },
         createProject:function(){
             let self = this
@@ -65,6 +65,15 @@ export default {
             this.createShow = false
         }
     },
+    mounted:function(){
+        let self = this
+        // 加载项目列表
+        API.PROJECT.list().then(function(res){
+            console.log(res)
+            self.list = res.list
+        })
+        // console.log('mounted')
+    }
 }
 </script>
 

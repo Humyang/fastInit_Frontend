@@ -236,6 +236,10 @@ export default {
         // self.EVA.value = self.editor.getValue()
         // console.log(self.EVA.diff_result)
         // self.Delay.push()
+    },
+    saveTreeProject:function(){
+      // console.log(this)
+      this.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
     }
   },
 //
@@ -358,7 +362,9 @@ export default {
         'data' : {
           'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/project/tree',
           'data' : function (node) {
-            return { 'token' : BASE.getToken() };
+            return { 'token' : BASE.getToken(),
+                     'project_id':self.$route.params.projectId 
+                   };
           }
         },
         "check_callback" : true,
@@ -369,22 +375,40 @@ export default {
           "items": {
             "create": {
                 "label": "增加节点",
-                "action": function (obj) {
+                "action": function (data) {
                       // TODO: 添加节点
-                      
-                      
+                      var inst = $.jstree.reference(data.reference),
+                          obj = inst.get_node(data.reference);
+                      inst.create_node(obj, {}, "last", function (new_node) {
+                        try {
+                          inst.edit(new_node);
+                        } catch (ex) {
+                          setTimeout(function () { inst.edit(new_node); },0);
+                        }
+                      });
                 }
             },
             "rename": {
                 "label": "重命名",
-                "action": function (obj) {
+                "action": function (data) {
                     // TODO: 重命名节点
+                    var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                    inst.edit(obj);
                 }
             },
             "remove": {
                 "label": "删除",
-                "action": function (obj) {
+                "action": function (data) {
                     // TODO: 删除
+                    var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                    if(inst.is_selected(obj)) {
+                      inst.delete_node(inst.get_selected());
+                    }
+                    else {
+                      inst.delete_node(obj);
+                    }
                 }
             }
         },
@@ -396,16 +420,22 @@ export default {
     },
 
     }).on('changed.jstree', function (e, data) {
-      console.log(1)
+      // console.log('changed')
     }).on('move_node.jstree',function(data,element,helper,event){
+      console.log('move_node')
+      self.saveTreeProject('move_node')
       // 获取项目JSON
       // 对比旧JSON数据，获取差异
-      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+      
       
       // TODO: 移动节点
+
       // 保存新JSON
 
-    }).on('ready.jstree',function(){
+    })
+    .on('rename_node.jstree',function(){self.saveTreeProject('rename_node');console.log('rename_node')})
+    .on('delete_node.jstree',function(){self.saveTreeProject('delete_node');console.log('delete_node')})
+    .on('ready.jstree',function(){
 
       self.project.EVA = new EVA()
       // 初始化值

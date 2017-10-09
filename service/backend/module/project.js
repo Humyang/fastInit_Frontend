@@ -10,55 +10,21 @@ var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 /*添加文集*/
 async function loadTree (ctx){
 
-    // let porjectId = this.request.fields.porjectId
-    // let token = this.request.fields.token
-    // let floder_uid = uid(40)
-    // let insert_obj = objectAssign({
-    //                         name,
-    //                         floder_uid,
-    //                         isMove:false,
-    //                         timemap:(new Date()).getTime(),
-    //                         timemapTotal:0
-    //                     },this.login_status)
-    // let logined_uid = this.login_status.uid
-    
-    // let insert_obj = objectAssign({word,describe,sentence,end_time,is_move:false},this.login_status)
-    // let res = await this.mongo
-    //                     .db(CONFIG.dbName)
-    //                     .collection(MODULE_CONFIG.COLLECTION)
-    //                     .insert(insert_obj)
+    let project_id = ctx.request.fields.project_id
+    console.log(project_id)
+    let query_obj = {
+      uid:ctx.LOGIN_STATUS.uid,
+      project_id:project_id*1
+    }
+    console.log(query_obj)
+    let project = await ctx.mongo
+    .db(CONFIG.dbName)
+    .collection(MODULE_CONFIG.COLLECTION)
+    .findOne(query_obj)
 
-    ctx.body = [
-      { "text" : "项目列表", 
-      "state": {
-          opened    : true,  // is the node open
-          disabled  : false,  // is the node disabled
-          selected  : false  // is the node selected
-        },
-      "children" : [
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-           { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-          { "text" : "package.json" },
-          { "text" : "index.js" },
-    ]}]
+    console.log(project)
+
+    ctx.body = project.treeNode
 }
 async function create(ctx){
   let project_name = ctx.request.fields.project_name
@@ -82,24 +48,60 @@ async function create(ctx){
     new_project_id = 0
   }
 
-  query_obj = Object.assign(query_obj,{project_name,project_id:++new_project_id})
+// 项目初始节点
+  let initNode = [
+      { "text" : "项目列表", 
+      "state": {
+          opened    : true,  // is the node open
+          disabled  : false,  // is the node disabled
+          selected  : false  // is the node selected
+        }}]
+  
+
+  query_obj = Object.assign(query_obj,
+    { project_name,
+      project_id:++new_project_id
+    })
+      
 
   let res = await ctx.mongo
       .db(CONFIG.dbName)
       .collection(MODULE_CONFIG.COLLECTION)
       .update(query_obj,
           { 
-            '$set':query_obj
+            '$set':Object.assign(query_obj,{ treeNode:initNode})
           },
           {'upsert':true}
       )
+
+
   console.log(res)
   ctx.body = {
       status:true,
       msg:'新建成功'
   }
 }
+
+// 获取列表
+async function list(ctx){
+  let query_obj = {
+    uid:ctx.LOGIN_STATUS.uid
+  }
+  let list = await ctx.mongo
+      .db(CONFIG.dbName)
+      .collection(MODULE_CONFIG.COLLECTION)
+      .find(query_obj,{treeNode:0})
+      .sort({project_id:-1})
+      .toArray()
+
+  ctx.body = {
+      status:true,
+      list
+  }
+}
+
 module.exports = {
     loadTree,
-    create
+    create,
+    list
 }

@@ -29,6 +29,11 @@ export default new Router({
       name: 'EditProject',
       component: EditProject
     },
+    {   
+        path:'/EditProject/:projectId',
+        name:'WriteArticle',
+        component:EditProject
+    },
     {
       path: '/EditModule',
       name: 'EditModule',

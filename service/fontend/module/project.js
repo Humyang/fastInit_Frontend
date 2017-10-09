@@ -27,12 +27,14 @@ var module = {
     // 保存节点代码（advnce历史记录）
 
 export const create = function(project_name){
-		let data={
-        	project_name
-	    }
-	    return mFetch({path:'/project/create',data})
-	}
-
+	let data={
+    	project_name
+    }
+    return mFetch({path:'/project/create',data})
+}
+export const list = function(){
+	return mFetch({path:'/project/list'})
+}
 // 	list:function(){},
 // 	loadNode:function(){}
 // }

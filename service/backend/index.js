@@ -81,15 +81,36 @@ router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 // })
 // router.post('/upload', LOGIN.login_check(), UPLOAD.upload)
 
-// 项目
+//
+//
+//     ________
+//     `MMMMMMMb.                       68b
+//      MM    `Mb                       Y89                     /
+//      MM     MM ___  __   _____       ___   ____     ____    /M
+//      MM     MM `MM 6MM  6MMMMMb      `MM  6MMMMb   6MMMMb. /MMMMM
+//      MM    .M9  MM69 " 6M'   `Mb      MM 6M'  `Mb 6M'   Mb  MM
+//      MMMMMMM9'  MM'    MM     MM      MM MM    MM MM    `'  MM
+//      MM         MM     MM     MM      MM MMMMMMMM MM        MM
+//      MM         MM     MM     MM      MM MM       MM        MM
+//      MM         MM     YM.   ,M9      MM YM    d9 YM.   d9  YM.  ,
+//     _MM_       _MM_     YMMMMM9       MM  YMMMM9   YMMMM9    YMMM9
+//                                       MM
+//                                   (8) M9
+//                                    YMM9
 var Project = require('./module/project.js')
+
+router.post('/project/list',OAUTCH_CLIENT.oauth_login_check(),Project.list)
+router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)
 router.get('/project/tree',async function(ctx,next){
-    ctx.request.fields = {token:ctx.URL.searchParams.get('token')}
+    ctx.request.fields = {
+        token:ctx.URL.searchParams.get('token'),
+        project_id:ctx.URL.searchParams.get('project_id')
+    }
     await next()
 },
 OAUTCH_CLIENT.oauth_login_check()
 ,Project.loadTree)
-router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)
+
 
 app.use(mongo())
 app.use(body({textLimit:'10000kb',formLimit:'10000kb',jsonLimit:'10000kb'}))
