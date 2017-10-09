@@ -364,8 +364,8 @@ export default {
     //   let current_ch = self.editor.getCursor().ch
     //   console.log(current_ch)
     // }, false);
-    this.editor.on("drop", function( event ) {
-      console.log(event)
+    this.editor.on("drop", function( event,e2 ) {
+      console.log(event,e2)
       // setTimeout(function() {
         let value = self.moduleList.list[self.project.parent_index].blockList[self.project.current_index].value
         let current_line = self.editor.getCursor().line
