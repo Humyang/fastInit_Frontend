@@ -51,11 +51,25 @@
 
 <script>
 
-// var data = 
-// [{
-//   module:'基础',
-//   content:`var app = require('koa')()` 
-// }]
+/*
+
+
+
+  68b
+  Y89                                               /
+  ___ ___  __    __   __ ____     _____   ___  __  /M
+  `MM `MM 6MMb  6MMb  `M6MMMMb   6MMMMMb  `MM 6MM /MMMMM
+   MM  MM69 `MM69 `Mb  MM'  `Mb 6M'   `Mb  MM69 "  MM
+   MM  MM'   MM'   MM  MM    MM MM     MM  MM'     MM
+   MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+   MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+   MM  MM    MM    MM  MM.  ,M9 YM.   ,M9  MM      YM.  ,
+  _MM__MM_  _MM_  _MM_ MMYMMM9   YMMMMM9  _MM_      YMMM9
+                       MM
+                       MM
+                      _MM_
+*/
+
 
 import '../css/common.css'
 import  '../css/btn.css'
@@ -68,6 +82,12 @@ import 'codemirror/theme/zenburn.css'
 
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm.js'
+
+// var  EVA = require('../../service/fontend/Obj/EditorValueAdvance.js')
+import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+
+import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
+import * as BASE from '../../service/fontend/base.js'
 
 // jstree
 
@@ -165,7 +185,8 @@ export default {
         list:[{name:"配置1"},{name:"配置2"}],
       },
       project:{
-        selectedIndex:-1
+        selectedIndex:-1,
+        EVA:""
       },
       ui:{
         a:1
@@ -295,35 +316,104 @@ export default {
 */
 
 
-    // 读取节点所有节点
-    // 添加节点
-    // 移动节点
-    // 重命名节点
+    // TODO: 读取节点所有节点
+    /*
+[
+  { "text" : "项目列表", 
+  "state": {
+      opened    : true,  // is the node open
+      disabled  : false,  // is the node disabled
+      selected  : false  // is the node selected
+    },
+  "children" : [
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+       { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+      { "text" : "package.json" },
+      { "text" : "index.js" },
+]}]
+    */
+
     // 选中节点-加载代码
     // 保存节点代码（advnce历史记录）
     $('#projectTree').jstree({
       'core' : {
-        'data' : [
-          { "text" : "项目列表", 
-          "state": {
-              opened    : true,  // is the node open
-              disabled  : false,  // is the node disabled
-              selected  : false  // is the node selected
+        'data' : {
+          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/project/tree',
+          'data' : function (node) {
+            return { 'token' : BASE.getToken() };
+          }
+        },
+        "check_callback" : true,
+        
+        },
+        "plugins" : [ "contextmenu","dnd" ],
+        contextmenu: {
+          "items": {
+            "create": {
+                "label": "增加节点",
+                "action": function (obj) {
+                      // TODO: 添加节点
+                      
+                      
+                }
             },
-          "children" : [
-              { "text" : "package.json" },
-              { "text" : "index.js" }
-          ]}
-        ],
-        'themes' : {
-                'responsive' : false,
-                'variant' : 'small',
-                'stripes' : true
-              }
-      }
-    }).on('changed.jstree', function (e, data) {
-    });
+            "rename": {
+                "label": "重命名",
+                "action": function (obj) {
+                    // TODO: 重命名节点
+                }
+            },
+            "remove": {
+                "label": "删除",
+                "action": function (obj) {
+                    // TODO: 删除
+                }
+            }
+        },
+        dnd:{
+          dnd_stop:function(){
+            console.log(123)
+          }
+        }
+    },
 
+    }).on('changed.jstree', function (e, data) {
+      console.log(1)
+    }).on('move_node.jstree',function(data,element,helper,event){
+      // 获取项目JSON
+      // 对比旧JSON数据，获取差异
+      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+      
+      // TODO: 移动节点
+      // 保存新JSON
+
+    }).on('ready.jstree',function(){
+
+      self.project.EVA = new EVA()
+      // 初始化值
+      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+
+    });
+    
+    
 /*
                           ##                      ##
      ####                 ##           ##   ##    ##

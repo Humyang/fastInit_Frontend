@@ -2,8 +2,9 @@
   <div class="hello">
         <h2>技术探索</h2>
     <ul>
-      
-    <router-link to="/EditProject">编辑项目</router-link>
+      <router-link to="/Login">登陆注册</router-link>
+      <router-link to="/ProjectList">项目列表</router-link>
+      <router-link to="/EditProject">编辑项目</router-link>
       <router-link to="/edit_module">配置模块</router-link>
       <router-link to="/EditModule">编辑模块</router-link>
     </ul>
