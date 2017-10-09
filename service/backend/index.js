@@ -99,6 +99,7 @@ router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 //                                    YMM9
 var Project = require('./module/project.js')
 
+router.post('/project/update',OAUTCH_CLIENT.oauth_login_check(),Project.update)
 router.post('/project/list',OAUTCH_CLIENT.oauth_login_check(),Project.list)
 router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)
 router.get('/project/tree',async function(ctx,next){

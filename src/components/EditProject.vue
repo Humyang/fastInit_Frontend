@@ -240,6 +240,12 @@ export default {
     saveTreeProject:function(){
       // console.log(this)
       this.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+      // 保存数据
+      API.PROJECT.update(this.project.EVA.patch_list)
+      .then(function(res){
+          // console.log(res)
+          // self.list = res.list
+      })
     }
   },
 //

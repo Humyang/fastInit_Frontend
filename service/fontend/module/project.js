@@ -32,6 +32,12 @@ export const create = function(project_name){
     }
     return mFetch({path:'/project/create',data})
 }
+export const update = function(patch_list){
+	let data={
+    	patch_list
+    }
+	return mFetch({path:'/project/update',data})
+}
 export const list = function(){
 	return mFetch({path:'/project/list'})
 }

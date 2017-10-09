@@ -7,6 +7,9 @@ var MODULE_CONFIG = {
 var throwError = require('./throwError.js')
 var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 
+var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var dmp = new GDMP.diff_match_patch()
+
 /*添加文集*/
 async function loadTree (ctx){
 
@@ -25,6 +28,47 @@ async function loadTree (ctx){
     console.log(project)
 
     ctx.body = project.treeNode
+}
+async function update (ctx){
+
+}
+function * update (next){
+    let selfuid = this.request.fields.selfuid
+    let content = this.request.fields.content
+    let title = this.request.fields.title
+
+    let query_obj = objectAssign(
+        {selfuid,isMove:{$ne:true}},
+        this.login_status)
+
+    let query_content = yield _getContent.call(this)
+    
+    // let patches = dmp.patch_make(content)
+    let patches = content
+    let targer_value = query_content.content
+    if(targer_value === undefined){
+        targer_value = ""
+    }
+    query_content.history.push(patches)
+    let dmp_patch_result = dmp.patch_apply(patches, targer_value)
+    for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
+        if(dmp_patch_result[1][i] != true){
+
+            throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
+        }
+    }
+
+    let res = yield this.mongo
+                        .db(CONFIG.dbName)
+                        .collection(MODULE_CONFIG.COLLECTION)
+                        .update(query_obj,
+                            {'$set':{content:dmp_patch_result[0],title,history:query_content.history}},
+                            {'upsert':true}
+                        )
+    this.body = {
+        status:true,
+        result:res
+    }
 }
 async function create(ctx){
   let project_name = ctx.request.fields.project_name
