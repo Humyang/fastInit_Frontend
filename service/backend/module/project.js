@@ -7,14 +7,14 @@ var MODULE_CONFIG = {
 var throwError = require('./throwError.js')
 var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 
-var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var GDMP = require('../../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 var dmp = new GDMP.diff_match_patch()
 
 /*添加文集*/
 async function loadTree (ctx){
 
     let project_id = ctx.request.fields.project_id
-    console.log(project_id)
+
     let query_obj = {
       uid:ctx.LOGIN_STATUS.uid,
       project_id:project_id*1
@@ -26,50 +26,89 @@ async function loadTree (ctx){
     .findOne(query_obj)
 
     console.log(project)
-
+    // debugger
+    ctx.set('Content-Type','application/json; charset=utf-8')
     ctx.body = project.treeNode
 }
 async function update (ctx){
+  let patch_list = ctx.request.fields.patch_list
+  let project_id = ctx.request.fields.project_id
 
-}
-function * update (next){
-    let selfuid = this.request.fields.selfuid
-    let content = this.request.fields.content
-    let title = this.request.fields.title
-
-    let query_obj = objectAssign(
-        {selfuid,isMove:{$ne:true}},
-        this.login_status)
-
-    let query_content = yield _getContent.call(this)
-    
-    // let patches = dmp.patch_make(content)
-    let patches = content
-    let targer_value = query_content.content
-    if(targer_value === undefined){
-        targer_value = ""
+  let query_obj = {
+      uid:ctx.LOGIN_STATUS.uid,
+      project_id:project_id*1
     }
-    query_content.history.push(patches)
-    let dmp_patch_result = dmp.patch_apply(patches, targer_value)
-    for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
-        if(dmp_patch_result[1][i] != true){
 
-            throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
+  let project = await ctx.mongo
+    .db(CONFIG.dbName)
+    .collection(MODULE_CONFIG.COLLECTION)
+    .findOne(query_obj)
+
+  let oldContent = project.treeNode
+
+  let targer_value = project.treeNode
+  if(targer_value === undefined){
+      targer_value = ""
+  }
+  // debugger
+  // query_content.history.push(patches)
+  let dmp_patch_result = dmp.patch_apply(patch_list, JSON.stringify(targer_value))
+  for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
+      if(dmp_patch_result[1][i] != true){
+          throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
+      }
+  }
+
+  let res = await ctx.mongo
+    .db(CONFIG.dbName)
+    .collection(MODULE_CONFIG.COLLECTION)
+    .update(query_obj,
+        { 
+          '$set':{treeNode:dmp_patch_result[0]}
         }
-    }
-
-    let res = yield this.mongo
-                        .db(CONFIG.dbName)
-                        .collection(MODULE_CONFIG.COLLECTION)
-                        .update(query_obj,
-                            {'$set':{content:dmp_patch_result[0],title,history:query_content.history}},
-                            {'upsert':true}
-                        )
-    this.body = {
-        status:true,
-        result:res
-    }
+    )
+  ctx.body = {
+      status:true,
+      result:res
+  }
 }
+// function * update (next){
+//     let selfuid = this.request.fields.selfuid
+//     let content = this.request.fields.content
+//     let title = this.request.fields.title
+
+//     let query_obj = objectAssign(
+//         {selfuid,isMove:{$ne:true}},
+//         this.login_status)
+
+//     let query_content = yield _getContent.call(this)
+    
+//     // let patches = dmp.patch_make(content)
+//     let patches = content
+//     let targer_value = query_content.content
+//     if(targer_value === undefined){
+//         targer_value = ""
+//     }
+//     query_content.history.push(patches)
+//     let dmp_patch_result = dmp.patch_apply(patches, targer_value)
+//     for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
+//         if(dmp_patch_result[1][i] != true){
+//             throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
+//         }
+//     }
+
+//     let res = yield this.mongo
+//                         .db(CONFIG.dbName)
+//                         .collection(MODULE_CONFIG.COLLECTION)
+//                         .update(query_obj,
+//                             {'$set':{content:dmp_patch_result[0],title,history:query_content.history}},
+//                             {'upsert':true}
+//                         )
+//     this.body = {
+//         status:true,
+//         result:res
+//     }
+// }
 async function create(ctx){
   let project_name = ctx.request.fields.project_name
   
@@ -93,13 +132,7 @@ async function create(ctx){
   }
 
 // 项目初始节点
-  let initNode = [
-      { "text" : "项目列表", 
-      "state": {
-          opened    : true,  // is the node open
-          disabled  : false,  // is the node disabled
-          selected  : false  // is the node selected
-        }}]
+  let initNode = [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[]}]
   
 
   query_obj = Object.assign(query_obj,
@@ -147,5 +180,6 @@ async function list(ctx){
 module.exports = {
     loadTree,
     create,
-    list
+    list,
+    update
 }

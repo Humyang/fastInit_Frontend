@@ -88,6 +88,7 @@ import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
 
 import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
 import * as BASE from '../../service/fontend/base.js'
+import * as API from '../../service/fontend/index.js'
 
 // jstree
 
@@ -241,7 +242,7 @@ export default {
       // console.log(this)
       this.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
       // 保存数据
-      API.PROJECT.update(this.project.EVA.patch_list)
+      API.PROJECT.update(this.$route.params.projectId,this.project.EVA.patch_list)
       .then(function(res){
           // console.log(res)
           // self.list = res.list
@@ -289,18 +290,7 @@ export default {
 
     $('#moduleTree').jstree({
       'core' : {
-        'data' : [
-          { "text" : "模块列表", 
-            "state": {
-              opened    : true,  // is the node open
-              disabled  : false,  // is the node disabled
-              selected  : false  // is the node selected
-            },
-            "children" : [
-              { "text" : "koa-static",li_attr:{a:111},a_attr:{b:222} },
-              { "text" : "koa" }
-          ]}
-        ],
+        'data' : [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false},"data":{},"children":[{"id":"j2_2","text":"444","icon":true,"li_attr":{"id":"j2_2"},"a_attr":{"href":"#","id":"j2_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[]}]}],
         'themes' : {
                 'responsive' : false,
                 'variant' : 'small',
