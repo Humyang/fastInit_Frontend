@@ -1,56 +1,9 @@
 <template>
   <div class="EditModule">
     <div class="floder">
-        <!-- <a class="btn back_home">回到首页</a> -->
-            <p @click.prevent="moduleList.visibleAddModule=true"
-            class="p_add"><i class="i_add">+</i>添加模块</p>
-            <div 
-            v-show="moduleList.visibleAddModule"
-            class="add_wrap">
-                <input v-model="moduleList.newModuleName" 
-                  placeholder="输入模块文章" 
-                  type="" 
-                  name="">
-                <a @click.prevent="addModule" class="btn btn_ok" href="">保存</a>
-                <a @click.prevent="moduleList.visibleAddModule=false" class="btn btn_cancel" href="">取消</a>
-            </div>
-            <p class="list_mode">
-              <!-- <i class="iconfont icon-zhankai"></i> -->
-              <!-- <i class="iconfont icon-icon1460187848267"></i> -->
-            </p>
-            <!-- <div class="list_mode_group">
-                <p class="p1">文集排序方式</p>
-                <select name="" id="">
-                    <option value="">创建日期</option>
-                    <option value="">最近使用</option>
-                    <option value="">使用频率</option>
-                </select>
-
-
-
-            </div> -->
-            <!-- <div class="list_mode_group">
-                <p class="p1">搜索</p>
-                <input class="search" type="text" placeholder="搜索文集和文章">
-                <a class="btn btn_ok" href="">确定</a>
-            </div> -->
-
-            <ul class="item">
-                <li v-for="(item,index) in moduleList.list">{{item.name}}</li>
-                <!-- <li class="active">脚本 <i class="iconfont icon-gengduo i1"></i></li>
-                <li >日志</li>
-                <li>数据库</li>
-                <li>React</li>
-                <li class="active editor">
-                    <input type="" placeholder="前端布局" name="">
-                    <a class="btn btn_ok" href="">保存</a>
-                    <a class="btn btn_cancel" href="">取消</a>
-                </li>
-                <li>微信小程序</li>
-                <li class="active">单元测试 <i class="iconfont icon-gengduo i1"></i>
-                </li> -->
-
-            </ul>
+        <div id="moduleTree" class="tree_block">
+        
+        </div>
     </div>
         <!-- 代码编辑 -->
     <div class="editArea">
@@ -103,18 +56,38 @@
 
 <script>
 
-// var data = 
-// [{
-//   module:'基础',
-//   content:`var app = require('koa')()` 
-// }]
+//
+//
+//
+//   68b
+//   Y89                                               /
+//   ___ ___  __    __   __ ____     _____   ___  __  /M
+//   `MM `MM 6MMb  6MMb  `M6MMMMb   6MMMMMb  `MM 6MM /MMMMM
+//    MM  MM69 `MM69 `Mb  MM'  `Mb 6M'   `Mb  MM69 "  MM
+//    MM  MM'   MM'   MM  MM    MM MM     MM  MM'     MM
+//    MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+//    MM  MM    MM    MM  MM    MM MM     MM  MM      MM
+//    MM  MM    MM    MM  MM.  ,M9 YM.   ,M9  MM      YM.  ,
+//   _MM__MM_  _MM_  _MM_ MMYMMM9   YMMMMM9  _MM_      YMMM9
+//                        MM
+//                        MM
+//                       _MM_
 import '../css/common.css'
 import  '../css/btn.css'
 import '../css/editModule.css'
 
+import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
+import * as BASE from '../../service/fontend/base.js'
+import * as API from '../../service/fontend/index.js'
+
+
 export default {
   data () {
     return {
+      treeNode:{
+        EVA:""
+      },
       moduleList:{
         newModuleName:"",
         visibleAddModule:false,
@@ -140,8 +113,36 @@ export default {
       }
     }
   },
+  //
+  //
+  //                                    ___                      ___
+  //                                    `MM                      `MM
+  //                              /      MM                       MM
+  //   ___  __    __     ____    /M      MM  __     _____     ____MM   ____
+  //   `MM 6MMb  6MMb   6MMMMb  /MMMMM   MM 6MMb   6MMMMMb   6MMMMMM  6MMMMb\
+  //    MM69 `MM69 `Mb 6M'  `Mb  MM      MMM9 `Mb 6M'   `Mb 6M'  `MM MM'    `
+  //    MM'   MM'   MM MM    MM  MM      MM'   MM MM     MM MM    MM YM.
+  //    MM    MM    MM MMMMMMMM  MM      MM    MM MM     MM MM    MM  YMMMMb
+  //    MM    MM    MM MM        MM      MM    MM MM     MM MM    MM      `Mb
+  //    MM    MM    MM YM    d9  YM.  ,  MM    MM YM.   ,M9 YM.  ,MM L    ,MM
+  //   _MM_  _MM_  _MM_ YMMMM9    YMMM9 _MM_  _MM_ YMMMMM9   YMMMMMM_MYMMMM9
+  //
+  //
+  //
   methods:{
+    saveTree:function(){
+      // console.log(this)
+      this.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
+      // 保存数据
+      API.MODULE.update(this.treeNode.EVA.patch_list)
+      .then(function(res){
+          // console.log(res)
+          // self.list = res.list
+      })
+    },
     addModule:function(){
+      // 创建模块
+
       this.moduleList.list.push({name:this.moduleList.newModuleName})
       this.moduleList.newModuleName=""
       this.moduleList.visibleAddModule = false
@@ -229,6 +230,121 @@ export default {
     newModule:function(){
 
     },
+  },
+  //
+  //
+  //                                                                       ___
+  //                                                                       `MM
+  //                                                   /                    MM
+  //   ___  __    __     _____   ___   ___ ___  __    /M       ____     ____MM
+  //   `MM 6MMb  6MMb   6MMMMMb  `MM    MM `MM 6MMb  /MMMMM   6MMMMb   6MMMMMM
+  //    MM69 `MM69 `Mb 6M'   `Mb  MM    MM  MMM9 `Mb  MM     6M'  `Mb 6M'  `MM
+  //    MM'   MM'   MM MM     MM  MM    MM  MM'   MM  MM     MM    MM MM    MM
+  //    MM    MM    MM MM     MM  MM    MM  MM    MM  MM     MMMMMMMM MM    MM
+  //    MM    MM    MM MM     MM  MM    MM  MM    MM  MM     MM       MM    MM
+  //    MM    MM    MM YM.   ,M9  YM.   MM  MM    MM  YM.  , YM    d9 YM.  ,MM
+  //   _MM_  _MM_  _MM_ YMMMMM9    YMMM9MM__MM_  _MM_  YMMM9  YMMMM9   YMMMMMM_
+  //
+  //
+  //
+  mounted:function(){
+
+    var self = this
+    // 读取已有模块列表
+    // $('#moduleTree').jstree({
+    //   'core' : {
+    //     'data' : [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false},"data":{},"children":[{"id":"j2_2","text":"444","icon":true,"li_attr":{"id":"j2_2"},"a_attr":{"href":"#","id":"j2_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[]}]}],
+    //     'themes' : {
+    //             'responsive' : false,
+    //             'variant' : 'small',
+    //             'stripes' : true
+    //           },
+    //     expand_selected_onload:true
+    //   }
+    // }).on('changed.jstree', function (e, data) {
+    //   console.log(123)
+    // });
+    $('#moduleTree').jstree({
+      'core' : {
+        'data' : {
+          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/module/tree',
+          'data' : function (node) {
+            return { 'token' : BASE.getToken()}
+          }
+        },
+        "check_callback" : true,
+        },
+        "plugins" : [ "contextmenu","dnd" ],
+        contextmenu: {
+          "items": {
+            "create": {
+                "label": "增加节点",
+                "action": function (data) {
+                      // TODO: 添加节点
+                      var inst = $.jstree.reference(data.reference),
+                          obj = inst.get_node(data.reference);
+                      inst.create_node(obj, {}, "last", function (new_node) {
+                        try {
+                          inst.edit(new_node);
+                        } catch (ex) {
+                          setTimeout(function () { inst.edit(new_node); },0);
+                        }
+                      });
+                }
+            },
+            "rename": {
+                "label": "重命名",
+                "action": function (data) {
+                    // TODO: 重命名节点
+                    var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                    inst.edit(obj);
+                }
+            },
+            "remove": {
+                "label": "删除",
+                "action": function (data) {
+                    // TODO: 删除
+                    var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                    if(inst.is_selected(obj)) {
+                      inst.delete_node(inst.get_selected());
+                    }
+                    else {
+                      inst.delete_node(obj);
+                    }
+                }
+            }
+        },
+        dnd:{
+          dnd_stop:function(){
+            console.log(123)
+          }
+        }
+    }
+    }).on('changed.jstree', function (e, data) {
+      // console.log('changed')
+    }).on('move_node.jstree',function(data,element,helper,event){
+      console.log('move_node')
+      self.saveTree('move_node')
+      // 获取项目JSON
+      // 对比旧JSON数据，获取差异
+      
+      
+      // TODO: 移动节点
+
+      // 保存新JSON
+
+    })
+    .on('rename_node.jstree',function(){self.saveTree('rename_node');console.log('rename_node')})
+    .on('delete_node.jstree',function(){self.saveTree('delete_node');console.log('delete_node')})
+    .on('ready.jstree',function(){
+
+      self.treeNode.EVA = new EVA()
+      // 初始化值
+      self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
+
+    });
   }
 }
 </script>

@@ -83,7 +83,6 @@ import 'codemirror/theme/zenburn.css'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/gfm/gfm.js'
 
-// var  EVA = require('../../service/fontend/Obj/EditorValueAdvance.js')
 import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
 
 import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
@@ -315,42 +314,6 @@ export default {
                                                                                     ##                          ####
 */
 
-
-    // TODO: 读取节点所有节点
-    /*
-[
-  { "text" : "项目列表", 
-  "state": {
-      opened    : true,  // is the node open
-      disabled  : false,  // is the node disabled
-      selected  : false  // is the node selected
-    },
-  "children" : [
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-       { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-      { "text" : "package.json" },
-      { "text" : "index.js" },
-]}]
-    */
-
     // 选中节点-加载代码
     // 保存节点代码（advnce历史记录）
     $('#projectTree').jstree({
@@ -413,8 +376,7 @@ export default {
             console.log(123)
           }
         }
-    },
-
+    }
     }).on('changed.jstree', function (e, data) {
       // console.log('changed')
     }).on('move_node.jstree',function(data,element,helper,event){

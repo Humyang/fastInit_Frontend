@@ -50,9 +50,14 @@ async function update (ctx){
   if(targer_value === undefined){
       targer_value = ""
   }
-  // debugger
+  if(typeof targer_value === "string"){
+
+  }else{
+    targer_value = JSON.stringify(targer_value)
+  }
+  debugger
   // query_content.history.push(patches)
-  let dmp_patch_result = dmp.patch_apply(patch_list, JSON.stringify(targer_value))
+  let dmp_patch_result = dmp.patch_apply(patch_list, targer_value)
   for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
       if(dmp_patch_result[1][i] != true){
           throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
@@ -72,43 +77,6 @@ async function update (ctx){
       result:res
   }
 }
-// function * update (next){
-//     let selfuid = this.request.fields.selfuid
-//     let content = this.request.fields.content
-//     let title = this.request.fields.title
-
-//     let query_obj = objectAssign(
-//         {selfuid,isMove:{$ne:true}},
-//         this.login_status)
-
-//     let query_content = yield _getContent.call(this)
-    
-//     // let patches = dmp.patch_make(content)
-//     let patches = content
-//     let targer_value = query_content.content
-//     if(targer_value === undefined){
-//         targer_value = ""
-//     }
-//     query_content.history.push(patches)
-//     let dmp_patch_result = dmp.patch_apply(patches, targer_value)
-//     for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
-//         if(dmp_patch_result[1][i] != true){
-//             throwError(ERROR_CODE.CODE.ARTICLE_SAVE_ERROR)
-//         }
-//     }
-
-//     let res = yield this.mongo
-//                         .db(CONFIG.dbName)
-//                         .collection(MODULE_CONFIG.COLLECTION)
-//                         .update(query_obj,
-//                             {'$set':{content:dmp_patch_result[0],title,history:query_content.history}},
-//                             {'upsert':true}
-//                         )
-//     this.body = {
-//         status:true,
-//         result:res
-//     }
-// }
 async function create(ctx){
   let project_name = ctx.request.fields.project_name
   

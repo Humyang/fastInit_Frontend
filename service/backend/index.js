@@ -41,45 +41,33 @@ app.use(cors())
 
 router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 
-// // 搜索
-// router.post('/search',LOGIN.login_check(),SEARCH.search)
+//
+//
+//                                    ___           ___
+//                                    `MM           `MM
+//                                     MM            MM
+//     ___  __    __     _____     ____MM ___   ___  MM   ____
+//     `MM 6MMb  6MMb   6MMMMMb   6MMMMMM `MM    MM  MM  6MMMMb
+//      MM69 `MM69 `Mb 6M'   `Mb 6M'  `MM  MM    MM  MM 6M'  `Mb
+//      MM'   MM'   MM MM     MM MM    MM  MM    MM  MM MM    MM
+//      MM    MM    MM MM     MM MM    MM  MM    MM  MM MMMMMMMM
+//      MM    MM    MM MM     MM MM    MM  MM    MM  MM MM
+//      MM    MM    MM YM.   ,M9 YM.  ,MM  YM.   MM  MM YM    d9
+//     _MM_  _MM_  _MM_ YMMMMM9   YMMMMMM_  YMMM9MM__MM_ YMMMM9
+//
+//
+//
+var Module = require('./module/module.js')
+router.post('/module/update',OAUTCH_CLIENT.oauth_login_check(),Module.update)
+router.get('/module/tree',async function(ctx,next){
+    ctx.request.fields = {
+        token:ctx.URL.searchParams.get('token')
+    }
+    await next()
+},
+OAUTCH_CLIENT.oauth_login_check()
+,Module.loadTree)
 
-// // 添加文章
-// router.post('/article/add',LOGIN.login_check(),FLODER.Mfloder_list_modify(),ARTICLE.add)
-// router.post('/article/list',LOGIN.login_check(),ARTICLE.list)
-// router.post('/article/update',LOGIN.login_check(),FLODER.Mfloder_list_modify(),ARTICLE.update)
-// router.post('/article/content',LOGIN.login_check(),ARTICLE.content)
-// router.post('/article/remove',LOGIN.login_check(),ARTICLE.remove)
-
-
-
-// // 添加目录
-// router.post('/floder/add',LOGIN.login_check(),FLODER.add)
-// router.post('/floder/list',LOGIN.login_check(),FLODER.list)
-// router.post('/floder/remove',LOGIN.login_check(),FLODER.remove)
-// // router.post('/floder/sorttype',LOGIN.login_check(),FLODER.sorttype)
-
-// // 登陆注册
-// router.all('/username/valid/:username',LOGIN.username_repeat)
-// router.post('/regiest',/*LOGIN.verify_code(),*/LOGIN.regiest)
-// router.post('/login',/*LOGIN.verify_code(),*/LOGIN.login)
-// router.post('/login_status_check',LOGIN.login_check(),function *(next){
-//     this.body = {
-//         status:true,
-//         msg:'在线'
-//     }
-// })
-
-    
-// // 个人配置
-// router.post('/config/getAll',LOGIN.login_check(),USERCONFIG.getAll)
-// router.post('/config/floder_sort_type_update',LOGIN.login_check(),USERCONFIG.floderSortTypeUpdate)
-
-// // 上传
-// router.options('/upload', function*(next){
-//   this.body=true
-// })
-// router.post('/upload', LOGIN.login_check(), UPLOAD.upload)
 
 //
 //

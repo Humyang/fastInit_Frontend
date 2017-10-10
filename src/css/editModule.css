@@ -1,28 +1,196 @@
-html, body, div#app, .write_article_wrap, .EditModule { height: 100%; margin: 0 }
-ul, p { padding: 0; margin: 0 }
-li { list-style: none }
-a { text-decoration: none; color: #333 }
-.EditModule .p_add { font-size: 16px; cursor: pointer; padding: 15px 0; padding-left: 20px; margin-bottom: 1px }
-.EditModule .p_add i.i_add { font-style: initial; font-size: 25px; vertical-align: -2px }
-.EditModule .floder a.btn.back_home { width: 243px; line-height: 35px; height: 35px; margin-top: 20px }
-.EditModule .floder .item li { font-size: 16px; padding-left: 14px; line-height: 45px; cursor: pointer; overflow: hidden }
-.EditModule .floder .item li.editor { height: 90px; margin-right: 1px }
-.EditModule .floder .item ul { margin-top: 5px }
-.EditModule .floder .item i.i1 { display: none }
-.EditModule .floder .item li.active i.i1 { display: inherit; float: right; margin-right: 15px }
-.EditModule .floder .item li.active { border-left: 5px solid #ff5548; margin-left: 0; padding-left: 9px }
-.EditModule .floder .item li.active i.i1:hover { color: #ff5548 }
-.EditModule .floder .item li:hover, .floder li.active { background-color: #5a5a5a; position: relative }
-.EditModule .floder .item li.editor input { border: 0; height: 30px; vertical-align: 2px; padding-left: 5px; border-radius: 3px; width: 260px }
-.EditModule .floder { float: left; width: 15%; background-color: #333; color: white; height: 100%; text-align: left; overflow: auto; position: relative }
-.EditModule .list_mode_group { overflow: hidden; margin: 20px 0 }
-.EditModule .list_mode_group .p1 { font-size: 14px; margin-left: 15px; margin-bottom: 5px }
-.EditModule .list_mode_group select { border: 1px solid #ddd; margin-left: 15px; font-size: 12px; background-color: #333; color: #ddd; line-height: 16px; padding: 5px 5px }
-.EditModule .list_mode_group input.search { border: 0; width: 260px; margin-left: 10px; line-height: 28px; border-radius: 3px; margin-bottom: 8px; font-size: 16px; padding-left: 10px }
-.EditModule .editArea { float: left; width: 35%; background-color: #fff; height: 100%; text-align: left; overflow: auto; position: relative; border-right: 1px solid #ddd }
-.EditModule p.btn_wrap { padding: 20px }
-.EditModule .textarea_wrap { height: 500px; border-bottom: 1px solid #ddd }
-.EditModule .textarea_wrap textarea { width: 99%; margin: 0; padding: 0; text-indent: 10px; padding-top: 10px; border: 1px solid #ddd }
-.EditModule .classify { float: left; width: 49%; background-color: #fff; color: white; height: 100%; text-align: left; overflow: auto; position: relative }
-.EditModule .cell { color: #795548; padding: 20px; margin: 5px; border: 1px solid #ddd; border-radius: 5px }
-.EditModule .codeblock { padding: 20px; border: 1px solid #ddd; margin: 5px; border-radius: 4px; margin-bottom: 20px; word-wrap: unset; word-break: break-word; display: block }
+html, body, div#app, .write_article_wrap, .EditModule {
+	height: 100%;
+	margin: 0
+}
+
+ul, p {
+	padding: 0;
+	margin: 0
+}
+
+li {
+	list-style: none
+}
+
+a {
+	text-decoration: none;
+	color: #333
+}
+
+.EditModule .p_add {
+	font-size: 16px;
+	cursor: pointer;
+	padding: 15px 0;
+	padding-left: 20px;
+	margin-bottom: 1px
+}
+
+.EditModule .p_add i.i_add {
+	font-style: initial;
+	font-size: 25px;
+	vertical-align: -2px
+}
+
+.EditModule .floder a.btn.back_home {
+	width: 243px;
+	line-height: 35px;
+	height: 35px;
+	margin-top: 20px
+}
+
+.EditModule .floder .item li {
+	font-size: 16px;
+	padding-left: 14px;
+	line-height: 45px;
+	cursor: pointer;
+	overflow: hidden
+}
+
+.EditModule .floder .item li.editor {
+	height: 90px;
+	margin-right: 1px
+}
+
+.EditModule .floder .item ul {
+	margin-top: 5px
+}
+
+.EditModule .floder .item i.i1 {
+	display: none
+}
+
+.EditModule .floder .item li.active i.i1 {
+	display: inherit;
+	float: right;
+	margin-right: 15px
+}
+
+.EditModule .floder .item li.active {
+	border-left: 5px solid #ff5548;
+	margin-left: 0;
+	padding-left: 9px
+}
+
+.EditModule .floder .item li.active i.i1:hover {
+	color: #ff5548
+}
+
+.EditModule .floder .item li:hover, .floder li.active {
+	background-color: #5a5a5a;
+	position: relative
+}
+
+.EditModule .floder .item li.editor input {
+	border: 0;
+	height: 30px;
+	vertical-align: 2px;
+	padding-left: 5px;
+	border-radius: 3px;
+	width: 260px
+}
+
+.EditModule .floder {
+	float: left;
+    width: 15%;
+    /* background-color: #333; */
+    /* color: white; */
+    height: 100%;
+    text-align: left;
+    overflow: auto;
+    position: relative;
+}
+
+.EditModule .list_mode_group {
+	overflow: hidden;
+	margin: 20px 0
+}
+
+.EditModule .list_mode_group .p1 {
+	font-size: 14px;
+	margin-left: 15px;
+	margin-bottom: 5px
+}
+
+.EditModule .list_mode_group select {
+	border: 1px solid #ddd;
+	margin-left: 15px;
+	font-size: 12px;
+	background-color: #333;
+	color: #ddd;
+	line-height: 16px;
+	padding: 5px 5px
+}
+
+.EditModule .list_mode_group input.search {
+	border: 0;
+	width: 260px;
+	margin-left: 10px;
+	line-height: 28px;
+	border-radius: 3px;
+	margin-bottom: 8px;
+	font-size: 16px;
+	padding-left: 10px
+}
+
+.EditModule .editArea {
+	float: left;
+	width: 35%;
+	background-color: #fff;
+	height: 100%;
+	text-align: left;
+	overflow: auto;
+	position: relative;
+	border-right: 1px solid #ddd;
+	    border-left: 1px solid #ddd;
+}
+
+.EditModule p.btn_wrap {
+	padding: 20px
+}
+
+.EditModule .textarea_wrap {
+	height: 500px;
+	border-bottom: 1px solid #ddd;
+	overflow-x:hidden; 
+}
+
+.EditModule .textarea_wrap textarea {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-indent: 10px;
+    padding-top: 10px;
+    border: 1px solid #ddd;
+    border-left: 0;
+    border-radius: 0;
+}
+
+.EditModule .classify {
+	float: left;
+	width: 49%;
+	background-color: #fff;
+	color: white;
+	height: 100%;
+	text-align: left;
+	overflow: auto;
+	position: relative
+}
+
+.EditModule .cell {
+	color: #795548;
+	padding: 20px;
+	margin: 5px;
+	border: 1px solid #ddd;
+	border-radius: 5px
+}
+
+.EditModule .codeblock {
+	padding: 20px;
+	border: 1px solid #ddd;
+	margin: 5px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	word-wrap: unset;
+	word-break: break-word;
+	display: block
+}

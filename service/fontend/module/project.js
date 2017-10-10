@@ -42,7 +42,5 @@ export const update = function(project_id,patch_list){
 export const list = function(){
 	return mFetch({path:'/project/list'})
 }
-// 	list:function(){},
-// 	loadNode:function(){}
-// }
+
 

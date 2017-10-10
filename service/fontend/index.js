@@ -15,11 +15,12 @@
 import * as LOGIN from './module/login.js'
 import * as CONFIG from './module/userConfig.js'
 import * as PROJECT from './module/project.js'
+import * as MODULE from './module/module.js'
 export {
     // ARTICLE,
     // FLODER,
     LOGIN,
     CONFIG,
     PROJECT,
-
+	MODULE
 }
