@@ -14,6 +14,7 @@
       <div class="textarea_wrap">
           <textarea v-for="(item,index) in blockCode.blockInput" 
           @click="block_textarea_select(index,$event)"
+          placeholder="代码区域" 
           v-model="item.value"
           name="" id="" cols="30" rows="10">{{item.value}}</textarea>
       </div>
@@ -83,6 +84,22 @@ import * as API from '../../service/fontend/index.js'
 
 
 export default {
+  //
+  //
+  //        ___
+  //        `MM
+  //         MM             /
+  //     ____MM    ___     /M        ___
+  //    6MMMMMM  6MMMMb   /MMMMM   6MMMMb
+  //   6M'  `MM 8M'  `Mb   MM     8M'  `Mb
+  //   MM    MM     ,oMM   MM         ,oMM
+  //   MM    MM ,6MM9'MM   MM     ,6MM9'MM
+  //   MM    MM MM'   MM   MM     MM'   MM
+  //   YM.  ,MM MM.  ,MM   YM.  , MM.  ,MM
+  //    YMMMMMM_`YMMM9'Yb.  YMMM9 `YMMM9'Yb.
+  //
+  //
+  //
   data () {
     return {
       treeNode:{
@@ -94,11 +111,11 @@ export default {
         list:[]
       },
       blockCode:{
-        blockInput:[{value:"aaaa"},{value:"bbbb"}],
+        blockInput:[{value:""}],
         selectedIndex:0,
         element:null,
         selectionStart:0,
-        cacheList:[{value:"aaaa"},{value:"bbbb"}]
+        cacheList:[]
       },
       fileBlock:{
         newFileBlockName:"",
