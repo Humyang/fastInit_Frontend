@@ -301,6 +301,7 @@ export default {
                       var inst = $.jstree.reference(data.reference),
                           obj = inst.get_node(data.reference);
                       inst.create_node(obj, {}, "last", function (new_node) {
+                      new_node.a_attr.module_id
                         try {
                           inst.edit(new_node);
                         } catch (ex) {
@@ -315,6 +316,7 @@ export default {
                     // TODO: 重命名节点
                     var inst = $.jstree.reference(data.reference),
                         obj = inst.get_node(data.reference);
+
                     inst.edit(obj);
                 }
             },
