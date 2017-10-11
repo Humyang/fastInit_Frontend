@@ -299,7 +299,7 @@ export default {
         expand_selected_onload:true
       }
     }).on('changed.jstree', function (e, data) {
-      console.log(123)
+      // console.log(123)
     });
 
 /*

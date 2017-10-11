@@ -85,6 +85,7 @@ import * as API from '../../service/fontend/index.js'
 import Delay from '../../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
+
 export default {
   //
   //
@@ -106,7 +107,7 @@ export default {
     return {
       Delay:"",
       selectedNodeId:"",
-      lockSaveData:true,
+      locKsaveData:false,
       treeNode:{
         EVA:""
       },
@@ -135,26 +136,30 @@ export default {
     }
   },
   computed:{
-    saveData:function(){
-      console.log(123)
-      if(this.lockSaveData){
-        return 'locked'
-      }
+    saveData:function(a,b,c){
+      // 使用 watch 属性替代 computed
+      console.log(a,b,c)
+      // console.log(123)
+      
       let blockInput = JSON.stringify(this.blockCode.blockInput)
 
       let cacheList = JSON.stringify(this.blockCode.cacheList)
 
       let fileBlock = JSON.stringify(this.fileBlock.list)
 
-      // console.log('push')
-      if(this.Delay.push){
-        this.Delay.push({
-          blockInput,
-          cacheList,
-          fileBlock,
-          selectId:this.selectedNodeId
-        })
+      if(!this.locKsaveData){
+        console.log('push')
+        if(this.Delay.push){
+          this.Delay.push({
+            blockInput,
+            cacheList,
+            fileBlock,
+            selectId:this.selectedNodeId
+          })
+        }
       }
+      // console.log('push')
+      
       return blockInput+cacheList+fileBlock
     }
   },
@@ -297,6 +302,7 @@ export default {
 
     this.Delay = new Delay(1000,function(obj){
         console.log('save',obj)
+        self.locKsaveData = false
         // self.module.save(obj)
         // self.EVA.value = self.editor.getValue()
         // self.article_content_save(self.EVA.patch_list,self.article_title,self.article_active,self.floder_active)
@@ -387,14 +393,27 @@ export default {
 
     }).on('select_node.jstree',function(obj,eee){
 
-      self.lockSaveData = true
+      // self.locKsaveData = true
 
       // console.log(obj)
-      self.selectedNodeId = eee.node.a_attr.module_id
+      
       setTimeout(function() {
-        console.log('unlocked')
-        self.lockSaveData = false
-      }, 5000);
+        
+      // let blockInput = JSON.stringify(this.blockCode.blockInput)
+
+      // let cacheList = JSON.stringify(this.blockCode.cacheList)
+
+      // let fileBlock = JSON.stringify(this.fileBlock.list)
+        
+
+        self.selectedNodeId = eee.node.a_attr.module_id
+
+        self.blockCode.blockInput = [{value:''}]
+        self.blockCode.cacheList = []
+        self.fileBlock.list = []
+
+        // self.locKsaveData = false
+      }, 1000);
       //加载模块内容
     });;
   }
