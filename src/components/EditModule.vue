@@ -52,6 +52,7 @@
         <code class="codeblock" v-for="(block,index) in item.blockList">{{block.value}}</code>
       </div>
     </div>
+    {{saveData}}
   </div>
 </template>
 
@@ -81,7 +82,8 @@ import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
 import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
 import * as BASE from '../../service/fontend/base.js'
 import * as API from '../../service/fontend/index.js'
-
+import Delay from '../../service/fontend/Obj/Delay.js'
+import uid2 from 'uid2'
 
 export default {
   //
@@ -102,6 +104,9 @@ export default {
   //
   data () {
     return {
+      Delay:"",
+      selectedNodeId:"",
+      lockSaveData:true,
       treeNode:{
         EVA:""
       },
@@ -120,14 +125,37 @@ export default {
       fileBlock:{
         newFileBlockName:"",
         visibleAddFileBlock:false,
-        list:[{name:"aaaa"}],
+        list:[],
         dropOverIndex:-1,
         selectedIndex:-1,
       },
       ui:{
-        
         add_module:1
       }
+    }
+  },
+  computed:{
+    saveData:function(){
+      console.log(123)
+      if(this.lockSaveData){
+        return 'locked'
+      }
+      let blockInput = JSON.stringify(this.blockCode.blockInput)
+
+      let cacheList = JSON.stringify(this.blockCode.cacheList)
+
+      let fileBlock = JSON.stringify(this.fileBlock.list)
+
+      // console.log('push')
+      if(this.Delay.push){
+        this.Delay.push({
+          blockInput,
+          cacheList,
+          fileBlock,
+          selectId:this.selectedNodeId
+        })
+      }
+      return blockInput+cacheList+fileBlock
     }
   },
   //
@@ -167,7 +195,6 @@ export default {
     },
 
     codeBlockDragStart:function(index,event){
-      console.log(123)
       this.fileBlock.selectedIndex = index
       // event.currentTarget.style.border = "dashed";
       event.effectAllowed = "copyMove";
@@ -187,7 +214,6 @@ export default {
       this.fileBlock.dropOverIndex = -1
     },
     fileBlockOnDropOver:function(index){
-      console.log(222) 
       this.fileBlock.dropOverIndex = index
     },
     fileBlockOnDropOut:function(event){
@@ -267,20 +293,16 @@ export default {
   mounted:function(){
 
     var self = this
+
+
+    this.Delay = new Delay(1000,function(obj){
+        console.log('save',obj)
+        // self.module.save(obj)
+        // self.EVA.value = self.editor.getValue()
+        // self.article_content_save(self.EVA.patch_list,self.article_title,self.article_active,self.floder_active)
+    })
+
     // 读取已有模块列表
-    // $('#moduleTree').jstree({
-    //   'core' : {
-    //     'data' : [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false},"data":{},"children":[{"id":"j2_2","text":"444","icon":true,"li_attr":{"id":"j2_2"},"a_attr":{"href":"#","id":"j2_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[]}]}],
-    //     'themes' : {
-    //             'responsive' : false,
-    //             'variant' : 'small',
-    //             'stripes' : true
-    //           },
-    //     expand_selected_onload:true
-    //   }
-    // }).on('changed.jstree', function (e, data) {
-    //   console.log(123)
-    // });
     $('#moduleTree').jstree({
       'core' : {
         'data' : {
@@ -301,7 +323,7 @@ export default {
                       var inst = $.jstree.reference(data.reference),
                           obj = inst.get_node(data.reference);
                       inst.create_node(obj, {}, "last", function (new_node) {
-                      new_node.a_attr.module_id
+                      new_node.a_attr.module_id = uid2(40)
                         try {
                           inst.edit(new_node);
                         } catch (ex) {
@@ -363,7 +385,18 @@ export default {
       // 初始化值
       self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
 
-    });
+    }).on('select_node.jstree',function(obj,eee){
+
+      self.lockSaveData = true
+
+      // console.log(obj)
+      self.selectedNodeId = eee.node.a_attr.module_id
+      setTimeout(function() {
+        console.log('unlocked')
+        self.lockSaveData = false
+      }, 5000);
+      //加载模块内容
+    });;
   }
 }
 </script>

@@ -192,7 +192,8 @@ export default {
         a:1
       },
       editor:"",
-      Delay:""
+      Delay:"",
+      selectedNodeId:""
     }
   },
 //
@@ -399,6 +400,9 @@ export default {
       // 初始化值
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
 
+    }).on('select_node.jstree',function(){
+
+      //加载模块内容
     });
     
     
