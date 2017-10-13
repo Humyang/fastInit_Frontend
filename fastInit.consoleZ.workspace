@@ -6,9 +6,12 @@
 		<View Title="ConsoleZ" CurrentDirectory="C:\Users\Yang\Documents\github\fastInit_Frontend" InitialCommand=""/>
 	</Tab>
 	<Tab Title="ConsoleZ" Name="ConsoleZ">
+		<View Title="ConsoleZ" CurrentDirectory="C:\Users\Yang\Documents\github\oauth_serve" InitialCommand=""/>
+	</Tab>
+	<Tab Title="ConsoleZ" Name="ConsoleZ">
 		<View Title="ConsoleZ" CurrentDirectory="C:\Program Files\MongoDB\Server\3.4\bin" InitialCommand=""/>
 	</Tab>
 	<Tab Title="ConsoleZ" Name="ConsoleZ">
-		<View Title="ConsoleZ" CurrentDirectory="C:\Users\Yang\Documents\github\oauth_serve" InitialCommand=""/>
+		<View Title="ConsoleZ" CurrentDirectory="C:\Program Files\MongoDB\Server\3.4\bin" InitialCommand=""/>
 	</Tab>
 </ConsoleZWorkspace>
