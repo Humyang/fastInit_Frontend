@@ -48,7 +48,7 @@ async function saveNodeData(ctx){
     .collection(MODULE_CONFIG.COLLECTION)
     .update(query_obj,
         { 
-          '$set':Object.assign(query_obj,{
+          '$set':Object.assign({},query_obj,{
             blockInput,
             cacheList,
             fileBlock

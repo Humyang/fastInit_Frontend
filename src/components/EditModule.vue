@@ -396,7 +396,6 @@ export default {
       self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
 
     }).on('select_node.jstree',function(obj,node){
-
       self.locKsaveData = true
       self.selectedNodeId = node.node.a_attr.module_id
       API.MODULE
@@ -416,29 +415,7 @@ export default {
           self.locKsaveData = false
         }, 10);
       })
-      // console.log(obj)
-      
-      // setTimeout(function() {
-        
-      // // let blockInput = JSON.stringify(this.blockCode.blockInput)
-
-      // // let cacheList = JSON.stringify(this.blockCode.cacheList)
-
-      // // let fileBlock = JSON.stringify(this.fileBlock.list)
-        
-
-        
-
-      //   self.blockCode.blockInput = [{value:''}]
-      //   self.blockCode.cacheList = []
-      //   self.fileBlock.list = []
-
-      //   setTimeout(function() {
-      //     self.locKsaveData = false
-      //   }, 10);
-      // }, 1000);
-      //加载模块内容
-    });;
+    });
   }
 }
 </script>

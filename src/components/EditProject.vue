@@ -19,7 +19,7 @@
       </div>
       <div class="blockList_wrap">
           <div 
-          v-for="(item,parent_index) in moduleList.list"
+          v-for="(item,parent_index) in MODULE.fileBlock"
           :id="'cell'+parent_index" class="cell" >
             <p class="head">{{item.name}}</p>
             <code 
@@ -120,6 +120,9 @@ export default {
 //
   data () {
     return {
+      MODULE:{
+        fileBlock:[]
+      },
       moduleList:{
         list:[{
           name:'package.json',
@@ -288,18 +291,59 @@ export default {
 
     // 选中节点-加载模块
 
-    $('#moduleTree').jstree({
+$('#moduleTree').jstree({
       'core' : {
-        'data' : [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false},"data":{},"children":[{"id":"j2_2","text":"444","icon":true,"li_attr":{"id":"j2_2"},"a_attr":{"href":"#","id":"j2_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[]}]}],
-        'themes' : {
-                'responsive' : false,
-                'variant' : 'small',
-                'stripes' : true
-              },
-        expand_selected_onload:true
-      }
-    }).on('changed.jstree', function (e, data) {
-      // console.log(123)
+        'data' : {
+          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/module/tree',
+          'data' : function (node) {
+            return { 'token' : BASE.getToken()}
+          }
+        },
+        "check_callback" : true,
+        },
+        "plugins" : [ "contextmenu", "wholerow"  ],
+        contextmenu: {
+          "items": {
+            "refresh": {
+                "label": "刷新",
+                "action": function (data) {
+                    // TODO: 重命名节点
+                    // var inst = $.jstree.reference(data.reference),
+                    //     obj = inst.get_node(data.reference);
+
+                    // inst.edit(obj);
+                    console.log('jump to url')
+                }
+            },
+            "rename": {
+                "label": "编辑模块",
+                "action": function (data) {
+                    // TODO: 重命名节点
+                    // var inst = $.jstree.reference(data.reference),
+                    //     obj = inst.get_node(data.reference);
+
+                    // inst.edit(obj);
+                    console.log('jump to url')
+                }
+            }
+        }
+    }
+    }).on('select_node.jstree',function(obj,node){
+      API.MODULE
+      .loadNodeData(node.node.a_attr.module_id)
+      .then(function(res){
+        console.log(res)
+        try{
+          // self.blockCode.blockInput = JSON.parse(res.result.blockInput)
+          // self.blockCode.cacheList = JSON.parse(res.result.cacheList)
+          self.MODULE.fileBlock = JSON.parse(res.result.fileBlock)
+        }catch(err){
+            // self.blockCode.blockInput = [{value:''}]
+            // self.blockCode.cacheList = []
+            self.MODULE.fileBlock = []
+            // self.fileBlock.list = []
+        }
+      })
     });
 
 /*
@@ -330,7 +374,7 @@ export default {
         "check_callback" : true,
         
         },
-        "plugins" : [ "contextmenu","dnd" ],
+        "plugins" : [ "contextmenu","dnd","wholerow"  ],
         contextmenu: {
           "items": {
             "create": {
@@ -449,7 +493,7 @@ export default {
     this.editor.on("drop", function( event,e2 ) {
       console.log(event,e2)
       // setTimeout(function() {
-        let value = self.moduleList.list[self.project.parent_index].blockList[self.project.current_index].value
+        let value = self.MODULE.fileBlock[self.project.parent_index].blockList[self.project.current_index].value
         let current_line = self.editor.getCursor().line
         self.editor.replaceRange(value,{line:current_line})
       // }, 100);
