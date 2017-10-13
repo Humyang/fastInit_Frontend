@@ -2,7 +2,7 @@ var CONFIG = require('../../PREDEFINED/APP_CONFIG.js')
 var UUID = require('uid2')
 var objectAssign = require('object-assign')
 var MODULE_CONFIG = {
-    COLLECTION:'module'
+    COLLECTION:'moduleTree'
 }
 var throwError = require('./throwError.js')
 var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
@@ -12,7 +12,7 @@ var dmp = new GDMP.diff_match_patch()
 
 let initNode = [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[]}]
 
-/*添加文集*/
+
 async function loadTree (ctx){
 
 
@@ -23,10 +23,6 @@ async function loadTree (ctx){
     .db(CONFIG.dbName)
     .collection(MODULE_CONFIG.COLLECTION)
     .findOne(query_obj)
-
-    // debugger
-    
-
     let treeNode = (module && module.treeNode) || initNode    
     ctx.set('Content-Type','application/json; charset=utf-8')
     ctx.body = treeNode
@@ -55,7 +51,6 @@ async function update (ctx){
   }else{
     targer_value = JSON.stringify(targer_value)
   }
-debugger
   let dmp_patch_result = dmp.patch_apply(patch_list, targer_value)
   for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
       if(dmp_patch_result[1][i] != true){

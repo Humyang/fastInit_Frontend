@@ -57,8 +57,13 @@ router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 //
 //
 //
-var Module = require('./module/module.js')
-router.post('/module/update',OAUTCH_CLIENT.oauth_login_check(),Module.update)
+
+var ModuleList = require('./module/moduleList.js')
+router.post('/module/saveNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.saveNodeData)
+router.post('/module/loadNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.loadNodeData)
+
+var ModuleTree = require('./module/moduleTree.js')
+router.post('/module/update',OAUTCH_CLIENT.oauth_login_check(),ModuleTree.update)
 router.get('/module/tree',async function(ctx,next){
     ctx.request.fields = {
         token:ctx.URL.searchParams.get('token')
@@ -66,7 +71,7 @@ router.get('/module/tree',async function(ctx,next){
     await next()
 },
 OAUTCH_CLIENT.oauth_login_check()
-,Module.loadTree)
+,ModuleTree.loadTree)
 
 
 //

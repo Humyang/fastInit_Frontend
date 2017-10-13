@@ -21,6 +21,18 @@ export const update = function(patch_list){
     }
 	return mFetch({path:'/module/update',data})
 }
+export const loadNodeData = function(selectedNodeId){
+    let data = {
+        selectedNodeId
+    }
+    return mFetch({path:'/module/loadNodeData',data})
+}
+export const saveNodeData = function(obj){
+
+   let data = Object.assign({blockInput:"",cacheList:"",fileBlock:"",selectId:""},JSON.parse(obj))
+
+   return mFetch({path:'/module/saveNodeData',data})
+}
 // export const list = function(){
 // 	return mFetch({path:'/module/list'})
 // }

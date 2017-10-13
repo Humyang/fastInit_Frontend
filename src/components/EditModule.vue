@@ -85,6 +85,7 @@ import * as API from '../../service/fontend/index.js'
 import Delay from '../../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
+
 export default {
   //
   //
@@ -106,7 +107,7 @@ export default {
     return {
       Delay:"",
       selectedNodeId:"",
-      lockSaveData:true,
+      locKsaveData:false,
       treeNode:{
         EVA:""
       },
@@ -134,29 +135,31 @@ export default {
       }
     }
   },
-  computed:{
-    saveData:function(){
-      console.log(123)
-      if(this.lockSaveData){
-        return 'locked'
+  watch:{
+      "blockCode.blockInput": {handler: function(){
+          if(this.locKsaveData){
+            return
+          }
+          this.saveData()
+        },deep: true},
+      "blockCode.cacheList": {
+        handler: function(){
+          if(this.locKsaveData){
+            return
+          }
+          this.saveData()
+        },
+        deep: true
+      },
+      "fileBlock.list": {
+        handler: function(){
+          if(this.locKsaveData){
+            return
+          }
+          this.saveData()
+        },
+        deep: true
       }
-      let blockInput = JSON.stringify(this.blockCode.blockInput)
-
-      let cacheList = JSON.stringify(this.blockCode.cacheList)
-
-      let fileBlock = JSON.stringify(this.fileBlock.list)
-
-      // console.log('push')
-      if(this.Delay.push){
-        this.Delay.push({
-          blockInput,
-          cacheList,
-          fileBlock,
-          selectId:this.selectedNodeId
-        })
-      }
-      return blockInput+cacheList+fileBlock
-    }
   },
   //
   //
@@ -175,6 +178,23 @@ export default {
   //
   //
   methods:{
+    saveData:function(){
+      let blockInput = JSON.stringify(this.blockCode.blockInput)
+
+      let cacheList = JSON.stringify(this.blockCode.cacheList)
+
+      let fileBlock = JSON.stringify(this.fileBlock.list)
+        
+        if(this.Delay.push){
+          console.log('push')
+          this.Delay.push({
+            blockInput,
+            cacheList,
+            fileBlock,
+            selectId:this.selectedNodeId
+          })
+        }
+    },
     saveTree:function(){
       // console.log(this)
       this.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
@@ -295,11 +315,9 @@ export default {
     var self = this
 
 
-    this.Delay = new Delay(1000,function(obj){
-        console.log('save',obj)
-        // self.module.save(obj)
-        // self.EVA.value = self.editor.getValue()
-        // self.article_content_save(self.EVA.patch_list,self.article_title,self.article_active,self.floder_active)
+    this.Delay = new Delay(500,function(obj){
+        console.log('saveNodeData',obj)
+        API.MODULE.saveNodeData(obj)
     })
 
     // 读取已有模块列表
@@ -368,14 +386,6 @@ export default {
     }).on('move_node.jstree',function(data,element,helper,event){
       console.log('move_node')
       self.saveTree('move_node')
-      // 获取项目JSON
-      // 对比旧JSON数据，获取差异
-      
-      
-      // TODO: 移动节点
-
-      // 保存新JSON
-
     })
     .on('rename_node.jstree',function(){self.saveTree('rename_node');console.log('rename_node')})
     .on('delete_node.jstree',function(){self.saveTree('delete_node');console.log('delete_node')})
@@ -385,16 +395,48 @@ export default {
       // 初始化值
       self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
 
-    }).on('select_node.jstree',function(obj,eee){
+    }).on('select_node.jstree',function(obj,node){
 
-      self.lockSaveData = true
-
+      self.locKsaveData = true
+      self.selectedNodeId = node.node.a_attr.module_id
+      API.MODULE
+      .loadNodeData(node.node.a_attr.module_id)
+      .then(function(res){
+        console.log(res)
+        try{
+          self.blockCode.blockInput = JSON.parse(res.result.blockInput)
+          self.blockCode.cacheList = JSON.parse(res.result.cacheList)
+          self.fileBlock.list = JSON.parse(res.result.fileBlock)
+        }catch(err){
+            self.blockCode.blockInput = [{value:''}]
+            self.blockCode.cacheList = []
+            self.fileBlock.list = []
+        }
+        setTimeout(function() {
+          self.locKsaveData = false
+        }, 10);
+      })
       // console.log(obj)
-      self.selectedNodeId = eee.node.a_attr.module_id
-      setTimeout(function() {
-        console.log('unlocked')
-        self.lockSaveData = false
-      }, 5000);
+      
+      // setTimeout(function() {
+        
+      // // let blockInput = JSON.stringify(this.blockCode.blockInput)
+
+      // // let cacheList = JSON.stringify(this.blockCode.cacheList)
+
+      // // let fileBlock = JSON.stringify(this.fileBlock.list)
+        
+
+        
+
+      //   self.blockCode.blockInput = [{value:''}]
+      //   self.blockCode.cacheList = []
+      //   self.fileBlock.list = []
+
+      //   setTimeout(function() {
+      //     self.locKsaveData = false
+      //   }, 10);
+      // }, 1000);
       //加载模块内容
     });;
   }
