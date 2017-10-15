@@ -124,72 +124,17 @@ export default {
         fileBlock:[]
       },
       moduleList:{
-        list:[{
-          name:'package.json',
-          blockList:[
-          {
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          }]
-        ,select:-1
-        },{
-          name:'index.js',
-          blockList:[
-          {
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          }]
-        },{
-          name:'index.js',
-          blockList:[
-          {
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          }]
-        },
-        {
-          name:'index.js',
-          blockList:[
-          {
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          },{
-            value:'adasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcvadasfasxzvxzcv'
-          }]
-        }]
+        list:[]
       },
       configList:{
         list:[{name:"配置1"},{name:"配置2"}],
       },
       project:{
         selectedIndex:-1,
-        EVA:""
+        EVA:"",
+        nodeDataEVA:"",
+        Delay:"",
+        selectedNodeId:""
       },
       ui:{
         a:1
@@ -225,8 +170,7 @@ export default {
     saveConfig:function(){
 
     },
-    onEditorChange:function(){
-      console.log('change')
+    onEditorChange:function(value){
         // 为了使 editor off 执行生效，只能将push操作封装起来
         // 因为 on 和 off 是根据 function 来的
         // 如果使用匿名函数 function(){self.Delay.push()}
@@ -240,6 +184,7 @@ export default {
         // self.EVA.value = self.editor.getValue()
         // console.log(self.EVA.diff_result)
         // self.Delay.push()
+        this.PROJECT.Delay.push({value:this.editor.getValue(),selectedNodeId:this.project.selectedNodeId})
     },
     saveTreeProject:function(){
       // console.log(this)
@@ -445,8 +390,13 @@ $('#moduleTree').jstree({
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
 
     }).on('select_node.jstree',function(){
+      self.project.selectedNodeId = node.node.a_attr.module_id
+      API.PROJECT
+      .loadNodeData(node.node.a_attr.module_id)
+      .then(function(res){
 
-      //加载模块内容
+        self.editor.setValue(res.value)
+      })
     });
     
     
@@ -484,31 +434,19 @@ $('#moduleTree').jstree({
     element.addEventListener("dragover", function( event ) {
       // prevent default to allow drop
       event.preventDefault();
-      console.log(333)
     }, false);
-    // this.editor.on("dragover", function( event ) {
-    //   let current_ch = self.editor.getCursor().ch
-    //   console.log(current_ch)
-    // }, false);
     this.editor.on("drop", function( event,e2 ) {
-      console.log(event,e2)
-      // setTimeout(function() {
         let value = self.MODULE.fileBlock[self.project.parent_index].blockList[self.project.current_index].value
         let current_line = self.editor.getCursor().line
         self.editor.replaceRange(value,{line:current_line})
-      // }, 100);
     }, false);
 
     this.editor.on("change",this.onEditorChange)
 
-    // this.Delay = new Delay(5000,function(){
-    //     // self.old_text =""
-    //     // let new_text = self.editor.getValue()
-    //     self.EVA.value = self.editor.getValue()
-    //     // console.log(self.EVA.diff_result)
-
-    //     self.article_content_save(self.EVA.patch_list,self.article_title,self.article_active,self.floder_active)
-    // })
+    this.PROJECT.Delay = new Delay(500,function(obj){
+        let data = JSON.parse(obj)
+        self.PROJECT.saveNodeData({patch_list:data.patch_list,selectedNodeId:data.selectedNodeId})
+    })
   }
 }
 </script>
