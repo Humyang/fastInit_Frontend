@@ -43,4 +43,10 @@ export const list = function(){
 	return mFetch({path:'/project/list'})
 }
 
+export const loadNodeData = function(){
+	console.log('loadNodeData')
+}
+export const saveNodeData = function(){
+	console.log('loadNodeData')
+}
 
