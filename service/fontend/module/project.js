@@ -45,8 +45,18 @@ export const list = function(){
 
 export const loadNodeData = function(){
 	console.log('loadNodeData')
+	return new Promise(function(reslove,reject){
+		setTimeout(function() {
+			reslove({value:Math.random().toString()})
+		}, 500);
+	})
 }
 export const saveNodeData = function(){
-	console.log('loadNodeData')
+	console.log('saveNodeData')
+	return new Promise(function(reslove,reject){
+		setTimeout(function() {
+			reslove('node Data')
+		}, 500);
+	})
 }
 

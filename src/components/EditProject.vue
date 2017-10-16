@@ -89,6 +89,9 @@ import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
 import * as BASE from '../../service/fontend/base.js'
 import * as API from '../../service/fontend/index.js'
 
+import Delay from '../../service/fontend/Obj/Delay.js'
+import uid2 from 'uid2'
+
 // jstree
 
 // 树节点数据
@@ -130,6 +133,7 @@ export default {
         list:[{name:"配置1"},{name:"配置2"}],
       },
       project:{
+        locKsaveData:false,
         selectedIndex:-1,
         EVA:"",
         nodeDataEVA:"",
@@ -184,7 +188,10 @@ export default {
         // self.EVA.value = self.editor.getValue()
         // console.log(self.EVA.diff_result)
         // self.Delay.push()
-        this.PROJECT.Delay.push({value:this.editor.getValue(),selectedNodeId:this.project.selectedNodeId})
+        console.log('on change',this.project.locKsaveData)
+        if(!this.project.locKsaveData){
+          this.project.Delay.push({value:this.editor.getValue(),selectedNodeId:this.project.selectedNodeId})
+        }
     },
     saveTreeProject:function(){
       // console.log(this)
@@ -389,13 +396,19 @@ $('#moduleTree').jstree({
       // 初始化值
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
 
-    }).on('select_node.jstree',function(){
+    }).on('select_node.jstree',function(obj,node){
+      
       self.project.selectedNodeId = node.node.a_attr.module_id
+      self.project.locKsaveData = true
       API.PROJECT
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
 
         self.editor.setValue(res.value)
+        setTimeout(function() {
+          console.log('set lock false')
+          self.project.locKsaveData = false
+        }, 10);
       })
     });
     
@@ -443,9 +456,9 @@ $('#moduleTree').jstree({
 
     this.editor.on("change",this.onEditorChange)
 
-    this.PROJECT.Delay = new Delay(500,function(obj){
+    this.project.Delay = new Delay(500,function(obj){
         let data = JSON.parse(obj)
-        self.PROJECT.saveNodeData({patch_list:data.patch_list,selectedNodeId:data.selectedNodeId})
+        API.PROJECT.saveNodeData({patch_list:data.patch_list,selectedNodeId:data.selectedNodeId})
     })
   }
 }
