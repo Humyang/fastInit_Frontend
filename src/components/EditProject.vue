@@ -335,7 +335,9 @@ $('#moduleTree').jstree({
                       // TODO: 添加节点
                       var inst = $.jstree.reference(data.reference),
                           obj = inst.get_node(data.reference);
+
                       inst.create_node(obj, {}, "last", function (new_node) {
+                        new_node.a_attr.module_id = uid2(40)
                         try {
                           inst.edit(new_node);
                         } catch (ex) {
@@ -403,7 +405,10 @@ $('#moduleTree').jstree({
       API.PROJECT
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
-
+        if(self.project.selectedNodeId !=res.selectedNodeId){
+          console.log('selectedNodeId error')
+          return
+        }
         self.editor.setValue(res.value)
         setTimeout(function() {
           console.log('set lock false')

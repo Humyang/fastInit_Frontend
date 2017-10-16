@@ -43,11 +43,11 @@ export const list = function(){
 	return mFetch({path:'/project/list'})
 }
 
-export const loadNodeData = function(){
+export const loadNodeData = function(selectedNodeId){
 	console.log('loadNodeData')
 	return new Promise(function(reslove,reject){
 		setTimeout(function() {
-			reslove({value:Math.random().toString()})
+			reslove({value:Math.random().toString(),selectedNodeId:selectedNodeId})
 		}, 500);
 	})
 }
