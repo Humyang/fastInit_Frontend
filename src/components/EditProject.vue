@@ -412,6 +412,7 @@ $('#moduleTree').jstree({
         } catch (ex) {
           self.editor.setValue("")
         }
+
         setTimeout(function() {
           console.log('set lock false')
           self.project.locKsaveData = false

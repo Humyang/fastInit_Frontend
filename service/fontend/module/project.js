@@ -43,6 +43,7 @@ export const list = function(){
 	return mFetch({path:'/project/list'})
 }
 
+
 export const loadNodeData = function(selectedNodeId,projectId){
 	console.log('loadNodeData')
 	let data = {
@@ -57,6 +58,7 @@ export const loadNodeData = function(selectedNodeId,projectId){
 	// 		reslove({value:Math.random().toString()})
 	// 	}, 500);
 	// })
+
 }
 export const saveNodeData = function(obj){
 	console.log('saveNodeData')
