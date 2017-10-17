@@ -51,6 +51,7 @@ export const loadNodeData = function(selectedNodeId,projectId){
         projectId
     }
     return mFetch({path:'/project/loadNodeData',data}).then(function(res){
+    	
         return Object.assign({},res,{selectedNodeId})
     })
 	// return new Promise(function(reslove,reject){
