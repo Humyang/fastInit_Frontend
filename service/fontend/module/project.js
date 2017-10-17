@@ -43,20 +43,36 @@ export const list = function(){
 	return mFetch({path:'/project/list'})
 }
 
-export const loadNodeData = function(selectedNodeId){
+export const loadNodeData = function(selectedNodeId,projectId){
 	console.log('loadNodeData')
-	return new Promise(function(reslove,reject){
-		setTimeout(function() {
-			reslove({value:Math.random().toString(),selectedNodeId:selectedNodeId})
-		}, 500);
-	})
+	let data = {
+        selectedNodeId,
+        projectId
+    }
+    return mFetch({path:'/project/loadNodeData',data}).then(function(res){
+        return Object.assign({},res,{selectedNodeId})
+    })
+	// return new Promise(function(reslove,reject){
+	// 	setTimeout(function() {
+	// 		reslove({value:Math.random().toString()})
+	// 	}, 500);
+	// })
 }
-export const saveNodeData = function(){
+export const saveNodeData = function(obj){
 	console.log('saveNodeData')
-	return new Promise(function(reslove,reject){
-		setTimeout(function() {
-			reslove('node Data')
-		}, 500);
-	})
+
+	let data={
+		projectId,
+    	selectedNodeId,
+    	content
+    }
+
+   	return mFetch({path:'/project/saveNodeData',data})
+
+	// return new Promise(function(reslove,reject){
+	// 	setTimeout(function() {
+	// 		reslove('node Data')
+	// 	}, 500);
+	// })
 }
 

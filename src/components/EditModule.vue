@@ -401,7 +401,10 @@ export default {
       API.MODULE
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
-        console.log(res)
+        if(self.selectedNodeId!=res.selectedNodeId){
+          console.log('selectedNodeId not equart current node id')
+          return 
+        }
         try{
           self.blockCode.blockInput = JSON.parse(res.result.blockInput)
           self.blockCode.cacheList = JSON.parse(res.result.cacheList)

@@ -25,7 +25,9 @@ export const loadNodeData = function(selectedNodeId){
     let data = {
         selectedNodeId
     }
-    return mFetch({path:'/module/loadNodeData',data})
+    return mFetch({path:'/module/loadNodeData',data}).then(function(res){
+        return Object.assign({},res,{selectedNodeId})
+    })
 }
 export const saveNodeData = function(obj){
 

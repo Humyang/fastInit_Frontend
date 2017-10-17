@@ -55,8 +55,6 @@ async function update (ctx){
   }else{
     targer_value = JSON.stringify(targer_value)
   }
-  debugger
-  // query_content.history.push(patches)
   let dmp_patch_result = dmp.patch_apply(patch_list, targer_value)
   for (var i = dmp_patch_result[1].length - 1; i >= 0; i--) {
       if(dmp_patch_result[1][i] != true){

@@ -90,8 +90,11 @@ OAUTCH_CLIENT.oauth_login_check()
 //                                       MM
 //                                   (8) M9
 //                                    YMM9
-var Project = require('./module/project.js')
 
+var ProjectList = require('./module/projectList.js')
+router.post('/project/loadNodeData',OAUTCH_CLIENT.oauth_login_check(),ProjectList.loadNodeData)
+router.post('/project/saveNodeData',OAUTCH_CLIENT.oauth_login_check(),ProjectList.saveNodeData)
+var Project = require('./module/project.js')
 router.post('/project/update',OAUTCH_CLIENT.oauth_login_check(),Project.update)
 router.post('/project/list',OAUTCH_CLIENT.oauth_login_check(),Project.list)
 router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)

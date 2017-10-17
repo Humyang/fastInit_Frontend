@@ -33,7 +33,7 @@ export default {
             .then(function(res){
                 console.log('logon success',res)
                 self.$root.username = BASE.getUsername()
-                self.$router.push('EditProject')
+                self.$router.push('ProjectList')
             }).catch(function(err){
                 console.log('login fail',err)
                 alert(err.msg)
@@ -45,7 +45,7 @@ export default {
                 let regiest_res = yield API.LOGIN.regiest(self.username,self.password)
                 if(confirm('注册成功，立即登录')){
                     var login = yield API.LOGIN.login(self.username,self.password)
-                    self.$router.push('EditProject')
+                    self.$router.push('ProjectList')
                 }
 
                 

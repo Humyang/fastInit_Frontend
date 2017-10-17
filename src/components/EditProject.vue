@@ -190,7 +190,8 @@ export default {
         // self.Delay.push()
         console.log('on change',this.project.locKsaveData)
         if(!this.project.locKsaveData){
-          this.project.Delay.push({value:this.editor.getValue(),selectedNodeId:this.project.selectedNodeId})
+          this.project.nodeDataEVA.value = self.editor.getValue()
+          this.project.Delay.push({patch_list:this.project.nodeDataEVA.patch_list,selectedNodeId:this.project.selectedNodeId})
         }
     },
     saveTreeProject:function(){
@@ -335,9 +336,7 @@ $('#moduleTree').jstree({
                       // TODO: 添加节点
                       var inst = $.jstree.reference(data.reference),
                           obj = inst.get_node(data.reference);
-
                       inst.create_node(obj, {}, "last", function (new_node) {
-                        new_node.a_attr.module_id = uid2(40)
                         try {
                           inst.edit(new_node);
                         } catch (ex) {
@@ -403,13 +402,16 @@ $('#moduleTree').jstree({
       self.project.selectedNodeId = node.node.a_attr.module_id
       self.project.locKsaveData = true
       API.PROJECT
-      .loadNodeData(node.node.a_attr.module_id)
+      .loadNodeData(node.node.a_attr.module_id,self.$route.params.projectId)
       .then(function(res){
-        if(self.project.selectedNodeId !=res.selectedNodeId){
-          console.log('selectedNodeId error')
-          return
+
+        self.project.nodeDataEVA.reset()
+
+        try{
+          self.editor.setValue(res.value)
+        } catch (ex) {
+          self.editor.setValue("")
         }
-        self.editor.setValue(res.value)
         setTimeout(function() {
           console.log('set lock false')
           self.project.locKsaveData = false
@@ -429,8 +431,8 @@ $('#moduleTree').jstree({
      ####    #####    ######   #####   ##   ##  ######   ##       ##        #####   ##
 
 
-*/
-
+*/  
+    self.project.nodeDataEVA = new EVA()
     // 加载数据
     var e = document.getElementById('ta1')
     this.editor = CodeMirror.fromTextArea(e, {
@@ -463,7 +465,11 @@ $('#moduleTree').jstree({
 
     this.project.Delay = new Delay(500,function(obj){
         let data = JSON.parse(obj)
-        API.PROJECT.saveNodeData({patch_list:data.patch_list,selectedNodeId:data.selectedNodeId})
+        API.PROJECT.saveNodeData({
+          patch_list:data.patch_list,
+          selectedNodeId:data.selectedNodeId,
+          projectId:self.$route.params.projectId 
+        })
     })
   }
 }
