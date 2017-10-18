@@ -190,7 +190,7 @@ export default {
         // self.Delay.push()
         console.log('on change',this.project.locKsaveData)
         if(!this.project.locKsaveData){
-          this.project.nodeDataEVA.value = self.editor.getValue()
+          this.project.nodeDataEVA.value = this.editor.getValue()
           this.project.Delay.push({patch_list:this.project.nodeDataEVA.patch_list,selectedNodeId:this.project.selectedNodeId})
         }
     },
