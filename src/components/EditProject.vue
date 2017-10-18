@@ -190,8 +190,8 @@ export default {
         // self.Delay.push()
         console.log('on change',this.project.locKsaveData)
         if(!this.project.locKsaveData){
-          this.project.nodeDataEVA.value = this.editor.getValue()
-          this.project.Delay.push({patch_list:this.project.nodeDataEVA.patch_list,selectedNodeId:this.project.selectedNodeId})
+          // this.project.nodeDataEVA.value = this.editor.getValue()
+          this.project.Delay.push()
         }
     },
     saveTreeProject:function(){
@@ -402,6 +402,9 @@ $('#moduleTree').jstree({
       
       self.project.selectedNodeId = node.node.a_attr.module_id
       self.project.locKsaveData = true
+      self.editor.off("change",self.onEditorChange)
+      self.project.nodeDataEVA.reset()
+
       API.PROJECT
       .loadNodeData(node.node.a_attr.module_id,self.$route.params.projectId)
       .then(function(res){
@@ -409,10 +412,13 @@ $('#moduleTree').jstree({
           console.log('selectedNodeId error')
           return
         }
-        self.project.nodeDataEVA.reset()
+        
+
+        self.editor.on("change",self.onEditorChange)
 
         try{
-          self.editor.setValue(res.value)
+          self.editor.setValue(res.result.content)
+          self.project.nodeDataEVA.value = res.result.content
         } catch (ex) {
           self.editor.setValue("")
         }
@@ -469,10 +475,11 @@ $('#moduleTree').jstree({
     this.editor.on("change",this.onEditorChange)
 
     this.project.Delay = new Delay(500,function(obj){
-        let data = JSON.parse(obj)
+        self.project.nodeDataEVA.value = self.editor.getValue()
+        // let data = JSON.parse(obj)
         API.PROJECT.saveNodeData({
-          patch_list:data.patch_list,
-          selectedNodeId:data.selectedNodeId,
+          patch_list:self.project.nodeDataEVA.patch_list,
+          selectedNodeId:self.project.selectedNodeId,
           projectId:self.$route.params.projectId 
         })
     })

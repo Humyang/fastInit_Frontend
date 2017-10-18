@@ -14,13 +14,13 @@ var dmp = new GDMP.diff_match_patch()
 async function saveNodeData(ctx){
   
   let patch_list = ctx.request.fields.patch_list
-  let selectId = ctx.request.fields.selectId
+  let selectId = ctx.request.fields.selectedNodeId
   let projectId = ctx.request.fields.projectId
 
   let query_obj = {
       uid:ctx.LOGIN_STATUS.uid,
       selectId,
-      project_id:project_id*1
+      project_id:projectId*1
     }
 
   let project = await ctx.mongo
@@ -28,10 +28,10 @@ async function saveNodeData(ctx){
     .collection(MODULE_CONFIG.COLLECTION)
     .findOne(query_obj)
 
-  let oldContent = project.content
+  // let oldContent = project.content
 
-  let targer_value = project.content
-  if(targer_value === undefined){
+  let targer_value = project && project.content
+  if(!targer_value || targer_value === undefined){
       targer_value = ""
   }
   if(typeof targer_value === "string"){
@@ -68,7 +68,7 @@ async function loadNodeData(ctx){
   let query_obj = {
       uid:ctx.LOGIN_STATUS.uid,
       selectId,
-      projectId
+      project_id:projectId*1
   }
 
   let project = await ctx.mongo

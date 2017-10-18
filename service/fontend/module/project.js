@@ -65,9 +65,9 @@ export const saveNodeData = function(obj){
 	console.log('saveNodeData')
 
 	let data={
-		projectId,
-    	selectedNodeId,
-    	content
+		projectId:obj.projectId,
+    	selectedNodeId:obj.selectedNodeId,
+    	patch_list:obj.patch_list
     }
 
    	return mFetch({path:'/project/saveNodeData',data})
