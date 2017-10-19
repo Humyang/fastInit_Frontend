@@ -1,5 +1,8 @@
 <template>
   <div class="EditProject">
+    <div class="navbar">
+      <li><router-link to="/">首页</router-link></li>
+    </div>
     <div class="preConfig_wrap">
       <div class="add_wrap">
         <a 
