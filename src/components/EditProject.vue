@@ -96,7 +96,7 @@ import Delay from '../../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
 // jstree
-
+var JSTREE_PROJECT = ""
 // 树节点数据
 // 增删改查
 
@@ -317,6 +317,7 @@ $('#moduleTree').jstree({
 
     // 选中节点-加载代码
     // 保存节点代码（advnce历史记录）
+    
     $('#projectTree').jstree({
       'core' : {
         'data' : {
@@ -330,7 +331,15 @@ $('#moduleTree').jstree({
         "check_callback" : true,
         
         },
-        "plugins" : [ "contextmenu","dnd","wholerow"  ],
+        "types" : {
+          "default" : {
+            "icon" : "fileicon glyphicon-flash"
+          },
+          "html" : {
+            "icon" : "iconfont icon-html"
+          }
+        },
+        "plugins" : [ "contextmenu","dnd","wholerow","types"],
         contextmenu: {
           "items": {
             "create": {
@@ -393,13 +402,33 @@ $('#moduleTree').jstree({
       // 保存新JSON
 
     })
-    .on('rename_node.jstree',function(){self.saveTreeProject('rename_node');console.log('rename_node')})
+    .on('rename_node.jstree',function(event,node){
+
+      var node = JSTREE_PROJECT.get_node(node.node.id)
+
+      var fileType = /[^\.]+$/.exec(node.text)[0]
+
+      JSTREE_PROJECT.set_type(node,fileType)
+      switch(fileType){
+        case 'html':break
+        default:
+        JSTREE_PROJECT.set_type(node,'default')
+        break
+      }
+
+      self.saveTreeProject('rename_node');
+      
+      console.log('rename_node')
+
+    })
     .on('delete_node.jstree',function(){self.saveTreeProject('delete_node');console.log('delete_node')})
     .on('ready.jstree',function(){
 
       self.project.EVA = new EVA()
       // 初始化值
       self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+
+      JSTREE_PROJECT = $.jstree.reference("#projectTree")
 
     }).on('select_node.jstree',function(obj,node){
       
