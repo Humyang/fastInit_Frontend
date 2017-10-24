@@ -1,5 +1,5 @@
 .EditProject { height: 100% }
-.EditProject .project_wrap #projectTree, .module_wrap #moduleTree {  background-color: #ffffff; min-height: 250px; border: 1px solid #ddd;  margin: 0; padding: 0; border: 0 }
+.EditProject .project_wrap #projectTree, .module_wrap #moduleTree {      overflow-x: auto;width: 15%;background-color: #ffffff; min-height: 250px; border: 1px solid #ddd;  margin: 0; padding: 0; border: 0 }
 .EditProject .module_wrap {  background-color: #f7f7f7 }
 .EditProject .project_wrap { ; background-color: #d6f2ff }
 .EditProject .preConfig_wrap {    background-color: #607D8B; overflow: auto }

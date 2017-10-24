@@ -551,6 +551,12 @@ $('#moduleTree').jstree({
           projectId:self.$route.params.projectId 
         })
     })
+
+    var code_mirror = document.getElementsByClassName('flex_contain')[0]
+    code_mirror.style.height = window.innerHeight - 32 + "px"
+    window.onresize = function() {
+        code_mirror.style.height = window.innerHeight - 32 + "px"
+    }
   }
 }
 </script>

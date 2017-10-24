@@ -8,7 +8,7 @@ span.cm-header {
 pre.CodeMirror-line {
     padding: 0 10px;
 }
-.CodeMirror.cm-s-zenburn.CodeMirror-wrap {
+.CodeMirror.cm-s-zenburn {
     font-size: 18px;
     font-family: "Microsoft Yahei";
 }
