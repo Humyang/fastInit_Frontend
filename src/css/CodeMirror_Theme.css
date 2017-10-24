@@ -1,0 +1,17 @@
+span.cm-header {
+    font-size: 22px;
+}
+.CodeMirror-scroll {
+    /*padding-left: 20px;*/
+    /*padding-top: 20px;*/
+}
+pre.CodeMirror-line {
+    padding: 0 10px;
+}
+.CodeMirror.cm-s-zenburn.CodeMirror-wrap {
+    font-size: 18px;
+    font-family: "Microsoft Yahei";
+}
+.CodeMirror-code {
+    margin-top: 20px;
+}

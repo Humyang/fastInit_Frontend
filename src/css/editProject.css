@@ -1,16 +1,51 @@
 .EditProject { height: 100% }
-.EditProject .project_wrap #projectTree, .module_wrap #moduleTree { width: 20%; height: 100%; float: left; background-color: #ffffff; min-height: 250px; border: 1px solid #ddd; float: left; margin: 0; padding: 0; border: 0 }
-.EditProject .module_wrap { float: left; height: 30%; width: 80%; float: left; background-color: #f7f7f7 }
-.EditProject .project_wrap { height: 70%; width: 80%; float: left; background-color: #d6f2ff }
-.EditProject .preConfig_wrap { width: 20%; float: right; height: 100%; background-color: #607D8B; overflow: auto }
+.EditProject .project_wrap #projectTree, .module_wrap #moduleTree {  background-color: #ffffff; min-height: 250px; border: 1px solid #ddd;  margin: 0; padding: 0; border: 0 }
+.EditProject .module_wrap {  background-color: #f7f7f7 }
+.EditProject .project_wrap { ; background-color: #d6f2ff }
+.EditProject .preConfig_wrap {    background-color: #607D8B; overflow: auto }
 .EditProject .preConfig_wrap { }
 .EditProject .preConfig_wrap li { color: white; text-align: center; line-height: 35px; border: 1px solid #ddd; margin-top: -1px; cursor: pointer; font-size: 20px; padding: 10px 0 }
 .EditProject .preConfig_wrap li:hover { background-color: #7995a2 }
-.EditProject .blockList_wrap { float: left; width: 80%; overflow: auto; height: 100%; background-color: #fffdec }
-.EditProject .cell { float: left; width: 45%; border: 1px solid #ddd; padding: 5px; margin: 5px; border-radius: 10px }
+.EditProject .blockList_wrap {   overflow: auto;  background-color: #fffdec }
+.EditProject .cell { border: 1px solid #ddd; padding: 5px; margin: 5px; border-radius: 10px }
 .EditProject .cell .codeblock { border: 1px solid #ddd; display: block; margin: 5px; padding: 5px; border-radius: 5px;
     word-break: break-all; }
-.EditProject .textarea_wrap { float: left; width: 80%; height: 100%; background-color: aliceblue }
+.EditProject .textarea_wrap {  background-color: aliceblue }
 .EditProject .preConfig_wrap ul { margin-bottom: 40px }
 .EditProject .preConfig_wrap ul { background-color: #286d8a }
 .EditProject .preConfig_wrap ul.temp_config { background-color: #6f5a61; margin-top: 40px }
+
+.textarea {
+    overflow: hidden;
+}
+
+
+.flex_coloum {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blockList_wrap {
+    flex-grow: 1;
+}
+
+.flex_contain {
+    display: flex;
+    flex-direction: row;
+}
+
+.project_wrap {
+    display: flex;
+}
+
+.textarea_wrap {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+}
+
+
+.module_wrap {
+    display: flex;
+}

@@ -3,52 +3,57 @@
     <div class="navbar">
       <li><router-link to="/">首页</router-link></li>
     </div>
-    <div class="preConfig_wrap">
-      <div class="add_wrap">
-        <a 
-        @click="saveConfig"
-        class="btn btn_ok" href="">保存项目</a>
-      </div>
-      <ul class="temp_config">
-        <li>临时配置</li>
-      </ul>
-      <ul>
-        <li v-for="item in configList.list">{{item.name}}</li>
-      </ul>
-    </div>
-    <div class="module_wrap">
-      <div id="moduleTree" class="tree_block">
-        
-      </div>
-      <div class="blockList_wrap">
-          <div 
-          v-for="(item,parent_index) in MODULE.fileBlock"
-          :id="'cell'+parent_index" class="cell" >
-            <p class="head">{{item.name}}</p>
-            <code 
-            v-for="(block,current_index) in item.blockList"
-            @dragstart="codeBlockDragStart(parent_index,current_index,$event)"
-            draggable="true"
-            class="codeblock">
-              {{block.value}}
-            </code>
+    <div class="flex_contain">
+      <div class="flex_coloum">
+        <div class="module_wrap">
+        <div id="moduleTree" class="tree_block">
+          
+        </div>
+        <div class="blockList_wrap">
+                <div 
+                v-for="(item,parent_index) in MODULE.fileBlock"
+                :id="'cell'+parent_index" class="cell" >
+                  <p class="head">{{item.name}}</p>
+                  <code 
+                  v-for="(block,current_index) in item.blockList"
+                  @dragstart="codeBlockDragStart(parent_index,current_index,$event)"
+                  draggable="true"
+                  class="codeblock">
+                    {{block.value}}
+                  </code>
+                </div>
+            </div>
+          </div>
+          <div class="project_wrap">
+            <div id="projectTree" class="tree_block">
+              
+            </div>
+            <div class="textarea_wrap">
+              <div class="add_wrap">
+                <a class="btn btn_ok" href="">保存</a>
+              </div>
+              <div class="textarea">
+                <textarea name="" id="ta1" cols="30" rows="10"></textarea>
+              </div>
+            </div>
           </div>
       </div>
-    </div>
-    <div class="project_wrap">
-      <div id="projectTree" class="tree_block">
-        
-      </div>
-      <div class="textarea_wrap">
+      
+      <div class="preConfig_wrap">
         <div class="add_wrap">
-          <a class="btn btn_ok" href="">保存</a>
+          <a 
+          @click="saveConfig"
+          class="btn btn_ok" href="">保存项目</a>
         </div>
-        <div class="textarea">
-          <textarea name="" id="ta1" cols="30" rows="10"></textarea>
-        </div>
+        <ul class="temp_config">
+          <li>临时配置</li>
+        </ul>
+        <ul>
+          <li v-for="item in configList.list">{{item.name}}</li>
+        </ul>
       </div>
-    </div>
 
+    </div>
   </div>
 </template>
 
@@ -78,13 +83,14 @@ import '../css/common.css'
 import  '../css/btn.css'
 import '../css/editProject.css'
 
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/zenburn.css'
-// import '../css/CodeMirror_Theme.css'
+// import 'codemirror/lib/codemirror.css'
+// import 'codemirror/theme/zenburn.css'
+
+import '../css/CodeMirror_Theme.css'
 // import 'highlight.js/styles/pojoaque.css'
 
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/gfm/gfm.js'
+// import CodeMirror from 'codemirror'
+// import loadmode from 'codemirror/addon/mode/loadmode.js'
 
 import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
 
@@ -206,6 +212,33 @@ export default {
           // console.log(res)
           // self.list = res.list
       })
+    },
+    change:function(nodeText) {
+      console.log('change')
+      var val = nodeText, m, mode, spec;
+      if (m = /.+\.([^.]+)$/.exec(val)) {
+        var info = CodeMirror.findModeByExtension(m[1]);
+        if (info) {
+          mode = info.mode;
+          spec = info.mime;
+        }
+      } else if (/\//.test(val)) {
+        var info = CodeMirror.findModeByMIME(val);
+        if (info) {
+          mode = info.mode;
+          spec = val;
+        }
+      } else {
+        mode = spec = val;
+      }
+      if (mode) {
+        this.editor.setOption("mode", spec);
+        CodeMirror.autoLoadMode(this.editor, mode);
+        console.log('change to ',spec)
+        // document.getElementById("modeinfo").textContent = spec;
+      } else {
+        console.log("Could not find a mode corresponding to " + val);
+      }
     }
   },
 //
@@ -447,10 +480,11 @@ $('#moduleTree').jstree({
         
 
         self.editor.on("change",self.onEditorChange)
-
+        self.change(node.node.text)
         try{
           self.editor.setValue(res.result.content)
           self.project.nodeDataEVA.value = res.result.content
+          
         } catch (ex) {
           self.editor.setValue("")
         }
@@ -475,13 +509,15 @@ $('#moduleTree').jstree({
 
 
 */  
+    CodeMirror.modeURL = "/vendors/codemirror/mode/%N/%N.js";
+
     self.project.nodeDataEVA = new EVA()
     // 加载数据
     var e = document.getElementById('ta1')
     this.editor = CodeMirror.fromTextArea(e, {
-        mode: 'gfm',
+        // mode: 'gfm',
         lineNumbers: true,
-        theme: "3024-day",
+        theme: "zenburn",
         extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
     });
     var code_mirror = document.getElementsByClassName('CodeMirror')[0]
