@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 export const IP = setip
 export const PORT = 8302
-export const OAUTH_PORT = 3000
+export const OAUTH_PORT = 8000
 
 
 

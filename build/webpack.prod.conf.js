@@ -95,6 +95,11 @@ var webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: path.resolve(__dirname, '../src/vendors'),
+        to: path.resolve(__dirname, '../dist/vendors'),
+        ignore: ['.*']
       }
     ])
   ]

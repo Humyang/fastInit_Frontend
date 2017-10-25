@@ -13,7 +13,7 @@ export const login = function(username,password){
     return co(function*(){
         let obj = yield mFetch({ path:'/login',
                   data: { username: username, password: md5(password) },
-                PORT:3000
+                PORT:8000
                 })
         let res = yield mFetch({ path:'/oauth_login',data: { 'token': obj.token }})
             
@@ -41,7 +41,7 @@ export const regiest = function(username,password){
     }
     return mFetch({ path:'/regiest',
                     data: { username: username, password: md5(password) },
-                    PORT:3000
+                    PORT:8000
                 })
 
 }
