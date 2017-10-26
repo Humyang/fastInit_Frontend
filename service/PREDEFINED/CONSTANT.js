@@ -1,4 +1,4 @@
-let setip=''
+;let setip=''
 if (process.env.NODE_ENV === 'production') {
  setip = 'http://118.89.19.201'
   // setip = 'http://localhost'
