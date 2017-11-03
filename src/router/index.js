@@ -11,6 +11,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'ProjectList',
+      component: ProjectList
+    },
+    {
+      path: '/all',
       name: 'Index',
       component: Index
     },

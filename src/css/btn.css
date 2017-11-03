@@ -1,6 +1,6 @@
 a.btn {
     color: white;
-    font-size: 14px;
+    /* font-size: 14px; */
     display: inline-block;
     font-weight: 300;
     width: 90px;
@@ -9,8 +9,9 @@ a.btn {
     line-height: 24px;
     text-align: center;
     margin: 0 10px;
-    cursor:pointer;
+    cursor: pointer;
     text-decoration: blink;
+    /* height: 140px; */
 }
 
 a.btn:hover {

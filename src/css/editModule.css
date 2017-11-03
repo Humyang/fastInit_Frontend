@@ -134,7 +134,7 @@ a {
 
 .EditModule .editArea {
 	float: left;
-	width: 35%;
+	width: 50%;
 	background-color: #fff;
 	height: 100%;
 	text-align: left;
@@ -149,7 +149,6 @@ a {
 }
 
 .EditModule .textarea_wrap {
-	height: 500px;
 	border-bottom: 1px solid #ddd;
 	overflow-x:hidden; 
 }
@@ -192,4 +191,9 @@ a {
 	word-wrap: unset;
 	word-break: break-word;
 	display: block
+}
+
+.preview {
+    width: 50%;
+    background-color: #ddd;
 }

@@ -1,5 +1,9 @@
 <template>
 	<div class="ProjectList">
+        <div class="navbar">
+          <li><router-link to="/">首页</router-link></li>
+          <li><router-link to="/all">模块列表</router-link></li>
+        </div>
         <div class="nav_bar">
             <a @click.prevent="createShow=true" class="btn btn_ok" href="">新建项目</a>
             <div class="projectProperty" v-show="createShow">
@@ -56,6 +60,10 @@ export default {
             .then(function(res){
                 self.project_name = ''
                 // 刷新项目列表
+
+                API.PROJECT.list().then(function(res){
+                    self.list = res.list
+                })
                 console.log('创建项目成功')
             })
             .catch(function(err){
@@ -69,7 +77,6 @@ export default {
         let self = this
         // 加载项目列表
         API.PROJECT.list().then(function(res){
-            console.log(res)
             self.list = res.list
         })
         // console.log('mounted')

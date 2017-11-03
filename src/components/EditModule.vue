@@ -6,53 +6,25 @@
         </div>
     </div>
         <!-- 代码编辑 -->
-    <div class="editArea">
-      <p class="btn_wrap">
-        <a @click.prevent="block_write" class="btn black" href="#" >写入</a>
-        <a @click.prevent="block_split" class="btn black" href="#">分割</a>
-      </p>
-      <div class="textarea_wrap">
-          <textarea v-for="(item,index) in blockCode.blockInput" 
-          @click="block_textarea_select(index,$event)"
-          placeholder="代码区域" 
-          v-model="item.value"
-          name="" id="" cols="30" rows="10">{{item.value}}</textarea>
+    <div class="flex_contain">
+      <div class="editArea">
+        <editor :value="project.value"
+          :offChange="project.offChange"
+          :nodeName="project.nodeName"
+          :changed.sync="project.changed"
+          v-on:saveNodeData="saveNodeData"
+          v-on:onchange="editorOnchange">
+          <div slot="button" style="    float: left;">
+            <a @click="newPreview" class="btn btn_ok" href="#">生成</a>
+          </div>
+          </editor>
       </div>
-      <div id="codeBlock_wrap">
-
-        <div id="codeblock1" class="codeblock" 
-          v-for="(item,index) in blockCode.cacheList"
-          @dragstart="codeBlockDragStart(index,$event)"
-          draggable="true">
-          {{item.value}}
+      <div class="preview markdown_parse_preview_wrap"> 
+        <div id="markdown_parse_preview" v-html="article_markdown_preview_text">
+                
         </div>
       </div>
     </div>
-    <!-- 模块分类 -->
-    <div class="classify">
-      <p class="btn_wrap">
-        <a 
-        @click.prevent="fileBlock.visibleAddFileBlock=true" class="btn black" href="#">添加文件</a>
-      </p>
-      <div v-show="fileBlock.visibleAddFileBlock" class="add_wrap">
-          <input v-model="fileBlock.newFileBlockName" placeholder="输入文章标题" type="" name="">
-          <a @click.prevent="addFileBlock" class="btn btn_ok" href="#">保存</a>
-          <a @click.prevent="fileBlock.visibleAddFileBlock=false" class="btn btn_cancel" href="#">取消</a>
-      </div>
-      <div 
-      class="cell"
-      v-for="(item,index) in fileBlock.list"
-      :class="{dropover:fileBlock.dropOverIndex===index}"
-      @dragover.prevent="fileBlockOnDropOver(index)"
-      @dragleave.prevent="fileBlockOnDropOut($event)"
-      @drop="fileBlockOnDrop(index,$event)" 
-      :id="'cell'+index"
-      >
-        <p class="head">{{item.name}}</p>
-        <code class="codeblock" v-for="(block,index) in item.blockList">{{block.value}}</code>
-      </div>
-    </div>
-    {{saveData}}
   </div>
 </template>
 
@@ -86,7 +58,38 @@ import Delay from '../../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
 
+
+import editor from '../common/editor.vue'
+
+import '../../node_modules/highlight.js/styles/pojoaque.css'
+import '../css/custom_markdown_preview.css'
+var marked = require('marked');
+var renderer = new marked.Renderer();
+var radCode = renderer.code
+renderer.code = function (code, lang, escaped) {
+    if(lang === 'raw'){
+        return '<p class="lang-raw">'+code+'</p>'
+    }
+    var self = this
+    return radCode.call(self,code,lang,escaped)
+}
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: true,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true,
+  highlight: function (code,type,sss) {
+    return require('highlight.js').highlightAuto(code).value;
+  },renderer:renderer
+});
+
 export default {
+  components:{
+    editor
+  },
   //
   //
   //        ___
@@ -132,34 +135,15 @@ export default {
       },
       ui:{
         add_module:1
-      }
-    }
-  },
-  watch:{
-      "blockCode.blockInput": {handler: function(){
-          if(this.locKsaveData){
-            return
-          }
-          this.saveData()
-        },deep: true},
-      "blockCode.cacheList": {
-        handler: function(){
-          if(this.locKsaveData){
-            return
-          }
-          this.saveData()
-        },
-        deep: true
       },
-      "fileBlock.list": {
-        handler: function(){
-          if(this.locKsaveData){
-            return
-          }
-          this.saveData()
-        },
-        deep: true
-      }
+      project:{
+        value:"",
+        offChange:false,
+        nodeName:"",
+        changed:false,
+        rawValue:""
+      },
+    }
   },
   //
   //
@@ -177,23 +161,13 @@ export default {
   //
   //
   //
-  methods:{
-    saveData:function(){
-      let blockInput = JSON.stringify(this.blockCode.blockInput)
+  methods:
+  {
+    editorOnchange:function(event){
+      this.project.rawValue = event.value
+    },
+    newPreview:function(){
 
-      let cacheList = JSON.stringify(this.blockCode.cacheList)
-
-      let fileBlock = JSON.stringify(this.fileBlock.list)
-        
-        if(this.Delay.push){
-          console.log('push')
-          this.Delay.push({
-            blockInput,
-            cacheList,
-            fileBlock,
-            selectId:this.selectedNodeId
-          })
-        }
     },
     saveTree:function(){
       // console.log(this)
@@ -259,39 +233,39 @@ export default {
       this.blockCode.selectionStart = event.target.selectionStart
 
     },
-    block_write:function(){
-      // 将列表写入缓存块
-
-      // 获取列表值
-      var newObj = []
-      for (var i = this.blockCode.blockInput.length - 1; i >= 0; i--) {
-        newObj.push({value:this.blockCode.blockInput[i].value})
-      }
-      this.blockCode.cacheList = newObj
-    },
-    block_split:function(){
-
-      // 获取当前选中的textarea
-
-      // 获取selectionStart
-
-      var selectionStart = this.blockCode.selectionStart
-      var value = this.blockCode.blockInput[this.blockCode.selectedIndex].value
-      // 分割文字
-      var sp1 = value.substr(0,selectionStart)
-      var sp2 = value.substr(selectionStart,value.length)
+    saveNodeData:function(event){
+      let self = this
+      API.MODULE.saveNodeData(
+          event.patch_list,
+          self.selectedNodeId)
+        .then(function(res){
+          self.project.changed = false
+        })
+    }
+  },
+  /*
 
 
-      var valueArray = [...this.blockCode.blockInput]
-      valueArray.splice(this.blockCode.selectedIndex,0,{value:sp2})
-      valueArray.splice(this.blockCode.selectedIndex,0,{value:sp1})
-      valueArray.splice(this.blockCode.selectedIndex+2,1)
+                                                                                 ___
+                                                                                 `MM
+                                                             /                    MM
+      ____     _____   ___  __    __   __ ____   ___   ___  /M       ____     ____MM
+     6MMMMb.  6MMMMMb  `MM 6MMb  6MMb  `M6MMMMb  `MM    MM /MMMMM   6MMMMb   6MMMMMM
+    6M'   Mb 6M'   `Mb  MM69 `MM69 `Mb  MM'  `Mb  MM    MM  MM     6M'  `Mb 6M'  `MM
+    MM    `' MM     MM  MM'   MM'   MM  MM    MM  MM    MM  MM     MM    MM MM    MM
+    MM       MM     MM  MM    MM    MM  MM    MM  MM    MM  MM     MMMMMMMM MM    MM
+    MM       MM     MM  MM    MM    MM  MM    MM  MM    MM  MM     MM       MM    MM
+    YM.   d9 YM.   ,M9  MM    MM    MM  MM.  ,M9  YM.   MM  YM.  , YM    d9 YM.  ,MM
+     YMMMM9   YMMMMM9  _MM_  _MM_  _MM_ MMYMMM9    YMMM9MM_  YMMM9  YMMMM9   YMMMMMM_
+                                        MM
+                                        MM
+                                       _MM_
+  */
 
-      this.blockCode.blockInput = [...valueArray]
-      // textarea根据文字进行渲染
-    },
-    newModule:function(){
-
+  computed:{
+    article_markdown_preview_text:function(){
+        
+        return marked(this.project.rawValue)
     },
   },
   //
@@ -313,12 +287,6 @@ export default {
   mounted:function(){
 
     var self = this
-
-
-    this.Delay = new Delay(500,function(obj){
-        console.log('saveNodeData',obj)
-        API.MODULE.saveNodeData(obj)
-    })
 
     // 读取已有模块列表
     $('#moduleTree').jstree({
@@ -401,24 +369,26 @@ export default {
       API.MODULE
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
+        self.project.selectedNodeId = node.node.a_attr.module_id
+        self.project.offChange = false
         if(self.selectedNodeId!=res.selectedNodeId){
           console.log('selectedNodeId not equart current node id')
           return 
         }
+        self.project.nodeName = node.node.text
         try{
-          self.blockCode.blockInput = JSON.parse(res.result.blockInput)
-          self.blockCode.cacheList = JSON.parse(res.result.cacheList)
-          self.fileBlock.list = JSON.parse(res.result.fileBlock)
-        }catch(err){
-            self.blockCode.blockInput = [{value:''}]
-            self.blockCode.cacheList = []
-            self.fileBlock.list = []
-        }
-        setTimeout(function() {
-          self.locKsaveData = false
-        }, 10);
+            self.project.value = res.result.content
+
+          } catch (ex) {
+            self.project.value = ""
+          }
+          self.project.rawValue = self.project.value
+          setTimeout(function() {
+            self.project.offChange = true
+          }, 10);
       })
     });
+
   }
 }
 </script>

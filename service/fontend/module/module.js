@@ -29,9 +29,12 @@ export const loadNodeData = function(selectedNodeId){
         return Object.assign({},res,{selectedNodeId})
     })
 }
-export const saveNodeData = function(obj){
+export const saveNodeData = function(patch_list,selectedNodeId){
 
-   let data = Object.assign({blockInput:"",cacheList:"",fileBlock:"",selectId:""},JSON.parse(obj))
+   let data = {
+    selectedNodeId,
+    patch_list
+   }
 
    return mFetch({path:'/module/saveNodeData',data})
 }

@@ -2,58 +2,31 @@
   <div class="EditProject">
     <div class="navbar">
       <li><router-link to="/">首页</router-link></li>
+      <li><router-link to="/all">模块列表</router-link></li>
     </div>
     <div class="flex_contain">
-      <div class="flex_coloum">
-        <div class="module_wrap">
-        <div id="moduleTree" class="tree_block">
-          
-        </div>
-        <div class="blockList_wrap">
-                <div 
-                v-for="(item,parent_index) in MODULE.fileBlock"
-                :id="'cell'+parent_index" class="cell" >
-                  <p class="head">{{item.name}}</p>
-                  <code 
-                  v-for="(block,current_index) in item.blockList"
-                  @dragstart="codeBlockDragStart(parent_index,current_index,$event)"
-                  draggable="true"
-                  class="codeblock">
-                    {{block.value}}
-                  </code>
-                </div>
-            </div>
-          </div>
-          <div class="project_wrap">
-            <div id="projectTree" class="tree_block">
+            <div class="flex_left">
+              <div id="moduleTree" class="tree_block">
               
-            </div>
-            <div class="textarea_wrap">
-              <div class="add_wrap">
-                <a class="btn btn_ok" href="">保存</a>
               </div>
-              <div class="textarea">
-                <textarea name="" id="ta1" cols="30" rows="10"></textarea>
+              <div id="projectTree" class="tree_block">
+                
               </div>
             </div>
-          </div>
-      </div>
-      
-      <div class="preConfig_wrap">
-        <div class="add_wrap">
-          <a 
-          @click="saveConfig"
-          class="btn btn_ok" href="">保存项目</a>
-        </div>
-        <ul class="temp_config">
-          <li>临时配置</li>
-        </ul>
-        <ul>
-          <li v-for="item in configList.list">{{item.name}}</li>
-        </ul>
-      </div>
-
+            <div class="flex_right">
+              <editor :value="project.value"
+                      :offChange="project.offChange"
+                      :nodeName="project.nodeName"
+                      :changed.sync="project.changed"
+                      v-on:saveNodeData="saveNodeData"
+                      style="width:50%;"></editor>
+              <div class="blockList_wrap markdown_parse_preview_wrap" style="width:50%;">
+                  <div id="markdown_parse_preview" v-html="article_markdown_preview_text" >
+                  </div>
+              </div>
+            </div>
     </div>
+
   </div>
 </template>
 
@@ -101,7 +74,36 @@ import * as API from '../../service/fontend/index.js'
 import Delay from '../../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
+import editor from '../common/editor.vue'
+
+import '../../node_modules/highlight.js/styles/pojoaque.css'
+import '../css/custom_markdown_preview.css'
+var marked = require('marked');
+var renderer = new marked.Renderer();
+var radCode = renderer.code
+renderer.code = function (code, lang, escaped) {
+    if(lang === 'raw'){
+        return '<p class="lang-raw">'+code+'</p>'
+    }
+    // return `<pre><code class="lang-${lang}">${code}</code></pre>`
+    var self = this
+    return radCode.call(self,code,lang,escaped)
+}
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: true,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true,
+  highlight: function (code,type,sss) {
+    return require('highlight.js').highlightAuto(code).value;
+  },renderer:renderer
+});
+
 // jstree
+import ICON_OBJ from '../vendors/jstree/icon_obj.js'
 var JSTREE_PROJECT = ""
 // 树节点数据
 // 增删改查
@@ -114,6 +116,9 @@ var JSTREE_PROJECT = ""
 
 export default {
   name: 'hello',
+  components:{
+    editor
+  },
 //
 //
 //        ___
@@ -142,20 +147,44 @@ export default {
         list:[{name:"配置1"},{name:"配置2"}],
       },
       project:{
-        locKsaveData:false,
-        selectedIndex:-1,
-        EVA:"",
-        nodeDataEVA:"",
-        Delay:"",
-        selectedNodeId:""
+        value:"",
+        offChange:false,
+        nodeName:"",
+        changed:false,
+        EVA:""
       },
       ui:{
         a:1
       },
       editor:"",
       Delay:"",
-      selectedNodeId:""
+      selectedNodeId:"",
+      rawValue:""
     }
+  },
+
+  /*
+
+
+                                                                                 ___
+                                                                                 `MM
+                                                             /                    MM
+      ____     _____   ___  __    __   __ ____   ___   ___  /M       ____     ____MM
+     6MMMMb.  6MMMMMb  `MM 6MMb  6MMb  `M6MMMMb  `MM    MM /MMMMM   6MMMMb   6MMMMMM
+    6M'   Mb 6M'   `Mb  MM69 `MM69 `Mb  MM'  `Mb  MM    MM  MM     6M'  `Mb 6M'  `MM
+    MM    `' MM     MM  MM'   MM'   MM  MM    MM  MM    MM  MM     MM    MM MM    MM
+    MM       MM     MM  MM    MM    MM  MM    MM  MM    MM  MM     MMMMMMMM MM    MM
+    MM       MM     MM  MM    MM    MM  MM    MM  MM    MM  MM     MM       MM    MM
+    YM.   d9 YM.   ,M9  MM    MM    MM  MM.  ,M9  YM.   MM  YM.  , YM    d9 YM.  ,MM
+     YMMMM9   YMMMMM9  _MM_  _MM_  _MM_ MMYMMM9    YMMM9MM_  YMMM9  YMMMM9   YMMMMMM_
+                                        MM
+                                        MM
+                                       _MM_
+  */
+  computed:{
+    article_markdown_preview_text:function(){
+        return marked(this.rawValue)
+    },
   },
 //
 //
@@ -174,34 +203,18 @@ export default {
 //
 //
   methods:{
-    codeBlockDragStart:function(parent_index,current_index,event){
-      this.project.parent_index = parent_index
-      this.project.current_index = current_index
+    htmlOnchange:function(){
+      console.log('changed')
+    },
+    codeBlockDragStart:function(event){
+      // console.log(element,event)
       // event.currentTarget.style.border = "dashed";
+      console.log('drag')
+      event.originalEvent.dataTransfer.setData("text/plain", $(event.currentTarget).text());
       event.effectAllowed = "copyMove";
     },
     saveConfig:function(){
 
-    },
-    onEditorChange:function(value){
-        // 为了使 editor off 执行生效，只能将push操作封装起来
-        // 因为 on 和 off 是根据 function 来的
-        // 如果使用匿名函数 function(){self.Delay.push()}
-        // 会无法 off 回失效
-        
-        // self.article_content_style.changed = true
-
-        // 为 article_markdown_preview_text 属性提供变量
-        // self.article_content = self.editor.getValue()
-        // self.article_content = self.editor.getValue()
-        // self.EVA.value = self.editor.getValue()
-        // console.log(self.EVA.diff_result)
-        // self.Delay.push()
-        console.log('on change',this.project.locKsaveData)
-        if(!this.project.locKsaveData){
-          // this.project.nodeDataEVA.value = this.editor.getValue()
-          this.project.Delay.push()
-        }
     },
     saveTreeProject:function(){
       // console.log(this)
@@ -213,32 +226,16 @@ export default {
           // self.list = res.list
       })
     },
-    change:function(nodeText) {
-      console.log('change')
-      var val = nodeText, m, mode, spec;
-      if (m = /.+\.([^.]+)$/.exec(val)) {
-        var info = CodeMirror.findModeByExtension(m[1]);
-        if (info) {
-          mode = info.mode;
-          spec = info.mime;
-        }
-      } else if (/\//.test(val)) {
-        var info = CodeMirror.findModeByMIME(val);
-        if (info) {
-          mode = info.mode;
-          spec = val;
-        }
-      } else {
-        mode = spec = val;
-      }
-      if (mode) {
-        this.editor.setOption("mode", spec);
-        CodeMirror.autoLoadMode(this.editor, mode);
-        console.log('change to ',spec)
-        // document.getElementById("modeinfo").textContent = spec;
-      } else {
-        console.log("Could not find a mode corresponding to " + val);
-      }
+    saveNodeData:function(event){
+      let self = this
+      API.PROJECT.saveNodeData({
+          patch_list:event.patch_list,
+          selectedNodeId:this.project.selectedNodeId,
+          projectId:this.$route.params.projectId 
+        }).then(function(res){
+          console.log(123)
+          self.project.changed = false
+        })
     }
   },
 //
@@ -318,19 +315,16 @@ $('#moduleTree').jstree({
         }
     }
     }).on('select_node.jstree',function(obj,node){
+
       API.MODULE
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
         console.log(res)
         try{
-          // self.blockCode.blockInput = JSON.parse(res.result.blockInput)
-          // self.blockCode.cacheList = JSON.parse(res.result.cacheList)
-          self.MODULE.fileBlock = JSON.parse(res.result.fileBlock)
+          self.rawValue = res.result.content
+          // self.MODULE.fileBlock = JSON.parse(res.result.c)
         }catch(err){
-            // self.blockCode.blockInput = [{value:''}]
-            // self.blockCode.cacheList = []
-            self.MODULE.fileBlock = []
-            // self.fileBlock.list = []
+            self.rawValue = ""
         }
       })
     });
@@ -350,7 +344,7 @@ $('#moduleTree').jstree({
 
     // 选中节点-加载代码
     // 保存节点代码（advnce历史记录）
-    
+    console.log(ICON_OBJ)
     $('#projectTree').jstree({
       'core' : {
         'data' : {
@@ -364,14 +358,7 @@ $('#moduleTree').jstree({
         "check_callback" : true,
         
         },
-        "types" : {
-          "default" : {
-            "icon" : "fileicon glyphicon-flash"
-          },
-          "html" : {
-            "icon" : "iconfont icon-html"
-          }
-        },
+        "types" : ICON_OBJ,
         "plugins" : [ "contextmenu","dnd","wholerow","types"],
         contextmenu: {
           "items": {
@@ -442,12 +429,20 @@ $('#moduleTree').jstree({
       var fileType = /[^\.]+$/.exec(node.text)[0]
 
       JSTREE_PROJECT.set_type(node,fileType)
-      switch(fileType){
-        case 'html':break
-        default:
-        JSTREE_PROJECT.set_type(node,'default')
-        break
+      for(i in ICON_OBJ){
+        if(fileType === i){
+          fileType = false
+        }
       }
+      if(fileType){
+        JSTREE_PROJECT.set_type(node,'default')
+      }
+      // switch(fileType){
+      //   case 'html':break
+      //   default:
+      //   JSTREE_PROJECT.set_type(node,'default')
+      //   break
+      // }
 
       self.saveTreeProject('rename_node');
       
@@ -466,10 +461,7 @@ $('#moduleTree').jstree({
     }).on('select_node.jstree',function(obj,node){
       
       self.project.selectedNodeId = node.node.a_attr.module_id
-      self.project.locKsaveData = true
-      self.editor.off("change",self.onEditorChange)
-      self.project.nodeDataEVA.reset()
-
+      self.project.offChange = false
       API.PROJECT
       .loadNodeData(node.node.a_attr.module_id,self.$route.params.projectId)
       .then(function(res){
@@ -477,87 +469,28 @@ $('#moduleTree').jstree({
           console.log('selectedNodeId error')
           return
         }
-        
-
-        self.editor.on("change",self.onEditorChange)
-        self.change(node.node.text)
+        self.project.nodeName = node.node.text
+        // self.change(node.node.text)
         try{
-          self.editor.setValue(res.result.content)
-          self.project.nodeDataEVA.value = res.result.content
-          
+          self.project.value = res.result.content
         } catch (ex) {
-          self.editor.setValue("")
+          self.project.value = ""
         }
-
         setTimeout(function() {
-          console.log('set lock false')
-          self.project.locKsaveData = false
+          self.project.offChange = true
+
         }, 10);
       })
     });
-    
-    
-/*
-                          ##                      ##
-     ####                 ##           ##   ##    ##
-    ##  ##                ##           ##   ##
-   ##        #####    ######   #####   ### ###  ####     ## ###   ## ###    #####   ## ###
-   ##       ##   ##  ##   ##  ##   ##  ## # ##    ##     ###      ###      ##   ##  ###
-   ##       ##   ##  ##   ##  #######  ## # ##    ##     ##       ##       ##   ##  ##
-    ##  ##  ##   ##  ##   ##  ##       ##   ##    ##     ##       ##       ##   ##  ##
-     ####    #####    ######   #####   ##   ##  ######   ##       ##        #####   ##
 
-
-*/  
-    CodeMirror.modeURL = "/vendors/codemirror/mode/%N/%N.js";
-
-    self.project.nodeDataEVA = new EVA()
-    // 加载数据
-    var e = document.getElementById('ta1')
-    this.editor = CodeMirror.fromTextArea(e, {
-        // mode: 'gfm',
-        lineNumbers: true,
-        theme: "zenburn",
-        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
-    });
-    var code_mirror = document.getElementsByClassName('CodeMirror')[0]
-    code_mirror.style.height = window.innerHeight - 106 + "px"
-    window.onresize = function() {
-        code_mirror.style.height = window.innerHeight - 106 + "px"
-    }
-    // 接收drop事件
-    // 获取selectionStart
-    // 写入拖动内容
-    var element = document.getElementsByClassName("textarea")[0]
-
-    element.addEventListener("dragover", function( event ) {
-      // prevent default to allow drop
-      event.preventDefault();
-    }, false);
-    this.editor.on("drop", function( event,e2 ) {
-        let value = self.MODULE.fileBlock[self.project.parent_index].blockList[self.project.current_index].value
-        let current_line = self.editor.getCursor().line
-        self.editor.replaceRange(value,{line:current_line})
-    }, false);
-
-    this.editor.on("change",this.onEditorChange)
-
-    this.project.Delay = new Delay(500,function(obj){
-        self.project.nodeDataEVA.value = self.editor.getValue()
-        // let data = JSON.parse(obj)
-        API.PROJECT.saveNodeData({
-          patch_list:self.project.nodeDataEVA.patch_list,
-          selectedNodeId:self.project.selectedNodeId,
-          projectId:self.$route.params.projectId 
-        })
+    $("#markdown_parse_preview").on("DOMSubtreeModified",function(){
+      $("pre code").prop("draggable",true)
+      console.log('bind')
+      
     })
-
-    var code_mirror = document.getElementsByClassName('flex_contain')[0]
-    code_mirror.style.height = window.innerHeight - 32 + "px"
-    window.onresize = function() {
-        code_mirror.style.height = window.innerHeight - 32 + "px"
-    }
+    $("body").on("dragstart","pre code",self.codeBlockDragStart)
   }
+
 }
 </script>
 

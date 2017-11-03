@@ -49,3 +49,15 @@
 .module_wrap {
     display: flex;
 }
+a.saving {
+    color: red;
+    font-size: 18px;
+}
+.flex_left {
+    width: 15%;
+}
+
+.flex_right {
+    width: 85%;
+    display: flex;
+}
