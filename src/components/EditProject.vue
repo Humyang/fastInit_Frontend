@@ -207,8 +207,6 @@ export default {
       console.log('changed')
     },
     codeBlockDragStart:function(event){
-      // console.log(element,event)
-      // event.currentTarget.style.border = "dashed";
       console.log('drag')
       event.originalEvent.dataTransfer.setData("text/plain", $(event.currentTarget).text());
       event.effectAllowed = "copyMove";
@@ -478,7 +476,6 @@ $('#moduleTree').jstree({
         }
         setTimeout(function() {
           self.project.offChange = true
-
         }, 10);
       })
     });
@@ -486,7 +483,6 @@ $('#moduleTree').jstree({
     $("#markdown_parse_preview").on("DOMSubtreeModified",function(){
       $("pre code").prop("draggable",true)
       console.log('bind')
-      
     })
     $("body").on("dragstart","pre code",self.codeBlockDragStart)
   }

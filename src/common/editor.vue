@@ -40,7 +40,10 @@ import '../css/editProject.css'
 import '../css/CodeMirror_Theme.css'
 
 import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+
 import Delay from '../../service/fontend/Obj/Delay.js'
+
+
 
 export default {
   /*
@@ -132,6 +135,7 @@ export default {
 
   watch:{
     nodeName:function(){
+      console.log('change')
       this.change(this.nodeName)
     },
     value:function(){
@@ -191,6 +195,7 @@ export default {
         mode = spec = val;
       }
       if (mode) {
+        console.log('change')
         this.editor.setOption("mode", spec);
         CodeMirror.autoLoadMode(this.editor, mode);
         console.log('change to ',spec)
@@ -218,7 +223,6 @@ export default {
 //
   mounted(){
 
-
     var self = this
 
 /*
@@ -239,7 +243,7 @@ export default {
     // 加载数据
     var e = document.getElementById('ta2')
     this.editor = CodeMirror.fromTextArea(e, {
-        // mode: 'gfm',
+        mode: 'markdown',
         lineNumbers: true,
         theme: "zenburn",
         extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
@@ -256,11 +260,6 @@ export default {
 
     element.addEventListener("dragover", function( event ) {
       event.preventDefault();
-    }, false);
-    this.editor.on("drop", function( event,e2 ) {
-        // let value = e2.dataTransfer.getData("text")
-        // let current_line = self.editor.getCursor().line
-        // self.editor.replaceRange("123123123",{line:current_line})
     }, false);
 
     this.editor.on("change",this.onEditorChange)

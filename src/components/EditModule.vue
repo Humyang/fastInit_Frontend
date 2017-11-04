@@ -10,7 +10,6 @@
       <div class="editArea">
         <editor :value="project.value"
           :offChange="project.offChange"
-          :nodeName="project.nodeName"
           :changed.sync="project.changed"
           v-on:saveNodeData="saveNodeData"
           v-on:onchange="editorOnchange">
@@ -170,13 +169,10 @@ export default {
 
     },
     saveTree:function(){
-      // console.log(this)
       this.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
       // 保存数据
       API.MODULE.update(this.treeNode.EVA.patch_list)
       .then(function(res){
-          // console.log(res)
-          // self.list = res.list
       })
     },
     addModule:function(){
@@ -350,7 +346,6 @@ export default {
         }
     }
     }).on('changed.jstree', function (e, data) {
-      // console.log('changed')
     }).on('move_node.jstree',function(data,element,helper,event){
       console.log('move_node')
       self.saveTree('move_node')
@@ -388,7 +383,6 @@ export default {
           }, 10);
       })
     });
-
   }
 }
 </script>

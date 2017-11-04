@@ -1752,6 +1752,7 @@ exports.default = {
 
   watch: {
     nodeName: function nodeName() {
+      console.log('change');
       this.change(this.nodeName);
     },
     value: function value() {
@@ -1798,6 +1799,7 @@ exports.default = {
         mode = spec = val;
       }
       if (mode) {
+        console.log('change');
         this.editor.setOption("mode", spec);
         CodeMirror.autoLoadMode(this.editor, mode);
         console.log('change to ', spec);
@@ -1816,6 +1818,7 @@ exports.default = {
 
     var e = document.getElementById('ta2');
     this.editor = CodeMirror.fromTextArea(e, {
+      mode: 'markdown',
       lineNumbers: true,
       theme: "zenburn",
       extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
@@ -1831,7 +1834,6 @@ exports.default = {
     element.addEventListener("dragover", function (event) {
       event.preventDefault();
     }, false);
-    this.editor.on("drop", function (event, e2) {}, false);
 
     this.editor.on("change", this.onEditorChange);
 
@@ -2619,7 +2621,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "value": _vm.project.value,
       "offChange": _vm.project.offChange,
-      "nodeName": _vm.project.nodeName,
       "changed": _vm.project.changed
     },
     on: {
@@ -3990,4 +3991,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.0861890e7d3f75aba125.js.map
+//# sourceMappingURL=app.647a1c26a10e25cc1b92.js.map
