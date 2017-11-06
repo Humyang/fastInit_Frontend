@@ -246,12 +246,45 @@ export default {
         mode: 'markdown',
         lineNumbers: true,
         theme: "zenburn",
-        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+        extraKeys: {
+          "Enter": "newlineAndIndentContinueMarkdownList",
+          "Alt-H": function(cm) {
+            var spaces = cm.getSelection()
+            cm.replaceSelection('```html\r\n'+spaces+'\r\n```');
+          },
+          "Alt-J": function(cm) {
+            var spaces = cm.getSelection()
+            cm.replaceSelection('```js\r\n'+spaces+'\r\n```');
+          },
+          "Alt-K": function(cm) {
+            var spaces = cm.getSelection()
+            cm.replaceSelection('```\r\n'+spaces+'\r\n```');
+          },
+          "Alt-1": function(cm) {
+            let curosr = cm.getCursor()
+            cm.setCursor(curosr.line,0)
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection("#"+spaces);
+          },
+          "Alt-2": function(cm) {
+            let curosr = cm.getCursor()
+            cm.setCursor(curosr.line,0)
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection("##"+spaces);
+          },
+          "Alt-3": function(cm) {
+            let curosr = cm.getCursor()
+            cm.setCursor(curosr.line,0)
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection("###"+spaces);
+          }
+        },
+        keymap:"sublime"
     });
     var code_mirror = document.getElementsByClassName('CodeMirror')[0]
-    code_mirror.style.height = window.innerHeight - 106 + "px"
+    code_mirror.style.height = window.innerHeight + "px"
     window.onresize = function() {
-        code_mirror.style.height = window.innerHeight - 106 + "px"
+        code_mirror.style.height = window.innerHeight + "px"
     }
     // 接收drop事件
     // 获取selectionStart
@@ -271,9 +304,9 @@ export default {
     })
 
     var code_mirror = document.getElementsByClassName('flex_contain')[0]
-    code_mirror.style.height = window.innerHeight - 32 + "px"
+    code_mirror.style.height = window.innerHeight - 5 + "px"
     window.onresize = function() {
-        code_mirror.style.height = window.innerHeight - 32 + "px"
+        code_mirror.style.height = window.innerHeight - 5 + "px"
     }
   }
 }

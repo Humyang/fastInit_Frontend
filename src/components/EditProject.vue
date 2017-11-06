@@ -19,7 +19,11 @@
                       :nodeName="project.nodeName"
                       :changed.sync="project.changed"
                       v-on:saveNodeData="saveNodeData"
-                      style="width:50%;"></editor>
+                      style="width:50%;">
+                        <div slot="button" style="    float: left;">
+                          <a @click="newPreview" class="btn btn_ok" href="#">生成</a>
+                        </div>
+                      </editor>
               <div class="blockList_wrap markdown_parse_preview_wrap" style="width:50%;">
                   <div id="markdown_parse_preview" v-html="article_markdown_preview_text" >
                   </div>

@@ -1821,12 +1821,45 @@ exports.default = {
       mode: 'markdown',
       lineNumbers: true,
       theme: "zenburn",
-      extraKeys: { "Enter": "newlineAndIndentContinueMarkdownList" }
+      extraKeys: {
+        "Enter": "newlineAndIndentContinueMarkdownList",
+        "Alt-H": function AltH(cm) {
+          var spaces = cm.getSelection();
+          cm.replaceSelection('```html\r\n' + spaces + '\r\n```');
+        },
+        "Alt-J": function AltJ(cm) {
+          var spaces = cm.getSelection();
+          cm.replaceSelection('```js\r\n' + spaces + '\r\n```');
+        },
+        "Alt-K": function AltK(cm) {
+          var spaces = cm.getSelection();
+          cm.replaceSelection('```\r\n' + spaces + '\r\n```');
+        },
+        "Alt-1": function Alt1(cm) {
+          var curosr = cm.getCursor();
+          cm.setCursor(curosr.line, 0);
+          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+          cm.replaceSelection("#" + spaces);
+        },
+        "Alt-2": function Alt2(cm) {
+          var curosr = cm.getCursor();
+          cm.setCursor(curosr.line, 0);
+          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+          cm.replaceSelection("##" + spaces);
+        },
+        "Alt-3": function Alt3(cm) {
+          var curosr = cm.getCursor();
+          cm.setCursor(curosr.line, 0);
+          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+          cm.replaceSelection("###" + spaces);
+        }
+      },
+      keymap: "sublime"
     });
     var code_mirror = document.getElementsByClassName('CodeMirror')[0];
-    code_mirror.style.height = window.innerHeight - 106 + "px";
+    code_mirror.style.height = window.innerHeight + "px";
     window.onresize = function () {
-      code_mirror.style.height = window.innerHeight - 106 + "px";
+      code_mirror.style.height = window.innerHeight + "px";
     };
 
     var element = document.getElementsByClassName("textarea")[0];
@@ -1844,9 +1877,9 @@ exports.default = {
     });
 
     var code_mirror = document.getElementsByClassName('flex_contain')[0];
-    code_mirror.style.height = window.innerHeight - 32 + "px";
+    code_mirror.style.height = window.innerHeight - 5 + "px";
     window.onresize = function () {
-      code_mirror.style.height = window.innerHeight - 32 + "px";
+      code_mirror.style.height = window.innerHeight - 5 + "px";
     };
   }
 };
@@ -2312,7 +2345,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       },
       "saveNodeData": _vm.saveNodeData
     }
-  }), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticStyle: {
+      "float": "left"
+    },
+    slot: "button"
+  }, [_c('a', {
+    staticClass: "btn btn_ok",
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": _vm.newPreview
+    }
+  }, [_vm._v("生成")])])]), _vm._v(" "), _c('div', {
     staticClass: "blockList_wrap markdown_parse_preview_wrap",
     staticStyle: {
       "width": "50%"
@@ -3991,4 +4037,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.647a1c26a10e25cc1b92.js.map
+//# sourceMappingURL=app.9c33d2fa027d70730c4f.js.map
