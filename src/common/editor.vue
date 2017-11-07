@@ -260,6 +260,10 @@ export default {
             var spaces = cm.getSelection()
             cm.replaceSelection('```\r\n'+spaces+'\r\n```');
           },
+          "Alt-L": function(cm) {
+            var spaces = cm.getSelection()
+            cm.replaceSelection('['+spaces+']()');
+          },
           "Alt-1": function(cm) {
             let curosr = cm.getCursor()
             cm.setCursor(curosr.line,0)
