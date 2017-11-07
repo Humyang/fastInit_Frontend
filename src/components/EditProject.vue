@@ -464,6 +464,7 @@ $('#moduleTree').jstree({
       
       self.project.selectedNodeId = node.node.a_attr.module_id
       self.project.offChange = false
+      self.project.value = undefined
       API.PROJECT
       .loadNodeData(node.node.a_attr.module_id,self.$route.params.projectId)
       .then(function(res){

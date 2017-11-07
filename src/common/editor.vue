@@ -63,7 +63,7 @@ export default {
   props:{
     value:{
       type: String,
-      default: 'default'
+      default: ''
     },
     offChange:{
       type: Boolean,
@@ -106,8 +106,7 @@ export default {
         selectedIndex:-1,
         EVA:"",
         nodeDataEVA:"",
-        Delay:"",
-        selectedNodeId:""
+        Delay:""
       },
       editor:"",
       Delay:""
@@ -169,6 +168,7 @@ export default {
     onEditorChange:function(value){
         if(!this.offChange){ return }
         this.$emit('update:changed', true)
+        // this.value = this.editor.getValue()
         this.$emit('onchange', {value:this.editor.getValue()})
         
         this.project.Delay.push()
@@ -304,7 +304,8 @@ export default {
     this.project.Delay = new Delay(500,function(obj){
         self.project.nodeDataEVA.value = self.editor.getValue()
         console.log('emit saveNodeData')
-        self.$emit('saveNodeData', {patch_list:self.project.nodeDataEVA.patch_list})
+        self.$emit('saveNodeData', {patch_list:self.project.nodeDataEVA.patch_list,
+                                    value:self.project.nodeDataEVA.value})
     })
 
     var code_mirror = document.getElementsByClassName('flex_contain')[0]

@@ -1714,7 +1714,7 @@ exports.default = {
   props: {
     value: {
       type: String,
-      default: 'default'
+      default: ''
     },
     offChange: {
       type: Boolean,
@@ -1741,8 +1741,7 @@ exports.default = {
         selectedIndex: -1,
         EVA: "",
         nodeDataEVA: "",
-        Delay: "",
-        selectedNodeId: ""
+        Delay: ""
       },
       editor: "",
       Delay: ""
@@ -1770,6 +1769,7 @@ exports.default = {
         return;
       }
       this.$emit('update:changed', true);
+
       this.$emit('onchange', { value: this.editor.getValue() });
 
       this.project.Delay.push();
@@ -1877,7 +1877,8 @@ exports.default = {
     this.project.Delay = new _Delay2.default(500, function (obj) {
       self.project.nodeDataEVA.value = self.editor.getValue();
       console.log('emit saveNodeData');
-      self.$emit('saveNodeData', { patch_list: self.project.nodeDataEVA.patch_list });
+      self.$emit('saveNodeData', { patch_list: self.project.nodeDataEVA.patch_list,
+        value: self.project.nodeDataEVA.value });
     });
 
     var code_mirror = document.getElementsByClassName('flex_contain')[0];
@@ -2264,6 +2265,7 @@ exports.default = {
 
       self.project.selectedNodeId = node.node.a_attr.module_id;
       self.project.offChange = false;
+      self.project.value = undefined;
       API.PROJECT.loadNodeData(node.node.a_attr.module_id, self.$route.params.projectId).then(function (res) {
         if (self.project.selectedNodeId != res.selectedNodeId) {
           console.log('selectedNodeId error');
@@ -4009,6 +4011,7 @@ exports.default = {
     }).on('select_node.jstree', function (obj, node) {
       self.locKsaveData = true;
       self.selectedNodeId = node.node.a_attr.module_id;
+      self.project.value = undefined;
       API.MODULE.loadNodeData(node.node.a_attr.module_id).then(function (res) {
         self.project.selectedNodeId = node.node.a_attr.module_id;
         self.project.offChange = false;
@@ -4020,6 +4023,7 @@ exports.default = {
         try {
           self.project.value = res.result.content;
         } catch (ex) {
+          console.log(ex);
           self.project.value = "";
         }
         self.project.rawValue = self.project.value;
@@ -4041,4 +4045,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.76d24001adbe21206175.js.map
+//# sourceMappingURL=app.16505f9ab4b4006279d5.js.map

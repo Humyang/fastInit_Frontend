@@ -361,6 +361,7 @@ export default {
     }).on('select_node.jstree',function(obj,node){
       self.locKsaveData = true
       self.selectedNodeId = node.node.a_attr.module_id
+      self.project.value = undefined
       API.MODULE
       .loadNodeData(node.node.a_attr.module_id)
       .then(function(res){
@@ -375,6 +376,7 @@ export default {
             self.project.value = res.result.content
 
           } catch (ex) {
+            console.log(ex)
             self.project.value = ""
           }
           self.project.rawValue = self.project.value
