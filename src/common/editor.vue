@@ -245,6 +245,7 @@ export default {
     this.editor = CodeMirror.fromTextArea(e, {
         mode: 'markdown',
         lineNumbers: true,
+        lineWrapping:true,
         theme: "zenburn",
         extraKeys: {
           "Enter": "newlineAndIndentContinueMarkdownList",

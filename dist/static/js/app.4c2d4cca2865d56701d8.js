@@ -1820,6 +1820,7 @@ exports.default = {
     this.editor = CodeMirror.fromTextArea(e, {
       mode: 'markdown',
       lineNumbers: true,
+      lineWrapping: true,
       theme: "zenburn",
       extraKeys: {
         "Enter": "newlineAndIndentContinueMarkdownList",
@@ -4048,4 +4049,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.6e945271159fd5023347.js.map
+//# sourceMappingURL=app.4c2d4cca2865d56701d8.js.map
