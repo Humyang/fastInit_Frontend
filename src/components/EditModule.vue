@@ -359,6 +359,7 @@ export default {
       self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
 
     }).on('select_node.jstree',function(obj,node){
+
       self.locKsaveData = true
       self.selectedNodeId = node.node.a_attr.module_id
       self.project.value = undefined
@@ -367,12 +368,15 @@ export default {
       .then(function(res){
         self.project.selectedNodeId = node.node.a_attr.module_id
         self.project.offChange = false
+        
         if(self.selectedNodeId!=res.selectedNodeId){
           console.log('selectedNodeId not equart current node id')
           return 
         }
-        self.project.nodeName = node.node.text
-        try{
+        
+        setTimeout(function() {
+          self.project.nodeName = node.node.text
+          try{
             self.project.value = res.result.content
 
           } catch (ex) {
@@ -380,9 +384,8 @@ export default {
             self.project.value = ""
           }
           self.project.rawValue = self.project.value
-          setTimeout(function() {
-            self.project.offChange = true
-          }, 10);
+          self.project.offChange = true
+        }, 10);
       })
     });
   }

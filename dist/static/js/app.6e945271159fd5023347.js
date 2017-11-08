@@ -1714,7 +1714,7 @@ exports.default = {
   props: {
     value: {
       type: String,
-      default: ''
+      default: ' '
     },
     offChange: {
       type: Boolean,
@@ -4009,25 +4009,28 @@ exports.default = {
 
       self.treeNode.EVA.value = (0, _stringify2.default)($("#moduleTree").jstree("get_json"));
     }).on('select_node.jstree', function (obj, node) {
+
       self.locKsaveData = true;
       self.selectedNodeId = node.node.a_attr.module_id;
       self.project.value = undefined;
       API.MODULE.loadNodeData(node.node.a_attr.module_id).then(function (res) {
         self.project.selectedNodeId = node.node.a_attr.module_id;
         self.project.offChange = false;
+
         if (self.selectedNodeId != res.selectedNodeId) {
           console.log('selectedNodeId not equart current node id');
           return;
         }
-        self.project.nodeName = node.node.text;
-        try {
-          self.project.value = res.result.content;
-        } catch (ex) {
-          console.log(ex);
-          self.project.value = "";
-        }
-        self.project.rawValue = self.project.value;
+
         setTimeout(function () {
+          self.project.nodeName = node.node.text;
+          try {
+            self.project.value = res.result.content;
+          } catch (ex) {
+            console.log(ex);
+            self.project.value = "";
+          }
+          self.project.rawValue = self.project.value;
           self.project.offChange = true;
         }, 10);
       });
@@ -4045,4 +4048,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.16505f9ab4b4006279d5.js.map
+//# sourceMappingURL=app.6e945271159fd5023347.js.map
