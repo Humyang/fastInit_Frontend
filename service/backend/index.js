@@ -41,6 +41,8 @@ app.use(cors())
 
 router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 
+var bugfix = require('./module/bugfix.js')
+router.get('/bugfix',bugfix.fix1)
 //
 //
 //                                    ___           ___
