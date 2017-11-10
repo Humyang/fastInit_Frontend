@@ -34,7 +34,7 @@ async function findlost(ctx){
       .toArray()
   let result = []
   for (var i = list.length - 1; i >= 0; i--) {
-    if(treeNode.search(list[i].selectId)){
+    if(treeNode.search(list[i].selectId)<0){
       result.push(list[i])
     }
   }
