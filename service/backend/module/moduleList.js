@@ -15,7 +15,34 @@ var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 var GDMP = require('../../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 var dmp = new GDMP.diff_match_patch()
 
+async function findlost(ctx){
+  let query_obj = {
+    uid:ctx.LOGIN_STATUS.uid
+  }
+  let module = await ctx.mongo
+    .db(CONFIG.dbName)
+    .collection('moduleTree')
+    .findOne(query_obj)
 
+  let treeNode = module.treeNode
+
+  let list = await ctx.mongo
+      .db(CONFIG.dbName)
+      .collection(MODULE_CONFIG.COLLECTION)
+      .find(query_obj,{treeNode:0})
+      .sort({project_id:-1})
+      .toArray()
+  let result = []
+  for (var i = list.length - 1; i >= 0; i--) {
+    if(treeNode.search(list[i].selectId)){
+      result.push(list[i])
+    }
+  }
+  ctx.body = {
+      status:true,
+      result
+  }
+}
 async function loadNodeData(ctx){
   let selectId = ctx.request.fields.selectedNodeId
 
@@ -84,5 +111,6 @@ async function saveNodeData(ctx){
 }
 module.exports = {
     loadNodeData,
-    saveNodeData
+    saveNodeData,
+    findlost
 }

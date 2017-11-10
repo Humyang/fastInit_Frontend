@@ -42,7 +42,8 @@ app.use(cors())
 router.post('/oauth_login',OAUTCH_CLIENT.oauth_client())
 
 var bugfix = require('./module/bugfix.js')
-router.get('/bugfix',bugfix.fix1)
+// router.get('/bugfix',bugfix.fix1)
+
 //
 //
 //                                    ___           ___
@@ -63,6 +64,12 @@ router.get('/bugfix',bugfix.fix1)
 var ModuleList = require('./module/moduleList.js')
 router.post('/module/saveNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.saveNodeData)
 router.post('/module/loadNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.loadNodeData)
+router.get('/findlost',async function(ctx,next){
+    ctx.request.fields = {
+        token:ctx.URL.searchParams.get('token')
+    }
+    await next()
+},OAUTCH_CLIENT.oauth_login_check(),ModuleList.findlost)
 
 var ModuleTree = require('./module/moduleTree.js')
 router.post('/module/update',OAUTCH_CLIENT.oauth_login_check(),ModuleTree.update)
