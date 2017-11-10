@@ -3871,9 +3871,7 @@ exports.default = {
     },
     newPreview: function newPreview() {},
     saveTree: function saveTree() {
-      this.treeNode.EVA.value = (0, _stringify2.default)($("#moduleTree").jstree("get_json"));
-
-      API.MODULE.update(this.treeNode.EVA.patch_list).then(function (res) {});
+      this.Delay.push();
     },
     addModule: function addModule() {
 
@@ -3938,6 +3936,11 @@ exports.default = {
   mounted: function mounted() {
 
     var self = this;
+    self.Delay = new _Delay2.default(50, function (obj) {
+      self.treeNode.EVA.value = (0, _stringify2.default)($("#moduleTree").jstree("get_json"));
+
+      API.MODULE.update(self.treeNode.EVA.patch_list).then(function (res) {});
+    });
 
     $('#moduleTree').jstree({
       'core': {
@@ -3989,6 +3992,56 @@ exports.default = {
                 inst.delete_node(obj);
               }
             }
+          },
+          "ccp": {
+            "label": "编辑",
+            "separator_before": true,
+            "action": false,
+            "submenu": {
+              "cut": {
+                "separator_before": false,
+                "separator_after": false,
+                "label": "剪切",
+                "action": function action(data) {
+                  var inst = $.jstree.reference(data.reference),
+                      obj = inst.get_node(data.reference);
+                  if (inst.is_selected(obj)) {
+                    inst.cut(inst.get_top_selected());
+                  } else {
+                    inst.cut(obj);
+                  }
+                }
+              },
+              "copy": {
+                "separator_before": false,
+                "icon": false,
+                "separator_after": false,
+                "label": "复制（引用）",
+                "action": function action(data) {
+                  var inst = $.jstree.reference(data.reference),
+                      obj = inst.get_node(data.reference);
+                  if (inst.is_selected(obj)) {
+                    inst.copy(inst.get_top_selected());
+                  } else {
+                    inst.copy(obj);
+                  }
+                }
+              },
+              "paste": {
+                "separator_before": false,
+                "icon": false,
+                "_disabled": function _disabled(data) {
+                  return !$.jstree.reference(data.reference).can_paste();
+                },
+                "separator_after": false,
+                "label": "粘贴",
+                "action": function action(data) {
+                  var inst = $.jstree.reference(data.reference),
+                      obj = inst.get_node(data.reference);
+                  inst.paste(obj);
+                }
+              }
+            }
           }
         },
         dnd: {
@@ -4004,6 +4057,8 @@ exports.default = {
       self.saveTree('rename_node');console.log('rename_node');
     }).on('delete_node.jstree', function () {
       self.saveTree('delete_node');console.log('delete_node');
+    }).on('copy_node.jstree', function () {
+      self.saveTree('copy_node');console.log('copy_node');
     }).on('ready.jstree', function () {
 
       self.treeNode.EVA = new _EditorValueAdvance2.default();
@@ -4049,4 +4104,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.4c2d4cca2865d56701d8.js.map
+//# sourceMappingURL=app.553465b7b9abb041252b.js.map

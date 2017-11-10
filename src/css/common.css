@@ -28,3 +28,6 @@ a { text-decoration: none; color: #333 }
 .navbar li:hover {
     background-color: #de5d53;
 }
+ul.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
+    z-index: 999;
+}

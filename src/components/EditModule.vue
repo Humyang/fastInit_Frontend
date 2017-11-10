@@ -169,11 +169,7 @@ export default {
 
     },
     saveTree:function(){
-      this.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
-      // 保存数据
-      API.MODULE.update(this.treeNode.EVA.patch_list)
-      .then(function(res){
-      })
+      this.Delay.push()
     },
     addModule:function(){
       // 创建模块
@@ -281,9 +277,15 @@ export default {
   //
   //
   mounted:function(){
-
+    
     var self = this
-
+    self.Delay = new Delay(50,function(obj){
+      self.treeNode.EVA.value = JSON.stringify( $("#moduleTree").jstree("get_json"))
+      // 保存数据
+      API.MODULE.update(self.treeNode.EVA.patch_list)
+      .then(function(res){
+      })
+    })
     // 读取已有模块列表
     $('#moduleTree').jstree({
       'core' : {
@@ -337,6 +339,58 @@ export default {
                       inst.delete_node(obj);
                     }
                 }
+            },
+            "ccp":{
+              "label":"编辑",
+              "separator_before"  : true,
+              "action"      : false,
+              "submenu" : {
+                  "cut" : {
+                    "separator_before"  : false,
+                    "separator_after" : false,
+                    "label"       : "剪切",
+                    "action"      : function (data) {
+                      var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                      if(inst.is_selected(obj)) {
+                        inst.cut(inst.get_top_selected());
+                      }
+                      else {
+                        inst.cut(obj);
+                      }
+                    }
+                  },
+                  "copy" : {
+                    "separator_before"  : false,
+                    "icon"        : false,
+                    "separator_after" : false,
+                    "label"       : "复制（引用）",
+                    "action"      : function (data) {
+                      var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                      if(inst.is_selected(obj)) {
+                        inst.copy(inst.get_top_selected());
+                      }
+                      else {
+                        inst.copy(obj);
+                      }
+                    }
+                  },
+                  "paste" : {
+                    "separator_before"  : false,
+                    "icon"        : false,
+                    "_disabled"     : function (data) {
+                      return !$.jstree.reference(data.reference).can_paste();
+                    },
+                    "separator_after" : false,
+                    "label"       : "粘贴",
+                    "action"      : function (data) {
+                      var inst = $.jstree.reference(data.reference),
+                        obj = inst.get_node(data.reference);
+                      inst.paste(obj);
+                    }
+                  }
+              }
             }
         },
         dnd:{
@@ -352,6 +406,7 @@ export default {
     })
     .on('rename_node.jstree',function(){self.saveTree('rename_node');console.log('rename_node')})
     .on('delete_node.jstree',function(){self.saveTree('delete_node');console.log('delete_node')})
+    .on('copy_node.jstree',function(){self.saveTree('copy_node');console.log('copy_node')})
     .on('ready.jstree',function(){
 
       self.treeNode.EVA = new EVA()
