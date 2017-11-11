@@ -1834,11 +1834,15 @@ exports.default = {
         },
         "Alt-K": function AltK(cm) {
           var spaces = cm.getSelection();
-          cm.replaceSelection('```\r\n' + spaces + '\r\n```');
+          cm.replaceSelection('```raw\r\n' + spaces + '\r\n```');
         },
         "Alt-L": function AltL(cm) {
           var spaces = cm.getSelection();
           cm.replaceSelection('[' + spaces + ']()');
+        },
+        "Alt-`": function Alt(cm) {
+          var spaces = cm.getSelection();
+          cm.replaceSelection(' `' + spaces + '` ');
         },
         "Alt-1": function Alt1(cm) {
           var curosr = cm.getCursor();
@@ -4104,4 +4108,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.553465b7b9abb041252b.js.map
+//# sourceMappingURL=app.cdc90217ef679b505b25.js.map

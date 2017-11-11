@@ -259,11 +259,15 @@ export default {
           },
           "Alt-K": function(cm) {
             var spaces = cm.getSelection()
-            cm.replaceSelection('```\r\n'+spaces+'\r\n```');
+            cm.replaceSelection('```raw\r\n'+spaces+'\r\n```');
           },
           "Alt-L": function(cm) {
             var spaces = cm.getSelection()
             cm.replaceSelection('['+spaces+']()');
+          },
+          "Alt-`": function(cm) {
+            var spaces = cm.getSelection()
+            cm.replaceSelection(' `'+spaces+'` ');
           },
           "Alt-1": function(cm) {
             let curosr = cm.getCursor()
