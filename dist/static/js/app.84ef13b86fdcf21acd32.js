@@ -1842,7 +1842,7 @@ exports.default = {
         },
         "Alt-`": function Alt(cm) {
           var spaces = cm.getSelection();
-          cm.replaceSelection(' `' + spaces + '` ');
+          cm.replaceSelection('`' + spaces + '`');
         },
         "Alt-1": function Alt1(cm) {
           var curosr = cm.getCursor();
@@ -4108,4 +4108,4 @@ exports.default = {
 /***/ })
 
 },["NHnr"]);
-//# sourceMappingURL=app.cdc90217ef679b505b25.js.map
+//# sourceMappingURL=app.84ef13b86fdcf21acd32.js.map
