@@ -267,7 +267,7 @@ export default {
           },
           "Alt-`": function(cm) {
             var spaces = cm.getSelection()
-            cm.replaceSelection(' `'+spaces+'` ');
+            cm.replaceSelection('`'+spaces+'`');
           },
           "Alt-1": function(cm) {
             let curosr = cm.getCursor()

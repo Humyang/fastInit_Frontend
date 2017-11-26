@@ -197,3 +197,6 @@ a {
     width: 50%;
     background-color: #ddd;
 }
+div#moduleTree {
+    font-size: 10px;
+}

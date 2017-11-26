@@ -31,3 +31,7 @@ a { text-decoration: none; color: #333 }
 ul.vakata-context.jstree-contextmenu.jstree-default-contextmenu {
     z-index: 999;
 }
+.jstree-default .jstree-closed .jstree-ocl{
+    background-color: #FF9800;
+    border-radius: 30px;
+}
