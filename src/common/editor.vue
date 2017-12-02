@@ -39,9 +39,9 @@ import '../css/editProject.css'
 
 import '../css/CodeMirror_Theme.css'
 
-import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+import EVA from '../service/fontend/Obj/EditorValueAdvance.js'
 
-import Delay from '../../service/fontend/Obj/Delay.js'
+import Delay from '../service/fontend/Obj/Delay.js'
 
 
 
@@ -291,10 +291,10 @@ export default {
         keymap:"sublime"
     });
     var code_mirror = document.getElementsByClassName('CodeMirror')[0]
-    code_mirror.style.height = window.innerHeight + "px"
-    window.onresize = function() {
-        code_mirror.style.height = window.innerHeight + "px"
-    }
+    code_mirror.style.height = '100%'
+    // window.onresize = function() {
+    //     code_mirror.style.height = window.innerHeight + "px"
+    // }
     // 接收drop事件
     // 获取selectionStart
     // 写入拖动内容
@@ -314,9 +314,9 @@ export default {
     })
 
     var code_mirror = document.getElementsByClassName('flex_contain')[0]
-    code_mirror.style.height = window.innerHeight - 5 + "px"
+    code_mirror.style.height = window.innerHeight  + "px"
     window.onresize = function() {
-        code_mirror.style.height = window.innerHeight - 5 + "px"
+        code_mirror.style.height = window.innerHeight  + "px"
     }
   }
 }

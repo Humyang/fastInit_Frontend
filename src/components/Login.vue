@@ -13,8 +13,8 @@
 
 <script>
 
-import * as API from '../../service/fontend/index.js'
-import * as BASE from '../../service/fontend/base.js'
+import * as API from '../service/fontend/index.js'
+import * as BASE from '../service/fontend/base.js'
 import co from 'co'
 
 export default {

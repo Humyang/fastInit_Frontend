@@ -141,7 +141,8 @@ a {
 	overflow: auto;
 	position: relative;
 	border-right: 1px solid #ddd;
-	    border-left: 1px solid #ddd;
+		border-left: 1px solid #ddd;
+		overflow: hidden
 }
 
 .EditModule p.btn_wrap {
@@ -151,6 +152,7 @@ a {
 .EditModule .textarea_wrap {
 	border-bottom: 1px solid #ddd;
 	overflow-x:hidden; 
+	height: 100%;
 }
 
 .EditModule .textarea_wrap textarea {

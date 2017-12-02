@@ -69,13 +69,13 @@ import '../css/CodeMirror_Theme.css'
 // import CodeMirror from 'codemirror'
 // import loadmode from 'codemirror/addon/mode/loadmode.js'
 
-import EVA from '../../service/fontend/Obj/EditorValueAdvance.js'
+import EVA from '../service/fontend/Obj/EditorValueAdvance.js'
 
-import * as CONSTANT from '../../service/PREDEFINED/CONSTANT.js'
-import * as BASE from '../../service/fontend/base.js'
-import * as API from '../../service/fontend/index.js'
+import * as CONSTANT from '../service/PREDEFINED/CONSTANT.js'
+import * as BASE from '../service/fontend/base.js'
+import * as API from '../service/fontend/index.js'
 
-import Delay from '../../service/fontend/Obj/Delay.js'
+import Delay from '../service/fontend/Obj/Delay.js'
 import uid2 from 'uid2'
 
 import editor from '../common/editor.vue'
