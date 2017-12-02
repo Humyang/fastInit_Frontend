@@ -43,5 +43,5 @@ if sync_github == 1:
             print 'close serve -- faile'
         print 'start serve'
         # start server
-        subprocess_command('nohup node ./service/backend/index.js &')
+        subprocess_command('nohup node ./src/service/backend/index.js &')
         subprocess_command('nohup node ./dist_serve/static.js &')
