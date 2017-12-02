@@ -1,7 +1,7 @@
 var CONFIG = require('../../PREDEFINED/APP_CONFIG.js')
 var UUID = require('uid')
 var objectAssign = require('object-assign')
-var GDMP = require('../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 var dmp = new GDMP.diff_match_patch()
 var MODULE_CONFIG = {
     COLLECTION:'articles'

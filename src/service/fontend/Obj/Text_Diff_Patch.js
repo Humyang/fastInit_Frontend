@@ -1,4 +1,4 @@
-var DMP = require('../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var DMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 
 // var IncrementalUpdate = function(text){
 
