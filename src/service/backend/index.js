@@ -8,7 +8,7 @@ var cors = require('koa-cors')
 // var serve = require('koa-static');
 
 
-var OAUTCH_CLIENT = require('../../oauth_client/lib/index.js')
+var OAUTCH_CLIENT = require('../../../../oauth_client/lib/index.js')
 
 var LOGIN = require('flogin')
 

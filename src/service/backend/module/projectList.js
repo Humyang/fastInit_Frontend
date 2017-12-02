@@ -7,7 +7,7 @@ var MODULE_CONFIG = {
 var throwError = require('./throwError.js')
 var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 
-var GDMP = require('../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 var dmp = new GDMP.diff_match_patch()
 
 

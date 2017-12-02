@@ -7,12 +7,12 @@ var MODULE_CONFIG = {
 var throwError = require('./throwError.js')
 var ERROR_CODE = require('../../PREDEFINED/ERROR_CODE.js')
 
-// var GDMP = require('../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+// var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 // var dmp = new GDMP.diff_match_patch()
 
 // let initNode = [{"id":"j2_1","text":"项目列表","icon":true,"li_attr":{"id":"j2_1"},"a_attr":{"href":"#","id":"j2_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[]}]
 
-var GDMP = require('../../src/vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 var dmp = new GDMP.diff_match_patch()
 
 async function findlost(ctx){
