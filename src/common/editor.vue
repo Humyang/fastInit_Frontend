@@ -287,7 +287,7 @@ export default {
             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
             cm.replaceSelection("###"+spaces);
           },
-          "Alt-*": function(cm) {
+          "Alt-I": function(cm) {
             let curosr = cm.getCursor()
             cm.setCursor(curosr.line,0)
             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
