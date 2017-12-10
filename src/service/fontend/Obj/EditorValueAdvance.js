@@ -1,4 +1,4 @@
-var GDMP = require('../../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
+var GDMP = require('../../../vendors/google-diff-match-patch-js/diff_match_patch_uncompressed.js')
 console.log(GDMP)
 // import GDMP from '../../../vendors/google-diff-match-patch-js/diff_match_patch.js'
 // 编辑器增量更新
