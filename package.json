@@ -5,7 +5,7 @@
   "author": "Yangxg <jessebutchman@gmail.com>",
   "private": true,
   "scripts": {
-    "ttt":".bat/push.bat",
+    "ttt":"call ./bat/push.bat",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "serve": "node src/service/backend/index.js",
