@@ -89,6 +89,7 @@ export default {
     editor,
     slide_line
   },
+  props:['node_id'],
   //
   //
   //        ___
@@ -272,6 +273,7 @@ export default {
   //
   //
   mounted: function() {
+    console.log(this.node_id)
     var self = this;
     self.Delay = new Delay(50, function(obj) {
       self.treeNode.EVA.value = JSON.stringify(
@@ -411,17 +413,25 @@ export default {
         self.saveTree("copy_node");
         console.log("copy_node");
       })
-      .on("ready.jstree", function() {
+      .on("ready.jstree", ()=> {
         self.treeNode.EVA = new EVA();
         // 初始化值
         self.treeNode.EVA.value = JSON.stringify(
           $("#moduleTree").jstree("get_json")
         );
+        if(this.node_id){
+          // alert(this.node_id)
+          // $("#moduleTree").jstree("select_node",)
+          $("#moduleTree").jstree("select_node",document.querySelectorAll(`a[module_id='${this.node_id}']`))
+        }
       })
-      .on("select_node.jstree", function(obj, node) {
+      .on("select_node.jstree", (obj, node) => {
+        this.$router.push(`/EditModule/${node.node.a_attr.module_id}`)
+        console.log(node.node.a_attr.module_id)
         self.locKsaveData = true;
         self.selectedNodeId = node.node.a_attr.module_id;
         self.project.value = undefined;
+
         API.MODULE.loadNodeData(node.node.a_attr.module_id).then(function(res) {
           self.project.selectedNodeId = node.node.a_attr.module_id;
           self.project.offChange = false;

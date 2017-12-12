@@ -43,6 +43,12 @@ export default new Router({
       path: '/EditModule',
       name: 'EditModule',
       component: EditModule
+    },
+    {
+      path: '/EditModule/:node_id',
+      name: 'EditModule',
+      component: EditModule,
+      props:true
     }
   ]
 })
