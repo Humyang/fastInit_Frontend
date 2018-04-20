@@ -9,9 +9,8 @@
 import url from 'url'
 import {
   Host,
-  IP,
-  StaticPort as PORT
-} from '@/api/env.js' 
+} from '@/service/PREDEFINED/CONSTANT.js'
+import * as BASE from '../service/fontend/base.js'
 export default {
   mounted:function(){
       let uUrl = url.parse(location.href,true)
