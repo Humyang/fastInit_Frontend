@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
  setip = 'http://localhost:'+PORT
 }
 export const IP = setip
-
+export const Host = 'http://fi.dve2.com'
 export const OAUTH_PORT = 8000
 
 
