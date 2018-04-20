@@ -50,7 +50,7 @@ const mFetch = function(options) {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            "_token":opt.data.token
+            "_token":token || comb_data.token || opt.data.token
           },
           body: JSON.stringify(comb_data)
         })
