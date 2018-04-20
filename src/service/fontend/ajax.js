@@ -44,6 +44,7 @@ const mFetch = function(options) {
             }
         }
         let root = this
+        console.log(token,comb_data.token,opt.data.token)
         fetch(opt.IP+opt.path,
         {
           method: 'POST',
