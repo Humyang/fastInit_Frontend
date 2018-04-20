@@ -1,7 +1,7 @@
 ;let setip=''
 export const PORT = 8302
 if (process.env.NODE_ENV === 'production') {
- setip = 'http://fi.dve2.com'
+ setip = 'http://fi.api.dve2.com'
   // setip = 'http://localhost'
 }else{
  setip = 'http://localhost:'+PORT
