@@ -44,7 +44,7 @@ const mFetch = function(options) {
             }
         }
         let root = this
-        fetch(opt.IP+':'+opt.PORT+opt.path,
+        fetch(opt.IP+opt.path,
         {
           method: 'POST',
           headers: {
