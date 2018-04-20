@@ -49,7 +49,8 @@ const mFetch = function(options) {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "_token":opt.data.token
           },
           body: JSON.stringify(comb_data)
         })
