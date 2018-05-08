@@ -26,7 +26,6 @@ async function loadTree (ctx){
     .findOne(query_obj)
 
     console.log(project)
-    // debugger
     ctx.set('Content-Type','application/json; charset=utf-8')
     ctx.body = project.treeNode
 }
