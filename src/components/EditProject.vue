@@ -220,13 +220,7 @@ export default {
     },
     saveTreeProject:function(){
       // console.log(this)
-      this.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
-      // 保存数据
-      API.PROJECT.update(this.$route.params.projectId,this.project.EVA.patch_list)
-      .then(function(res){
-          // console.log(res)
-          // self.list = res.list
-      })
+      this.Delay.push();
     },
     saveNodeData:function(event){
       let self = this
@@ -257,7 +251,12 @@ export default {
 //
 //
   mounted(){
-
+    var self = this;
+    self.Delay = new Delay(50, function(obj) {
+      self.project.EVA.value = JSON.stringify( $("#projectTree").jstree("get_json"))
+      API.PROJECT.update(self.$route.params.projectId,self.project.EVA.patch_list)
+      
+    });
 
 /*
      ##                                  ##                                                                ##            ###
@@ -411,7 +410,9 @@ $('#moduleTree').jstree({
         }
     }
     }).on('changed.jstree', function (e, data) {
-      // console.log('changed')
+      console.log('changed')
+
+      self.saveTreeProject('move_node')
     }).on('move_node.jstree',function(data,element,helper,event){
       console.log('move_node')
       self.saveTreeProject('move_node')
@@ -431,7 +432,7 @@ $('#moduleTree').jstree({
       var fileType = /[^\.]+$/.exec(node.text)[0]
 
       JSTREE_PROJECT.set_type(node,fileType)
-      for(i in ICON_OBJ){
+      for(let i in ICON_OBJ){
         if(fileType === i){
           fileType = false
         }
