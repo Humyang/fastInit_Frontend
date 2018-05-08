@@ -44,12 +44,14 @@ const mFetch = function(options) {
             }
         }
         let root = this
-        fetch(opt.IP+':'+opt.PORT+opt.path,
+        console.log(opt.token,comb_data.token,opt.data.token)
+        fetch(opt.IP+opt.path,
         {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "_token":opt.token || comb_data.token || opt.data.token
           },
           body: JSON.stringify(comb_data)
         })

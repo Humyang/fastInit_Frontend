@@ -287,7 +287,7 @@ export default {
       .jstree({
         core: {
           data: {
-            url: CONSTANT.IP + ":" + CONSTANT.PORT + "/module/tree",
+            url: CONSTANT.IP+ "/module/tree",
             data: function(node) {
               return { token: BASE.getToken() };
             }

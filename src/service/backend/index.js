@@ -8,7 +8,7 @@ var cors = require('koa-cors')
 // var serve = require('koa-static');
 
 
-var OAUTCH_CLIENT = require('../../../../oauth_client/lib/index.js')
+var OAUTCH_CLIENT = require('../../../../oauth_serve/client/index')
 
 var LOGIN = require('flogin')
 
@@ -62,24 +62,26 @@ var bugfix = require('./module/bugfix.js')
 //
 
 var ModuleList = require('./module/moduleList.js')
-router.post('/module/saveNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.saveNodeData)
-router.post('/module/loadNodeData',OAUTCH_CLIENT.oauth_login_check(),ModuleList.loadNodeData)
+router.post('/module/saveNodeData',OAUTCH_CLIENT.login_check_remote(),ModuleList.saveNodeData)
+router.post('/module/loadNodeData',OAUTCH_CLIENT.login_check_remote(),ModuleList.loadNodeData)
 router.get('/findlost',async function(ctx,next){
-    ctx.request.fields = {
-        token:ctx.URL.searchParams.get('token')
-    }
+    // ctx.request.fields = {
+    //     token:ctx.URL.searchParams.get('token')
+    // }
+    ctx.header._token = ctx.URL.searchParams.get('token')
     await next()
-},OAUTCH_CLIENT.oauth_login_check(),ModuleList.findlost)
+},OAUTCH_CLIENT.login_check_remote(),ModuleList.findlost)
 
 var ModuleTree = require('./module/moduleTree.js')
-router.post('/module/update',OAUTCH_CLIENT.oauth_login_check(),ModuleTree.update)
+router.post('/module/update',OAUTCH_CLIENT.login_check_remote(),ModuleTree.update)
 router.get('/module/tree',async function(ctx,next){
-    ctx.request.fields = {
-        token:ctx.URL.searchParams.get('token')
-    }
+    // ctx.request.fields = {
+    //     token:ctx.URL.searchParams.get('token')
+    // }
+    ctx.header._token = ctx.URL.searchParams.get('token')
     await next()
 },
-OAUTCH_CLIENT.oauth_login_check()
+OAUTCH_CLIENT.login_check_remote()
 ,ModuleTree.loadTree)
 
 
@@ -101,12 +103,12 @@ OAUTCH_CLIENT.oauth_login_check()
 //                                    YMM9
 
 var ProjectList = require('./module/projectList.js')
-router.post('/project/loadNodeData',OAUTCH_CLIENT.oauth_login_check(),ProjectList.loadNodeData)
-router.post('/project/saveNodeData',OAUTCH_CLIENT.oauth_login_check(),ProjectList.saveNodeData)
+router.post('/project/loadNodeData',OAUTCH_CLIENT.login_check_remote(),ProjectList.loadNodeData)
+router.post('/project/saveNodeData',OAUTCH_CLIENT.login_check_remote(),ProjectList.saveNodeData)
 var Project = require('./module/project.js')
-router.post('/project/update',OAUTCH_CLIENT.oauth_login_check(),Project.update)
-router.post('/project/list',OAUTCH_CLIENT.oauth_login_check(),Project.list)
-router.post('/project/create',OAUTCH_CLIENT.oauth_login_check(),Project.create)
+router.post('/project/update',OAUTCH_CLIENT.login_check_remote(),Project.update)
+router.post('/project/list',OAUTCH_CLIENT.login_check_remote(),Project.list)
+router.post('/project/create',OAUTCH_CLIENT.login_check_remote(),Project.create)
 router.get('/project/tree',async function(ctx,next){
     ctx.request.fields = {
         token:ctx.URL.searchParams.get('token'),
@@ -114,7 +116,7 @@ router.get('/project/tree',async function(ctx,next){
     }
     await next()
 },
-OAUTCH_CLIENT.oauth_login_check()
+OAUTCH_CLIENT.login_check_remote()
 ,Project.loadTree)
 
 

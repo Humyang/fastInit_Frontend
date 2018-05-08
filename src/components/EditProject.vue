@@ -21,7 +21,7 @@
                       v-on:saveNodeData="saveNodeData"
                       style="width:50%;">
                         <div slot="button" style="    float: left;">
-                          <a @click="newPreview" class="btn btn_ok" href="#">生成</a>
+                          <!-- <a @click="newPreview" class="btn btn_ok" href="#">生成</a> -->
                         </div>
                       </editor>
               <div class="blockList_wrap markdown_parse_preview_wrap" style="width:50%;">
@@ -282,7 +282,7 @@ export default {
 $('#moduleTree').jstree({
       'core' : {
         'data' : {
-          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/module/tree',
+          'url' : CONSTANT.IP+'/module/tree',
           'data' : function (node) {
             return { 'token' : BASE.getToken()}
           }
@@ -350,7 +350,7 @@ $('#moduleTree').jstree({
     $('#projectTree').jstree({
       'core' : {
         'data' : {
-          'url' : CONSTANT.IP+":"+CONSTANT.PORT+'/project/tree',
+          'url' : CONSTANT.IP+'/project/tree',
           'data' : function (node) {
             return { 'token' : BASE.getToken(),
                      'project_id':self.$route.params.projectId 

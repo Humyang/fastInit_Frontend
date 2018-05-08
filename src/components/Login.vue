@@ -1,62 +1,27 @@
 <template>
 	<div id="login">
-	    <div class="input">
-	    	<input id="username" v-model="username" type="text" placeholder="账号">
-	    </div>
-	    <div>
-	    	<input id="password" v-model="password" type="password" placeholder="密码">
-	    </div>
-	    <a class="btn_" href="#" @click.prevent="login()" >登录</a>
-	    <a class="btn_" href="#" @click.prevent="regiest()" >注册</a>
+	    <p>登陆中</p>
 	</div>
 </template>
 
 <script>
 
-import * as API from '../service/fontend/index.js'
+import url from 'url'
+import {
+  Host,
+} from '@/service/PREDEFINED/CONSTANT.js'
 import * as BASE from '../service/fontend/base.js'
-import co from 'co'
-
 export default {
-  name: 'hello',
-  data () {
-    return {
-      username: '',
-      password:''
-    }
-  },
-    methods:{
-        login:function(){
-
-            var self = this
-            API.LOGIN.login(this.username,this.password)
-            .then(function(res){
-                console.log('logon success',res)
-                self.$root.username = BASE.getUsername()
-                self.$router.push('ProjectList')
-            }).catch(function(err){
-                console.log('login fail',err)
-                alert(err.msg)
-            })
-        },
-        regiest:function(){
-            var self = this
-            co(function*(){
-                let regiest_res = yield API.LOGIN.regiest(self.username,self.password)
-                if(confirm('注册成功，立即登录')){
-                    var login = yield API.LOGIN.login(self.username,self.password)
-                    self.$router.push('ProjectList')
-                }
-
-                
-
-            }).catch(function(err){
-                console.log('regiest fail',err)
-                alert(err.msg)
-            })
-            
-        }
-    },
+  mounted:function(){
+      let uUrl = url.parse(location.href,true)
+      if(uUrl.query.t){
+        //   saveUsername(username)
+          BASE.saveToken(uUrl.query.t)
+          location.href="/"
+      }else{
+          location.href = "http://oauth.dve2.com/oauth_login?r=" +Host+"/login"
+      }
+  }
 }
 </script>
 <style scoped>

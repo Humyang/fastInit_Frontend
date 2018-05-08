@@ -25,10 +25,9 @@ async function loadTree(ctx) {
     .collection(MODULE_CONFIG.COLLECTION)
     .findOne(query_obj)
 
-  console.log(project)
-  // debugger
-  ctx.set('Content-Type', 'application/json; charset=utf-8')
-  ctx.body = project.treeNode
+    console.log(project)
+    ctx.set('Content-Type','application/json; charset=utf-8')
+    ctx.body = project.treeNode
 }
 async function update(ctx) {
   let patch_list = ctx.request.fields.patch_list
